@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "jabber",
+  "version": "${version}",
+  "name": "Jabber",
+  "description": "",
+  "authors": [
+    ""
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "",
+    "issues": ""
+  },
+  "license": "Mozilla",
+  "icon": "assets/jabber/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "mc.jabber.Common::INSTANCE"
+      }
+    ]
+  },
+  "mixins": [
+    "jabber.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.1",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.10",
+    "minecraft": ">=1.17-"
+  }
+}

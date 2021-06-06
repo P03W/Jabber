@@ -1,0 +1,9 @@
+package mc.jabber.items.chips.abstracts
+
+import mc.jabber.data.CardinalData
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.item.Item
+
+abstract class ChipItem : Item(FabricItemSettings()) {
+    abstract fun <T> receive(data: CardinalData<T>): CardinalData<T>
+}
