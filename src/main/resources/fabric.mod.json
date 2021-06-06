@@ -20,6 +20,11 @@
       {
         "value": "mc.jabber.Common::INSTANCE"
       }
+    ],
+    "client": [
+      {
+        "value": "mc.jabber.models.ModelInit::INSTANCE"
+      }
     ]
   },
   "mixins": [
