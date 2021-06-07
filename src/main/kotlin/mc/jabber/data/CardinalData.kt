@@ -15,10 +15,15 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
     /**
      * Returns null if all values are null, or a random value from the non-null ones
      */
-    fun acquire(): T? {
-        val all = listOf(up, down, left, right)
-        if (all.all { it == null }) return null
-        return all.filterNotNull().random()
+    fun acquire(): Pair<Cardinal, T>? {
+        val dirs = Cardinal.values()
+        dirs.shuffle()
+        dirs.forEach {
+            val got = get(it)
+            if (got != null)
+            return it to got
+        }
+        return null
     }
 
     fun with(direction: Cardinal, value: Any?): CardinalData<T> {

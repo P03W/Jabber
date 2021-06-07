@@ -6,6 +6,7 @@ import mc.jabber.math.Vec2I
 
 class PipeChip : ChipItem() {
     override fun <T> receive(data: CardinalData<T>, pos: Vec2I, state: MutableMap<Vec2I, Any>): CardinalData<T> {
-        return data.ofAll(data.acquire())
+        val got = data.acquire() ?: return data.ofAll(null)
+        return data.ofAll(got.second).with(got.first, null)
     }
 }
