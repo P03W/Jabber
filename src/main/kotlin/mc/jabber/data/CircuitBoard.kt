@@ -25,4 +25,16 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
 
     fun isInBounds(x: Int, y: Int): Boolean = (x >= 0 && y >= 0) && (x < sizeX && y < sizeY)
     fun isInBounds(vec: Vec2I) = isInBounds(vec.x, vec.y)
+
+    override fun toString(): String {
+        return buildString {
+            for (y in 0 until sizeY) {
+                for (x in 0 until sizeX) {
+                    append("|${if (get(x, y) == null) " " else "x"}|")
+                }
+                append('\n')
+            }
+            setLength(length - 1)
+        }
+    }
 }

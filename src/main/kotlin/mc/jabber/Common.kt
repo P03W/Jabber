@@ -12,7 +12,13 @@ object Common : ModInitializer {
 
         CircuitManager(CircuitType.COMPUTE, 4, 3).also {
             it.board[0, 1] = PipeChip()
-            it.runInput(ComputeData(10, 10, 10, 10))
+            it.board[1, 1] = PipeChip()
+            it.board[1, 0] = PipeChip()
+            it.board[2, 0] = PipeChip()
+            it.board[3, 0] = PipeChip()
+            it.board[3, 1] = PipeChip()
+            println(it)
+            it.runInput(ComputeData(null, null, null, 10))
         }
     }
 }

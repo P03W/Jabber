@@ -39,4 +39,14 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             }
         }
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("\nCircuitManager(type=$type)")
+            append('\n')
+            append(state)
+            append('\n')
+            append(board)
+        }
+    }
 }
