@@ -10,6 +10,8 @@ import java.util.*
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
 
+    val state: MutableMap<Vec2I, Any> = mutableMapOf()
+
     fun runInput(value: CardinalData<*>) {
         val executeStack: ArrayDeque<Pair<CardinalData<*>, Vec2I>> = ArrayDeque()
         executeStack.add(value to Vec2I(0, board.sizeY / 2))
@@ -18,9 +20,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             val toAct = executeStack.removeFirst()
 
             if (board.isInBounds(toAct.second)) {
-                val output = board[toAct.second]?.receive(toAct.first)
-
-                println(output)
+                val output = board[toAct.second]?.receive(toAct.first, toAct.second, state)
 
                 if (output != null) {
                     if (output.up != null) {

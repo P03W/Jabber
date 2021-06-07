@@ -12,7 +12,16 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         }
     }
 
-    fun with(direction: Cardinal, value: T?): CardinalData<T> {
+    /**
+     * Returns null if all values are null, or a random value from the non-null ones
+     */
+    fun acquire(): T? {
+        val all = listOf(up, down, left, right)
+        if (all.all { it == null }) return null
+        return all.filterNotNull().random()
+    }
+
+    fun with(direction: Cardinal, value: Any?): CardinalData<T> {
         return when (direction) {
             Cardinal.UP -> of(value, down, left, right)
             Cardinal.DOWN -> of(up, value, left, right)
@@ -35,8 +44,15 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         return this::class.constructors.first().call(up, down, left, right)
     }
 
-    fun ofAll(value: T?): CardinalData<T> {
+    fun ofAll(value: Any?): CardinalData<T> {
         return of(value, value, value, value)
+    }
+
+    fun forEach(method: (Cardinal, T?) -> Unit) {
+        method(Cardinal.UP, up)
+        method(Cardinal.DOWN, down)
+        method(Cardinal.LEFT, left)
+        method(Cardinal.RIGHT, right)
     }
 
     override fun toString(): String {
