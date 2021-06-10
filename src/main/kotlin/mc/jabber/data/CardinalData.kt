@@ -1,6 +1,9 @@
 package mc.jabber.data
 
 import mc.jabber.math.Cardinal
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
@@ -20,8 +23,7 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         dirs.shuffle()
         dirs.forEach {
             val got = get(it)
-            if (got != null)
-            return it to got
+            if (got != null) return it to got
         }
         return null
     }
@@ -34,7 +36,7 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
             Cardinal.RIGHT -> of(up, down, left, value)
         }
     }
-    
+
     fun only(direction: Cardinal): CardinalData<T> {
         return when (direction) {
             Cardinal.UP -> of(up, null, null, null)
@@ -49,11 +51,18 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         return this::class.constructors.first().call(up, down, left, right)
     }
 
+    fun empty() = ofAll(null)
+
     fun ofAll(value: Any?): CardinalData<T> {
         return of(value, value, value, value)
     }
 
-    fun forEach(method: (Cardinal, T?) -> Unit) {
+    @OptIn(ExperimentalContracts::class)
+    inline fun forEach(method: (Cardinal, T?) -> Unit) {
+        contract {
+            callsInPlace(method, InvocationKind.AT_LEAST_ONCE)
+        }
+
         method(Cardinal.UP, up)
         method(Cardinal.DOWN, down)
         method(Cardinal.LEFT, left)

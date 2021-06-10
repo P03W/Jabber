@@ -59,4 +59,8 @@ data class Vec2I(var x: Int, var y: Int) {
     operator fun divAssign(other: Cardinal) = divAssign(other.vec)
 
     operator fun compareTo(other: Cardinal): Int = compareTo(other.vec)
+
+    companion object {
+        val ZERO = Vec2I(0, 0)
+    }
 }

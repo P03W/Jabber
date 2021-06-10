@@ -7,4 +7,9 @@ import net.minecraft.item.Item
 
 abstract class ChipItem : Item(FabricItemSettings()) {
     abstract fun <T> receive(data: CardinalData<T>, pos: Vec2I, state: MutableMap<Vec2I, Any>): CardinalData<T>
+
+    // TODO: Remove this and let it fallback to vanilla behavior
+    override fun toString(): String {
+        return this::class.simpleName ?: "ChipItem"
+    }
 }

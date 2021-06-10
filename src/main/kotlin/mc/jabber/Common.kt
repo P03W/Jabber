@@ -4,6 +4,7 @@ import mc.jabber.circuit.CircuitManager
 import mc.jabber.data.CircuitType
 import mc.jabber.data.ComputeData
 import mc.jabber.items.chips.PipeChip
+import mc.jabber.util.log
 import net.fabricmc.api.ModInitializer
 
 object Common : ModInitializer {
@@ -17,9 +18,9 @@ object Common : ModInitializer {
             it.board[2, 0] = PipeChip()
             it.board[3, 0] = PipeChip()
             it.board[3, 1] = PipeChip()
-            println(it)
-            it.runInput(ComputeData(null, null, null, 10))
+            it.stepWithInput(ComputeData(null, null, null, 10))
+            it.simulate()
+            it.log()
         }
     }
 }
-
