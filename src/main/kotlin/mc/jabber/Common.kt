@@ -19,7 +19,9 @@ object Common : ModInitializer {
             it.board[3, 0] = PipeChip()
             it.board[3, 1] = PipeChip()
             it.stepWithInput(ComputeData(null, null, null, 10))
-            it.simulate()
+            repeat(30) { _ ->
+                it.simulate()
+            }
             it.log()
         }
     }

@@ -10,7 +10,7 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
 
     private val board = Array<Array<ChipItem?>>(sizeY) { Array(sizeX) { null } }
 
-    val size = sizeX * sizeY
+    val outputPoint = Vec2I(sizeX, sizeY / 2)
 
     operator fun get(x: Int, y: Int): ChipItem? = board[y][x]
     operator fun get(vec: Vec2I): ChipItem? = get(vec.x, vec.y)

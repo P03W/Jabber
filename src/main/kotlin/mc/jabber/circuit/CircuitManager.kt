@@ -37,7 +37,10 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
                 output?.forEach { dir, any ->
                     val offset = vec2I + dir
-                    if (any != null && board[offset] != null) {
+
+                    if (offset == board.outputPoint) "Output of $any".log()
+
+                    if (any != null && board.isInBounds(offset) && board[offset] != null) {
                         if (stagingMap[offset] == null) {
                             stagingMap[offset] = data.empty()
                         }
@@ -48,9 +51,6 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
                 }
             }
         }
-
-        state.log()
-        stagingMap.log()
 
         // Copy the staged data back in
         stagingMap.forEach { (point, data) ->
