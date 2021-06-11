@@ -6,15 +6,7 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.reflect.KFunction
 
-// This saves a *lot* of time over thousands or more iterations
-object FastConstructLookup {
-    private val computeData: KFunction<ComputeData> by lazy { ComputeData::class.constructors.first() }
-    fun getCompute() = computeData
-}
-
 sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: T?) {
-    abstract fun getConstruct(): KFunction<CardinalData<T>>
-
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
             Cardinal.UP -> up
@@ -55,9 +47,12 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         }
     }
 
-    // has to be any because type erasure
+    // Type erasure ruining everything once again
+    @Suppress("UNCHECKED_CAST")
     fun of(up: Any?, down: Any?, left: Any?, right: Any?): CardinalData<T> {
-        return getConstruct().call(up, down, left, right)
+        return when (this) {
+            is ComputeData -> ComputeData(up as Long?, down as Long?, left as Long?, right as Long?) as CardinalData<T>
+        }
     }
 
     fun empty() = ofAll(null)
@@ -83,6 +78,4 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
     }
 }
 
-class ComputeData(up: Long?, down: Long?, left: Long?, right: Long?) : CardinalData<Long>(up, down, left, right) {
-    override fun getConstruct(): KFunction<CardinalData<Long>> = FastConstructLookup.getCompute()
-}
+class ComputeData(up: Long?, down: Long?, left: Long?, right: Long?) : CardinalData<Long>(up, down, left, right)
