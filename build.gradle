@@ -16,7 +16,14 @@ minecraft {
 }
 
 repositories {
-    maven { url = "https://maven.fabricmc.net/" }
+    maven {
+        name = "Jitpack"
+        url = 'https://jitpack.io'
+    }
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
     mavenCentral()
 }
 
@@ -32,6 +39,10 @@ dependencies {
     // Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // Aegis
+    modImplementation 'com.github.P03W:Aegis:3.0.0'
+    include 'com.github.P03W:Aegis:3.0.0'
 }
 
 processResources {

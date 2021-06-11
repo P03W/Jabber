@@ -4,8 +4,17 @@ import mc.jabber.math.Cardinal
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+import kotlin.reflect.KFunction
+
+// This saves a *lot* of time over thousands or more iterations
+object FastConstructLookup {
+    private val computeData: KFunction<ComputeData> by lazy { ComputeData::class.constructors.first() }
+    fun getCompute() = computeData
+}
 
 sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: T?) {
+    abstract fun getConstruct(): KFunction<CardinalData<T>>
+
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
             Cardinal.UP -> up
@@ -48,7 +57,7 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
 
     // has to be any because type erasure
     fun of(up: Any?, down: Any?, left: Any?, right: Any?): CardinalData<T> {
-        return this::class.constructors.first().call(up, down, left, right)
+        return getConstruct().call(up, down, left, right)
     }
 
     fun empty() = ofAll(null)
@@ -74,4 +83,6 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
     }
 }
 
-class ComputeData(up: Long?, down: Long?, left: Long?, right: Long?) : CardinalData<Long>(up, down, left, right)
+class ComputeData(up: Long?, down: Long?, left: Long?, right: Long?) : CardinalData<Long>(up, down, left, right) {
+    override fun getConstruct(): KFunction<CardinalData<Long>> = FastConstructLookup.getCompute()
+}

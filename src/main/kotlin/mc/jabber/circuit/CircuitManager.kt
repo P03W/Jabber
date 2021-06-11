@@ -5,7 +5,6 @@ import mc.jabber.data.CircuitBoard
 import mc.jabber.data.CircuitType
 import mc.jabber.data.util.DualHashMap
 import mc.jabber.math.Vec2I
-import mc.jabber.util.log
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
@@ -33,19 +32,15 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             if (board.isInBounds(vec2I) && data != null) {
                 val output = board[vec2I]?.receive(data, vec2I, state.backingOfA)
 
-                if (board[vec2I] != null) "$vec2I received $data and returned $output".log()
-
                 output?.forEach { dir, any ->
                     val offset = vec2I + dir
 
-                    if (offset == board.outputPoint) "Output of $any".log()
+                    //if (offset == board.outputPoint) "Output of $any".log()
 
                     if (any != null && board.isInBounds(offset) && board[offset] != null) {
                         if (stagingMap[offset] == null) {
                             stagingMap[offset] = data.empty()
                         }
-
-                        "$any going $dir into ${board[offset]}".log()
                         stagingMap[offset] = output.only(dir)
                     }
                 }
@@ -64,8 +59,6 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     override fun toString(): String {
         return buildString {
             append("\nCircuitManager(type=$type)")
-            append('\n')
-            append(input)
             append('\n')
             append(state)
             append('\n')

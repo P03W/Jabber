@@ -47,7 +47,8 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
     operator fun get(key: KEY): Pair<TYPE_A?, TYPE_B?> = Pair(backingOfA[key], backingOfB[key])
 
     inline fun forEach(receiver: (KEY, TYPE_A?, TYPE_B?) -> Unit) {
-        for (key in backingOfA.keys union backingOfB.keys) {
+        val set = backingOfA.keys union backingOfB.keys
+        for (key in set) {
             val entry = get(key)
             receiver(key, entry.first, entry.second)
         }
