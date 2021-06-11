@@ -26,7 +26,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         if (input != null) state.setB(Vec2I(0, board.sizeY / 2), input!!)
 
         // Simulate each state
-        state.forEach { vec2I, _, data ->
+        state.forEachWithLastIfCalc { vec2I, _, data ->
             state.backingOfB.remove(vec2I)
 
             if (board.isInBounds(vec2I) && data != null) {

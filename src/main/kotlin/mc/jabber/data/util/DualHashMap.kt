@@ -13,6 +13,8 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
     val backingOfA: HashMap<KEY, TYPE_A> = hashMapOf()
     val backingOfB: HashMap<KEY, TYPE_B> = hashMapOf()
 
+    var lastKeySet: Set<KEY>? = null
+
     fun isEmpty(): Boolean {
         return backingOfA.isEmpty()
     }
@@ -48,7 +50,16 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
 
     inline fun forEach(receiver: (KEY, TYPE_A?, TYPE_B?) -> Unit) {
         val set = backingOfA.keys union backingOfB.keys
+        lastKeySet = set
         for (key in set) {
+            val entry = get(key)
+            receiver(key, entry.first, entry.second)
+        }
+    }
+
+    inline fun forEachWithLastIfCalc(receiver: (KEY, TYPE_A?, TYPE_B?) -> Unit) {
+        if (lastKeySet == null) lastKeySet = backingOfA.keys union backingOfB.keys
+        for (key in lastKeySet!!) {
             val entry = get(key)
             receiver(key, entry.first, entry.second)
         }
