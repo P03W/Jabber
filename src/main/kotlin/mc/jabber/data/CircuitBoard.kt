@@ -10,6 +10,9 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
 
     private val board = Array<Array<ChipItem?>>(sizeY) { Array(sizeX) { null } }
 
+    var inputMaker: (() -> CardinalData<*>?)? = null
+    var outputConsumer: ((Any) -> Unit)? = null
+
     val outputPoint = Vec2I(sizeX, sizeY / 2)
 
     operator fun get(x: Int, y: Int): ChipItem? = board[y][x]

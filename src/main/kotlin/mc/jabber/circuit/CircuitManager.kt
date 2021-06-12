@@ -12,30 +12,19 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val state: DualHashMap<Vec2I, Any, CardinalData<*>> = DualHashMap()
     val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
 
-    var input: CardinalData<*>? = null
-
-    fun stepWithInput(input: CardinalData<*>?) {
-        this.input = input
-        simulate()
-        // Consume the input
-        this.input = null
-    }
-
     fun simulate() {
-        // Set the input if we got any
-        if (input != null) state.setB(Vec2I(0, board.sizeY / 2), input!!)
+        val input = board.inputMaker?.invoke()
+        if (input != null) state.setB(Vec2I(0, board.sizeY / 2), input)
 
         // Simulate each state
-        state.forEachWithLastIfCalc { vec2I, _, data ->
-            state.backingOfB.remove(vec2I)
-
-            if (board.isInBounds(vec2I) && data != null) {
+        state.backingOfB.forEach { (vec2I, data) ->
+            if (board.isInBounds(vec2I)) {
                 val output = board[vec2I]?.receive(data, vec2I, state.backingOfA)
 
                 output?.forEach { dir, any ->
                     val offset = vec2I + dir
 
-                    //if (offset == board.outputPoint) "Output of $any".log()
+                    if (offset == board.outputPoint && any != null) board.outputConsumer?.invoke(any)
 
                     if (any != null && board.isInBounds(offset) && board[offset] != null) {
                         if (stagingMap[offset] == null) {
@@ -46,6 +35,8 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
                 }
             }
         }
+
+        state.backingOfB.clear()
 
         // Copy the staged data back in
         stagingMap.forEach { (point, data) ->

@@ -57,14 +57,6 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
         }
     }
 
-    inline fun forEachWithLastIfCalc(receiver: (KEY, TYPE_A?, TYPE_B?) -> Unit) {
-        if (lastKeySet == null) lastKeySet = backingOfA.keys union backingOfB.keys
-        for (key in lastKeySet!!) {
-            val entry = get(key)
-            receiver(key, entry.first, entry.second)
-        }
-    }
-
     inline fun any(receiver: (KEY, TYPE_A?, TYPE_B?) -> Boolean): Boolean {
         for (key in backingOfA.keys) {
             val entry = get(key)
