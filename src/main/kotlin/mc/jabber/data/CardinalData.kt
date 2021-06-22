@@ -1,10 +1,10 @@
 package mc.jabber.data
 
 import mc.jabber.math.Cardinal
+import mc.jabber.util.assertType
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import kotlin.reflect.KFunction
 
 sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
@@ -48,10 +48,9 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
     }
 
     // Type erasure ruining everything once again
-    @Suppress("UNCHECKED_CAST")
     fun of(up: Any?, down: Any?, left: Any?, right: Any?): CardinalData<T> {
         return when (this) {
-            is ComputeData -> ComputeData(up as Long?, down as Long?, left as Long?, right as Long?) as CardinalData<T>
+            is ComputeData -> ComputeData(up as Long?, down as Long?, left as Long?, right as Long?).assertType()
         }
     }
 

@@ -19,12 +19,9 @@ class CircuitTable(settings: Settings) : Block(settings) {
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (!world.isClient) {
-            val item = player.getStackInHand(hand)
-            if (item.item is CircuitItem) {
-                return ActionResult.SUCCESS
-            }
-            return ActionResult.PASS
+        val item = player.getStackInHand(hand)
+        if (!world.isClient && item.item is CircuitItem) {
+            return ActionResult.SUCCESS
         }
         return ActionResult.PASS
     }
