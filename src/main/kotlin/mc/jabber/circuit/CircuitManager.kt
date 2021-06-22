@@ -5,6 +5,7 @@ import mc.jabber.data.CircuitBoard
 import mc.jabber.data.CircuitType
 import mc.jabber.data.util.DualHashMap
 import mc.jabber.math.Vec2I
+import kotlin.random.Random
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)

@@ -1,10 +1,10 @@
 package mc.jabber.models
 
-import mc.jabber.Globals
+import mc.jabber.Global
 import net.fabricmc.api.ClientModInitializer
 
 object ModelInit : ClientModInitializer {
     override fun onInitializeClient() {
-        Globals.LOG.info("Registering models")
+        Global.LOG.info("Registering models")
     }
 }

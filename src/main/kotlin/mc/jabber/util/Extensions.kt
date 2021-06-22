@@ -2,11 +2,11 @@
 
 package mc.jabber.util
 
-import mc.jabber.Globals
+import mc.jabber.Global
 import org.slf4j.Logger
 
 inline fun Any?.log() {
-    Globals.LOG.info(this ?: "null")
+    Global.LOG.info(this ?: "null")
 }
 
 inline fun Logger.info(obj: Any) {

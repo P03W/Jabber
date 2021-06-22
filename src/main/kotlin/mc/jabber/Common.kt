@@ -13,10 +13,15 @@ import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
+@Suppress("unused")
 object Common : ModInitializer {
     @OptIn(ExperimentalTime::class)
     override fun onInitialize() {
-        Globals.LOG.info("Main init")
+        Global.LOG.info("Main init")
+
+        Global.BLOCKS.register()
+        Global.BLOCKS.ENTITIES.register()
+        Global.ITEMS.register()
 
         CircuitManager(CircuitType.COMPUTE, 4, 3).also {
             it.board.inputMaker = { ComputeData(null, null, null, Random.nextLong()) }
