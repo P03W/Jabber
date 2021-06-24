@@ -11,7 +11,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
 
-class CircuitItem(val sizeX: Int, val sizeY: Int) : Item(FabricItemSettings().maxCount(1).group(Global.ITEMS.ITEM_GROUP)) {
+class CircuitItem(val sizeX: Int, val sizeY: Int) :
+    Item(FabricItemSettings().maxCount(1).group(Global.ITEMS.ITEM_GROUP)) {
     override fun appendTooltip(
         stack: ItemStack,
         world: World?,

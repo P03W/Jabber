@@ -7,6 +7,11 @@ import org.slf4j.Logger
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
+
+inline fun Logger.info(obj: Any) {
+    info(obj.toString())
+}
+
 inline fun Any?.log() {
     Global.LOG.info(this ?: "null")
 }
@@ -26,8 +31,4 @@ inline fun <reified T> Any?.assertType(): T {
     }
 
     return this as T
-}
-
-inline fun Logger.info(obj: Any) {
-    info(obj.toString())
 }

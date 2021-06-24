@@ -11,8 +11,9 @@ import net.fabricmc.loader.api.FabricLoader
 import kotlin.reflect.full.memberProperties
 
 
+@Suppress("unused")
 object Resources : RRPPreGenEntrypoint {
-    val RESOURCE_PACK = RuntimeResourcePack.create("jabber_runtime")
+    val RESOURCE_PACK: RuntimeResourcePack = RuntimeResourcePack.create("jabber_runtime")
 
     override fun pregen() {
         val lang = JLang()
