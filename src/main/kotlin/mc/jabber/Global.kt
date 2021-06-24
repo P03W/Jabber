@@ -6,12 +6,16 @@ import mc.jabber.block.entity.SimpleComputerBE
 import mc.jabber.items.CircuitItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
@@ -22,12 +26,20 @@ object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
+    fun id(path: String): Identifier {
+        return Identifier(MOD_ID, path)
+    }
+
     object ITEMS {
+        val ITEM_GROUP: ItemGroup = FabricItemGroupBuilder.build(
+            id("items")
+        ) { ItemStack(CIRCUIT_ITEM_5x5) }
+
         val CIRCUIT_ITEM_5x5 = CircuitItem(5, 5)
 
         fun register() {
-            fun Item.register(id: String) {
-                Registry.register(Registry.ITEM, Identifier(MOD_ID, id), this)
+            fun Item.register(itemID: String) {
+                Registry.register(Registry.ITEM, id(itemID), this)
             }
 
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
@@ -39,9 +51,9 @@ object Global {
         val SIMPLE_COMPUTER = SimpleComputerBlock(FabricBlockSettings.of(Material.REPAIR_STATION))
 
         fun register() {
-            fun Block.registerAndItem(id: String) {
-                Registry.register(Registry.BLOCK, Identifier(MOD_ID, id), this)
-                Registry.register(Registry.ITEM, Identifier(MOD_ID, id), BlockItem(this, FabricItemSettings()))
+            fun Block.registerAndItem(blockID: String) {
+                Registry.register(Registry.BLOCK, id(blockID), this)
+                Registry.register(Registry.ITEM, id(blockID), BlockItem(this, FabricItemSettings()))
             }
 
             CIRCUIT_TABLE.registerAndItem("circuit_table")
@@ -54,7 +66,7 @@ object Global {
             fun register() {
                 SIMPLE_COMPUTER = Registry.register(
                     Registry.BLOCK_ENTITY_TYPE,
-                    Identifier(MOD_ID, "simple_computer"),
+                    id("simple_computer"),
                     FabricBlockEntityTypeBuilder
                         .create(::SimpleComputerBE, BLOCKS.SIMPLE_COMPUTER)
                         .build()

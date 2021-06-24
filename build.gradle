@@ -1,3 +1,7 @@
+//file:noinspection GroovyUnusedAssignment
+//file:noinspection GroovyAssignabilityCheck
+//file:noinspection GroovyAccessibility
+//file:noinspection GrDeprecatedAPIUsage
 plugins {
     id "fabric-loom" version "$loom_version"
     id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
@@ -24,6 +28,10 @@ repositories {
         name = "Fabric"
         url = "https://maven.fabricmc.net/"
     }
+    maven {
+        name = "ARRP"
+        url = uri("https://storage.googleapis.com/devan-maven/")
+    }
     mavenCentral()
 }
 
@@ -43,6 +51,10 @@ dependencies {
     // Aegis
     modImplementation 'com.github.P03W:Aegis:3.0.0'
     include 'com.github.P03W:Aegis:3.0.0'
+
+    // ARRP
+    modImplementation "net.devtech:arrp:0.4.3"
+    include "net.devtech:arrp:0.4.3"
 }
 
 processResources {

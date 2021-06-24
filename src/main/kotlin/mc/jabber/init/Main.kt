@@ -1,6 +1,7 @@
-package mc.jabber
+package mc.jabber.init
 
 import com.github.p03w.aegis.register
+import mc.jabber.Global
 import mc.jabber.circuit.CircuitManager
 import mc.jabber.data.CircuitType
 import mc.jabber.data.ComputeData
@@ -14,7 +15,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
 @Suppress("unused")
-object Common : ModInitializer {
+object Main : ModInitializer {
     @OptIn(ExperimentalTime::class)
     override fun onInitialize() {
         Global.LOG.info("Main init")

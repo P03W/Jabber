@@ -18,12 +18,17 @@
   "entrypoints": {
     "main": [
       {
-        "value": "mc.jabber.Common::INSTANCE"
+        "value": "mc.jabber.init.Main::INSTANCE"
       }
     ],
     "client": [
       {
-        "value": "mc.jabber.models.ModelInit::INSTANCE"
+        "value": "mc.jabber.init.Client::INSTANCE"
+      }
+    ],
+    "rrp:pregen": [
+      {
+        "value": "mc.jabber.init.Resources::INSTANCE"
       }
     ]
   },

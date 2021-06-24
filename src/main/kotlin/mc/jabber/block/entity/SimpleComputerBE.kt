@@ -18,6 +18,7 @@ class SimpleComputerBE(pos: BlockPos, state: BlockState) : BlockEntity(Global.BL
     var circuitItem: ItemStack? by observable(null, ::rebuildCircuit)
     private var circuit: CircuitManager? = null
 
+    @Suppress("UNUSED_PARAMETER")
     fun rebuildCircuit(prop: KProperty<*>, old: ItemStack?, new: ItemStack?) {
         if (new == null) {circuit = null; return}
         new.item.assertType<CircuitItem>()
