@@ -4,6 +4,9 @@ import mc.jabber.block.CircuitTable
 import mc.jabber.block.SimpleComputerBlock
 import mc.jabber.block.entity.SimpleComputerBE
 import mc.jabber.items.CircuitItem
+import mc.jabber.items.chips.CrossChip
+import mc.jabber.items.chips.DelayChip
+import mc.jabber.items.chips.PipeChip
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -34,7 +37,13 @@ object Global {
             id("items")
         ) { ItemStack(CIRCUIT_ITEM_5x5) }
 
+        // Circuit Boards
         val CIRCUIT_ITEM_5x5 = CircuitItem(5, 5)
+
+        // Chips
+        val CHIP_PIPE = PipeChip()
+        val CHIP_CROSS = CrossChip()
+        val CHIP_DELAY_1 = DelayChip(1)
 
         fun register() {
             fun Item.register(itemID: String) {
@@ -42,6 +51,9 @@ object Global {
             }
 
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
+            CHIP_PIPE.register("chip_pipe")
+            CHIP_CROSS.register("chip_cross")
+            CHIP_DELAY_1.register("chip_delay_1")
         }
     }
 
