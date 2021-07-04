@@ -92,8 +92,8 @@ compileKotlin {
         freeCompilerArgs += [
                 "-Xno-call-assertions",
                 "-Xno-receiver-assertions",
-                "-Xno-param-assertions"
+                "-Xno-param-assertions",
+                "-Xopt-in=kotlin.RequiresOptIn"
         ]
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
     }
 }

@@ -28,15 +28,13 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
         // Simulate each state
         state.backingOfB.forEach { (vec2I, data) ->
-            val output = board[vec2I]?.receive(data, vec2I, state.backingOfA)
-
-            output?.forEach { dir, any ->
+            board[vec2I]?.receive(data, vec2I, state.backingOfA)!!.forEach { dir, any ->
                 val offset = vec2I + dir
 
                 if (offset == board.outputPoint && any != null) board.outputConsumer.invoke(any)
 
                 if (any != null && board.isInBounds(offset) && board[offset] != null) {
-                    stagingMap[offset] = output.only(dir)
+                    stagingMap[offset] = data.empty().with(dir, any)
                 }
             }
         }
@@ -53,12 +51,6 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     }
 
     override fun toString(): String {
-        return buildString {
-            append("\nCircuitManager(type=$type)")
-            append('\n')
-            append(state)
-            append('\n')
-            append(board)
-        }
+        return "\nCircuitManager(type=$type)\n$state\n$board"
     }
 }
