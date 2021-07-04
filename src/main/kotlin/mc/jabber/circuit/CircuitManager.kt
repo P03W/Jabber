@@ -18,20 +18,15 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
         // Simulate each state
         state.backingOfB.forEach { (vec2I, data) ->
-            if (board.isInBounds(vec2I)) {
-                val output = board[vec2I]?.receive(data, vec2I, state.backingOfA)
+            val output = board[vec2I]?.receive(data, vec2I, state.backingOfA)
 
-                output?.forEach { dir, any ->
-                    val offset = vec2I + dir
+            output?.forEach { dir, any ->
+                val offset = vec2I + dir
 
-                    if (offset == board.outputPoint && any != null) board.outputConsumer?.invoke(any)
+                if (offset == board.outputPoint && any != null) board.outputConsumer?.invoke(any)
 
-                    if (any != null && board.isInBounds(offset) && board[offset] != null) {
-                        if (stagingMap[offset] == null) {
-                            stagingMap[offset] = data.empty()
-                        }
-                        stagingMap[offset] = output.only(dir)
-                    }
+                if (any != null && board.isInBounds(offset) && board[offset] != null) {
+                    stagingMap[offset] = output.only(dir)
                 }
             }
         }
