@@ -8,17 +8,18 @@ import mc.jabber.math.Vec2I
 import mc.jabber.util.assertType
 
 class DelayChip(val delay: Int) : ChipItem() {
-    override fun <T> receive(data: CardinalData<T>, pos: Vec2I, state: MutableMap<Vec2I, Any>): CardinalData<T> {
-        // Make sure we did the init
-        if (state[pos] == null) state[pos] = mutableListOf<DelayEntry>()
+    override fun makeInitialStateEntry(): Any {
+        return mutableListOf<TriSet<Int, Cardinal, Any>>()
+    }
 
+    override fun <T> receive(data: CardinalData<T>, pos: Vec2I, state: MutableMap<Vec2I, Any>): CardinalData<T> {
         // Grab the queue
-        val queue = state[pos].assertType<DelayQueue>()
+        val queue = state[pos].assertType<MutableList<TriSet<Int, Cardinal, Any>>>()
 
         // Add the received values to the queue
         data.forEach { cardinal, t ->
             if (t != null) {
-                queue.add(DelayEntry(delay, cardinal, t))
+                queue.add(TriSet(delay, cardinal, t))
             }
         }
 
@@ -36,6 +37,3 @@ class DelayChip(val delay: Int) : ChipItem() {
         return out
     }
 }
-
-private typealias DelayEntry = TriSet<Int, Cardinal, Any>
-private typealias DelayQueue = MutableList<DelayEntry>

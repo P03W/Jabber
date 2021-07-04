@@ -12,6 +12,16 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val state: DualHashMap<Vec2I, Any, CardinalData<*>> = DualHashMap()
     val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
 
+    fun setup() {
+        state.backingOfB.forEach { (vec2I, _) ->
+            val chip = board[vec2I]
+            val initialData = chip?.makeInitialStateEntry()
+            if (initialData != null && initialData != Unit) {
+                state.setA(vec2I, initialData)
+            }
+        }
+    }
+
     fun simulate() {
         val input = board.inputMaker?.invoke()
         if (input != null) state.setB(Vec2I(0, board.sizeY / 2), input)
@@ -23,7 +33,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             output?.forEach { dir, any ->
                 val offset = vec2I + dir
 
-                if (offset == board.outputPoint && any != null) board.outputConsumer?.invoke(any)
+                if (offset == board.outputPoint && any != null) board.outputConsumer.invoke(any)
 
                 if (any != null && board.isInBounds(offset) && board[offset] != null) {
                     stagingMap[offset] = output.only(dir)

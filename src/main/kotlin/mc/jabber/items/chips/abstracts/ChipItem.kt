@@ -8,4 +8,6 @@ import net.minecraft.item.Item
 
 abstract class ChipItem : Item(FabricItemSettings().group(Global.ITEMS.ITEM_GROUP)) {
     abstract fun <T> receive(data: CardinalData<T>, pos: Vec2I, state: MutableMap<Vec2I, Any>): CardinalData<T>
+
+    open fun makeInitialStateEntry(): Any { return Unit }
 }

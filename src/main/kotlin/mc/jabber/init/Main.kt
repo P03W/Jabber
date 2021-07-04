@@ -34,6 +34,7 @@ object Main : ModInitializer {
             it.board[2, 0] = PipeChip()
             it.board[3, 0] = PipeChip()
             it.board[3, 1] = PipeChip()
+            it.setup()
             repeat(10) { _ ->
                 it.simulate()
             }
@@ -52,7 +53,8 @@ object Main : ModInitializer {
                                 it.board[2, 0] = PipeChip()
                                 it.board[3, 0] = PipeChip()
                                 it.board[3, 1] = PipeChip()
-                                repeat(500000) { _ ->
+                                it.setup()
+                                repeat(5_000_000) { _ ->
                                     it.simulate()
                                 }
                                 it.log()
