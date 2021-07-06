@@ -23,14 +23,14 @@ class Vec2IMathTest {
         assert(vecA - vecB == Vec2I(-1, 0))
         assert(vecA * vecB == Vec2I(6, 9))
         assert(vecA / vecB == Vec2I(2/3, 1))
+        assert(vecB * Vec2I.ZERO == Vec2I.ZERO)
     }
 
     @Test
     fun testVecCardinalMath() {
         assert(vecA + Cardinal.UP == vecA - Cardinal.DOWN)
         assert(vecA + Cardinal.LEFT == vecA - Cardinal.RIGHT)
-
         assert(vecA * Cardinal.UP == Vec2I(0, 3))
-        Assertions.assertThrows(ArithmeticException::class.java) { assert(vecA / Cardinal.UP == Vec2I(2, 0)) }
+        assert(vecB > Cardinal.DOWN)
     }
 }

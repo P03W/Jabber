@@ -62,9 +62,6 @@ data class Vec2I(var x: Int, var y: Int): NbtTransformable {
     operator fun times(other: Cardinal): Vec2I = times(other.vec)
     operator fun timesAssign(other: Cardinal) = timesAssign(other.vec)
 
-    operator fun div(other: Cardinal): Vec2I = div(other.vec)
-    operator fun divAssign(other: Cardinal) = divAssign(other.vec)
-
     operator fun compareTo(other: Cardinal): Int = compareTo(other.vec)
 
     companion object {
