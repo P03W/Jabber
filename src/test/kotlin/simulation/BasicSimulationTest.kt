@@ -11,9 +11,11 @@ import kotlin.random.Random
 class BasicSimulationTest {
     @Test
     fun testBasicSimulation() {
+        val random = Random(42)
+
         val expected: MutableList<LongBox> = mutableListOf()
         repeat(10) {
-            expected.add(LongBox(Random.nextLong()))
+            expected.add(LongBox(random.nextLong()))
         }
 
         val queue = mutableListOf<LongBox>()

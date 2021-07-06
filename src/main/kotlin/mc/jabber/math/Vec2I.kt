@@ -1,11 +1,15 @@
 package mc.jabber.math
 
+import mc.jabber.data.serial.NbtTransformable
+import net.minecraft.nbt.NbtByteArray
+import net.minecraft.nbt.NbtCompound
+import java.nio.ByteBuffer
 import kotlin.math.sqrt
 
 /**
  * A simple 2 int class with math operators
  */
-data class Vec2I(var x: Int, var y: Int) {
+data class Vec2I(var x: Int, var y: Int): NbtTransformable {
 
     /*
 
@@ -65,5 +69,27 @@ data class Vec2I(var x: Int, var y: Int) {
 
     companion object {
         val ZERO = Vec2I(0, 0)
+    }
+
+    override fun toNbt(): NbtCompound {
+        val out = NbtCompound()
+        val buffer = ByteBuffer.allocate(16)
+        buffer.putInt(x)
+        buffer.putInt(y)
+
+        out.putByteArray("p", buffer.array())
+        return out
+    }
+
+    override fun fromNbt(nbt: NbtCompound) {
+        val array = nbt.getByteArray("p")
+        val buffer = ByteBuffer.wrap(array)
+
+        x = buffer.int
+        y = buffer.int
+    }
+
+    override fun type(): Byte {
+        return 2
     }
 }

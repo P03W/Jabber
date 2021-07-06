@@ -17,12 +17,12 @@ import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtList
 import java.nio.ByteBuffer
 
-class DelayChip(val delay: Short) : ChipProcess {
-    override fun makeInitialStateEntry(): NbtTransformable<*> {
+class DelayChip(val delay: Short) : ChipProcess() {
+    override fun makeInitialStateEntry(): NbtTransformable {
         return DelayState()
     }
 
-    override fun <T : NbtTransformable<*>> receive(
+    override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
         state: MutableMap<Vec2I, Any>
@@ -51,8 +51,8 @@ class DelayChip(val delay: Short) : ChipProcess {
         return out
     }
 
-    class DelayState : NbtTransformable<DelayState> {
-        val data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable<*>>>()
+    class DelayState : NbtTransformable {
+        val data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable>>()
 
         /**
          * Format is a NBT_COMPOUND with a single entry "d" (for data)
@@ -84,8 +84,8 @@ class DelayChip(val delay: Short) : ChipProcess {
             return out
         }
 
-        override fun fromNbt(nbt: NbtCompound): DelayState {
-            val out = DelayState()
+        override fun fromNbt(nbt: NbtCompound) {
+            data.clear()
             val list = nbt.getList("d", NbtType.BYTE_ARRAY)
 
             list.forEach {
@@ -101,10 +101,8 @@ class DelayChip(val delay: Short) : ChipProcess {
                 val array = buffer.array()
                 val arbitrary = array.drop(array.size - buffer.remaining())
 
-                out.data.add(TriSet(remainingDelay, cardinal, rebuildArbitraryData(arbitrary)))
+                data.add(TriSet(remainingDelay, cardinal, rebuildArbitraryData(arbitrary)))
             }
-
-            return out
         }
     }
 }

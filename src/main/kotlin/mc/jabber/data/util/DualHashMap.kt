@@ -73,4 +73,24 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
                 "\n\tbackingB=$backingOfB" +
                 "\n)"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DualHashMap<*, *, *>
+
+        if (backingOfA != other.backingOfA) return false
+        if (backingOfB != other.backingOfB) return false
+        if (lastKeySet != other.lastKeySet) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = backingOfA.hashCode()
+        result = 31 * result + backingOfB.hashCode()
+        result = 31 * result + (lastKeySet?.hashCode() ?: 0)
+        return result
+    }
 }
