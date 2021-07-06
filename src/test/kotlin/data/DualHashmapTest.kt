@@ -37,4 +37,26 @@ class DualHashmapTest {
         assert(mapA == mapB)
         assert(mapA != mapC)
     }
+
+    @Test
+    fun testDualHashMapClearing() {
+        val map = DualHashMap<Int, Int, String>()
+
+        map.set(key, valueA, valueB)
+
+        map.clear()
+
+        assert(map.isEmpty())
+    }
+
+    @Test
+    fun testDualHashmapRemoval() {
+        val map = DualHashMap<Int, Int, String>()
+
+        map.set(key, valueA, valueB)
+
+        map.remove(key)
+
+        assert(map.isEmpty())
+    }
 }

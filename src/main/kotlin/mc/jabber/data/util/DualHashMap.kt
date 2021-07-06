@@ -13,7 +13,8 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
     val backingOfA: HashMap<KEY, TYPE_A> = hashMapOf()
     val backingOfB: HashMap<KEY, TYPE_B> = hashMapOf()
 
-    var lastKeySet: Set<KEY>? = null
+    @PublishedApi
+    internal var lastKeySet: Set<KEY>? = null
 
     fun isEmpty(): Boolean {
         return backingOfA.isEmpty()
@@ -28,8 +29,8 @@ class DualHashMap<KEY, TYPE_A, TYPE_B> {
     }
 
     fun set(key: KEY, value1: TYPE_A, value2: TYPE_B) {
-        backingOfA[key] = value1
-        backingOfB[key] = value2
+        setA(key, value1)
+        setB(key, value2)
     }
 
     fun remove(key: KEY) {

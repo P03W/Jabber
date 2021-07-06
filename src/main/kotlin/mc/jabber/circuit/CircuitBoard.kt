@@ -7,6 +7,7 @@ import mc.jabber.math.Vec2I
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
     init {
         assert(sizeY % 2 == 1) { "Attempted to create a CircuitBoard with an even amount of rows! ($sizeY)" }
+        assert(sizeX > 0) { "Attempted to create a CircuitBoard with a negative or 0 amount of columns! ($sizeX)" }
     }
 
     private val board = Array<Array<ChipProcess?>>(sizeY) { Array(sizeX) { null } }

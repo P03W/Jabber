@@ -10,6 +10,11 @@ import kotlin.random.Random
 class DelayChipSerialTest {
     @Test
     fun testDelayChipSerial() {
+        println("Hello!")
+        println("This is *very* slow on a cold JVM")
+        println("The implementation is actually quite fast normally")
+        println("If you duplicate this test, it'll take barely any time")
+
         val state = DelayChip.DelayState()
 
         val random = Random(21095478)

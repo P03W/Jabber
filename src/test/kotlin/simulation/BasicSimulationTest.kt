@@ -1,16 +1,41 @@
 package simulation
 
+import mc.jabber.circuit.CircuitBoard
 import mc.jabber.circuit.CircuitManager
 import mc.jabber.data.CircuitType
 import mc.jabber.data.ComputeData
 import mc.jabber.data.serial.LongBox
 import mc.jabber.items.chips.PipeChip
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 
 class BasicSimulationTest {
     @Test
-    fun testBasicSimulation() {
+    fun testIllegalCircuitSizeY() {
+        Assertions.assertThrows(AssertionError::class.java) {
+            CircuitBoard(3, 4)
+        }
+    }
+
+    @Test
+    fun testIllegalCircuitSizeX() {
+        Assertions.assertThrows(AssertionError::class.java) {
+            CircuitBoard(0, 1)
+        }
+    }
+
+    @Test
+    fun testEmptyBoard() {
+        val circuitManager = CircuitManager(CircuitType.COMPUTE, 4, 3)
+        circuitManager.setup()
+        repeat(5) {
+            circuitManager.simulate()
+        }
+    }
+
+    @Test
+    fun testDataTransfer() {
         val random = Random(42)
 
         val expected: MutableList<LongBox> = mutableListOf()
