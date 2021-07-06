@@ -13,12 +13,9 @@ class TriSetTest {
 
         assert(triSetA == triSetB)
         assert(triSetA == triSetC)
-        assert(triSetB == triSetC)
 
         assert(triSetA != triSetD)
         assert(triSetB != triSetD)
         assert(triSetC != triSetD)
     }
-
-
 }
