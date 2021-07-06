@@ -7,15 +7,25 @@ import org.slf4j.Logger
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-
-inline fun Logger.info(obj: Any) {
+/**
+ * Allows for calling info with any object by converting it to a string
+ */
+inline fun Logger.info(obj: Any?) {
     info(obj.toString())
 }
 
+/**
+ * Allows for logging anything by automatically converting to string
+ */
 inline fun Any?.log() {
-    Global.LOG.info(this ?: "null")
+    Global.LOG.info(this)
 }
 
+/**
+ * A short and simple type assertion with no UncheckedCast warnings
+ *
+ * Has a nice error message system as well
+ */
 @OptIn(ExperimentalContracts::class)
 inline fun <reified T> Any?.assertType(): T {
     contract {

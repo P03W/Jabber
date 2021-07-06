@@ -23,11 +23,12 @@ import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
+// All constants
 object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
+    //  Makes an ID with the MOD_ID
     fun id(path: String): Identifier {
         return Identifier(MOD_ID, path)
     }

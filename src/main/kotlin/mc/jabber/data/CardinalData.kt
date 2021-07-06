@@ -1,12 +1,15 @@
 package mc.jabber.data
 
+import mc.jabber.data.serial.LongBox
+import mc.jabber.data.serial.NbtTransformable
 import mc.jabber.math.Cardinal
 import mc.jabber.util.assertType
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: T?) {
+// Type erasure ruining everything once again, all methods must use Any?
+sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
             Cardinal.UP -> up
@@ -47,10 +50,9 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
         }
     }
 
-    // Type erasure ruining everything once again
     fun of(up: Any?, down: Any?, left: Any?, right: Any?): CardinalData<T> {
         return when (this) {
-            is ComputeData -> ComputeData(up as Long?, down as Long?, left as Long?, right as Long?).assertType()
+            is ComputeData -> ComputeData(up as LongBox?, down as LongBox?, left as LongBox?, right as LongBox?).assertType()
         }
     }
 
@@ -77,4 +79,4 @@ sealed class CardinalData<T>(val up: T?, val down: T?, val left: T?, val right: 
     }
 }
 
-class ComputeData(up: Long?, down: Long?, left: Long?, right: Long?) : CardinalData<Long>(up, down, left, right)
+class ComputeData(up: LongBox?, down: LongBox?, left: LongBox?, right: LongBox?) : CardinalData<LongBox>(up, down, left, right)

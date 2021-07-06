@@ -1,5 +1,8 @@
 package mc.jabber.math
 
+/**
+ * Simple 4 value cardinal direction enum
+ */
 enum class Cardinal(val vec: Vec2I) {
     UP(Vec2I(0, -1)),
     DOWN(Vec2I(0, 1)),

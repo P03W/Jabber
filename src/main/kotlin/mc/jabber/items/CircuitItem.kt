@@ -11,6 +11,9 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
 
+/**
+ * An item that holds a circuit, with a small amount of fancy text
+ */
 class CircuitItem(val sizeX: Int, val sizeY: Int) :
     Item(FabricItemSettings().maxCount(1).group(Global.ITEMS.ITEM_GROUP)) {
     override fun appendTooltip(

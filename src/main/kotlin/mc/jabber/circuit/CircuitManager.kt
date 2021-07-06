@@ -1,7 +1,6 @@
 package mc.jabber.circuit
 
 import mc.jabber.data.CardinalData
-import mc.jabber.data.CircuitBoard
 import mc.jabber.data.CircuitType
 import mc.jabber.data.util.DualHashMap
 import mc.jabber.math.Vec2I
@@ -16,7 +15,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         state.backingOfB.forEach { (vec2I, _) ->
             val chip = board[vec2I]
             val initialData = chip?.makeInitialStateEntry()
-            if (initialData != null && initialData != Unit) {
+            if (initialData != null) {
                 state.setA(vec2I, initialData)
             }
         }
@@ -46,7 +45,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             state.setB(point, data)
         }
 
-        // delete it all
+        // Delete the old data we copied in
         stagingMap.clear()
     }
 

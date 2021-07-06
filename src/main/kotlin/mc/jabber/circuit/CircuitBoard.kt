@@ -1,5 +1,6 @@
-package mc.jabber.data
+package mc.jabber.circuit
 
+import mc.jabber.data.CardinalData
 import mc.jabber.items.chips.abstracts.ChipItem
 import mc.jabber.math.Vec2I
 
