@@ -2,7 +2,7 @@ package mc.jabber.data.serial
 
 import net.minecraft.nbt.NbtCompound
 
-class LongBox(private val long: Long): NbtTransformable<LongBox> {
+data class LongBox(private val long: Long): NbtTransformable<LongBox> {
     override fun toNbt(): NbtCompound {
         return NbtCompound().also { it.putLong("l", long) }
     }

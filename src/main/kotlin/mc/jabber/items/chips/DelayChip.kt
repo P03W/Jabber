@@ -6,6 +6,7 @@ import mc.jabber.data.serial.NbtTransformable
 import mc.jabber.data.serial.rebuildArbitraryData
 import mc.jabber.data.util.TriSet
 import mc.jabber.items.chips.abstracts.ChipItem
+import mc.jabber.items.chips.abstracts.ChipProcess
 import mc.jabber.math.Cardinal
 import mc.jabber.math.Vec2I
 import mc.jabber.util.assertType
@@ -16,7 +17,7 @@ import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtList
 import java.nio.ByteBuffer
 
-class DelayChip(val delay: Short) : ChipItem() {
+class DelayChip(val delay: Short) : ChipProcess {
     override fun makeInitialStateEntry(): NbtTransformable<*> {
         return DelayState()
     }

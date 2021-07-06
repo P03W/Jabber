@@ -26,10 +26,6 @@ object Main : ModInitializer {
         Global.BLOCKS.ENTITIES.register()
         Global.ITEMS.register()
 
-        if (FabricLoader.getInstance().isDevelopmentEnvironment) {
-            IntegrityChecks.checkModIntegrity()
-        }
-
         CommandRegistrationCallback.EVENT.register { d, _ ->
             d.register("jabber") {
                 literal("stress") {

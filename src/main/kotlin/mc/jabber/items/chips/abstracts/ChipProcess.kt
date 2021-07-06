@@ -1,0 +1,22 @@
+package mc.jabber.items.chips.abstracts
+
+import mc.jabber.data.CardinalData
+import mc.jabber.data.serial.NbtTransformable
+import mc.jabber.math.Vec2I
+
+interface ChipProcess {
+    fun <T : NbtTransformable<*>> receive(
+        data: CardinalData<T>,
+        pos: Vec2I,
+        state: MutableMap<Vec2I, Any>
+    ): CardinalData<T>
+
+    /**
+     * Called once in chip setup
+     *
+     * @return The data to be stored by default in the state
+     */
+    fun makeInitialStateEntry(): NbtTransformable<*>? {
+        return null
+    }
+}

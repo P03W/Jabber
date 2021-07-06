@@ -3,9 +3,10 @@ package mc.jabber.items.chips
 import mc.jabber.data.CardinalData
 import mc.jabber.data.serial.NbtTransformable
 import mc.jabber.items.chips.abstracts.ChipItem
+import mc.jabber.items.chips.abstracts.ChipProcess
 import mc.jabber.math.Vec2I
 
-class CrossChip : ChipItem() {
+class CrossChip : ChipProcess {
     override fun <T : NbtTransformable<*>> receive(
         data: CardinalData<T>,
         pos: Vec2I,
