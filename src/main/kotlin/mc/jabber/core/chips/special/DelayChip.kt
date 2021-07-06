@@ -5,7 +5,7 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.data.util.TriSet
-import mc.jabber.core.chips.abstract.ChipProcess
+import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
@@ -24,10 +24,10 @@ class DelayChip(val delay: Short) : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: HashMap<Vec2I, Any>
+        chipData: HashMap<Vec2I, Any>
     ): CardinalData<T> {
         // Grab the queue
-        val queue = state[pos].assertType<DelayState>()
+        val queue = chipData[pos].assertType<DelayState>()
 
         // Add the received values to the queue
         data.forEach { cardinal, t ->
@@ -37,21 +37,21 @@ class DelayChip(val delay: Short) : ChipProcess() {
         }
 
         // Build the output
-        val out = data.ofAll(null)
+        var out = data.ofAll(null)
         queue.data.forEach {
             it.first--
             if (it.first <= 0) {
-                out.with(it.second, it.third)
+                out = out.with(it.second, it.third)
             }
         }
 
-        state[pos] = queue.data.filter { it.first > 0 }
+        queue.data = queue.data.filter { it.first > 0 }.toMutableList()
 
         return out
     }
 
     class DelayState : NbtTransformable {
-        val data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable>>()
+        var data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable>>()
 
         /**
          * Format is a NBT_COMPOUND with a single entry "d" (for data)

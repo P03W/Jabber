@@ -1,4 +1,4 @@
-package mc.jabber.core.chips.abstract
+package mc.jabber.core.chips
 
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
@@ -8,7 +8,7 @@ abstract class ChipProcess {
     abstract fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: HashMap<Vec2I, Any>
+        chipData: HashMap<Vec2I, Any>
     ): CardinalData<T>
 
     /**

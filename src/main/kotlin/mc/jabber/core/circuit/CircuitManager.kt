@@ -12,9 +12,8 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
 
     fun setup() {
-        state.forEach { (vec2I, _) ->
-            val chip = board[vec2I]
-            val initialData = chip?.makeInitialStateEntry()
+        board.forEach { vec2I, process ->
+            val initialData = process.makeInitialStateEntry()
             if (initialData != null) {
                 chipData[vec2I] = initialData
             }
@@ -27,7 +26,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
         // Simulate each state
         state.forEach { (vec2I, data) ->
-            board[vec2I]?.receive(data, vec2I, chipData)!!.forEach { dir, any ->
+            board[vec2I]!!.receive(data, vec2I, chipData).forEach { dir, any ->
                 val offset = vec2I + dir
 
                 if (offset == board.outputPoint && any != null) board.outputConsumer.invoke(any)

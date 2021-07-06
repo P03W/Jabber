@@ -1,6 +1,6 @@
 package mc.jabber.core.chips.action
 
-import mc.jabber.core.chips.abstract.ChipProcess
+import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.ComputeData
 import mc.jabber.core.data.serial.NbtTransformable
@@ -11,7 +11,7 @@ class AddChip(val amount: Long) : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: HashMap<Vec2I, Any>
+        chipData: HashMap<Vec2I, Any>
     ): CardinalData<T> {
         return when (data) {
             is ComputeData -> {
