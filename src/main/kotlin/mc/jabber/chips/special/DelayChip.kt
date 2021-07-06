@@ -24,7 +24,7 @@ class DelayChip(val delay: Short) : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: MutableMap<Vec2I, Any>
+        state: HashMap<Vec2I, Any>
     ): CardinalData<T> {
         // Grab the queue
         val queue = state[pos].assertType<DelayState>()

@@ -8,7 +8,7 @@ abstract class ChipProcess {
     abstract fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: MutableMap<Vec2I, Any>
+        state: HashMap<Vec2I, Any>
     ): CardinalData<T>
 
     /**

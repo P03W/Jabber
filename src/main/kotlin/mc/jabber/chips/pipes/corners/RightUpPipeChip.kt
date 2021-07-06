@@ -9,7 +9,7 @@ class RightUpPipeChip : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        state: MutableMap<Vec2I, Any>
+        state: HashMap<Vec2I, Any>
     ): CardinalData<T> {
         return data.of(data.left, null, null, data.down)
     }

@@ -2,33 +2,32 @@ package mc.jabber.circuit
 
 import mc.jabber.data.CardinalData
 import mc.jabber.data.CircuitType
-import mc.jabber.data.util.DualHashMap
 import mc.jabber.math.Vec2I
-import mc.jabber.util.log
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
 
-    val state: DualHashMap<Vec2I, Any, CardinalData<*>> = DualHashMap()
+    val chipData: HashMap<Vec2I, Any> = hashMapOf()
+    val state: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
     val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
 
     fun setup() {
-        state.backingOfB.forEach { (vec2I, _) ->
+        state.forEach { (vec2I, _) ->
             val chip = board[vec2I]
             val initialData = chip?.makeInitialStateEntry()
             if (initialData != null) {
-                state.setA(vec2I, initialData)
+                chipData[vec2I] = initialData
             }
         }
     }
 
     fun simulate() {
         val input = board.inputMaker?.invoke()
-        if (input != null) state.setB(Vec2I(0, board.sizeY / 2), input)
+        if (input != null) state[Vec2I(0, board.sizeY / 2)] = input
 
         // Simulate each state
-        state.backingOfB.forEach { (vec2I, data) ->
-            board[vec2I]?.receive(data, vec2I, state.backingOfA)!!.forEach { dir, any ->
+        state.forEach { (vec2I, data) ->
+            board[vec2I]?.receive(data, vec2I, chipData)!!.forEach { dir, any ->
                 val offset = vec2I + dir
 
                 if (offset == board.outputPoint && any != null) board.outputConsumer.invoke(any)
@@ -39,11 +38,11 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             }
         }
 
-        state.backingOfB.clear()
+        state.clear()
 
         // Copy the staged data back in
         stagingMap.forEach { (point, data) ->
-            state.setB(point, data)
+            state[point] = data
         }
 
         // Delete the old data we copied in
