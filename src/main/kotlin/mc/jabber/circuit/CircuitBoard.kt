@@ -1,7 +1,7 @@
 package mc.jabber.circuit
 
 import mc.jabber.data.CardinalData
-import mc.jabber.chips.abstracts.ChipProcess
+import mc.jabber.chips.abstract.ChipProcess
 import mc.jabber.math.Vec2I
 
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {

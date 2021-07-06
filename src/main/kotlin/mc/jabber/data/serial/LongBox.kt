@@ -18,4 +18,8 @@ data class LongBox(var long: Long): NbtTransformable {
     override fun toString(): String {
         return long.toString()
     }
+
+    operator fun plusAssign(amount: Long) {
+        long += amount
+    }
 }

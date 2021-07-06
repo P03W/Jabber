@@ -1,4 +1,4 @@
-package mc.jabber.chips.abstracts
+package mc.jabber.chips.abstract
 
 import mc.jabber.data.CardinalData
 import mc.jabber.data.serial.NbtTransformable

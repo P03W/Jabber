@@ -3,10 +3,17 @@ package mc.jabber
 import mc.jabber.block.CircuitTable
 import mc.jabber.block.SimpleComputerBlock
 import mc.jabber.block.entity.SimpleComputerBE
+import mc.jabber.chips.action.AddChip
 import mc.jabber.items.CircuitItem
 import mc.jabber.chips.pipes.CrossPipeChip
 import mc.jabber.chips.special.DelayChip
-import mc.jabber.chips.meta.DuplicateChip
+import mc.jabber.chips.duplicate.Duplicate4WayChip
+import mc.jabber.chips.pipes.HorizontalPipeChip
+import mc.jabber.chips.pipes.VerticalPipeChip
+import mc.jabber.chips.pipes.corners.Quad1PipeChip
+import mc.jabber.chips.pipes.corners.Quad2PipeChip
+import mc.jabber.chips.pipes.corners.Quad3PipeChip
+import mc.jabber.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.items.ChipItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
@@ -34,6 +41,7 @@ object Global {
         return Identifier(MOD_ID, path)
     }
 
+    @Suppress("unused")
     object ITEMS {
         val ITEM_GROUP: ItemGroup = FabricItemGroupBuilder.build(
             id("items")
@@ -43,9 +51,26 @@ object Global {
         val CIRCUIT_ITEM_5x5 = CircuitItem(5, 5)
 
         // Chips
-        val CHIP_PIPE = ChipItem(DuplicateChip())
-        val CHIP_CROSS = ChipItem(CrossPipeChip())
+        val CHIP_DUPLICATE_4_WAY = ChipItem(Duplicate4WayChip())
+        val CHIP_ADD_1 = ChipItem(AddChip(1))
+
+        // Pipes
+        val CHIP_CROSS_PIPE = ChipItem(CrossPipeChip())
+        val CHIP_HORIZONTAL_PIPE = ChipItem(HorizontalPipeChip())
+        val CHIP_VERTICAL_PIPE = ChipItem(VerticalPipeChip())
+        val CHIP_QUADRANT_1_PIPE = ChipItem(Quad1PipeChip())
+        val CHIP_QUADRANT_2_PIPE = ChipItem(Quad2PipeChip())
+        val CHIP_QUADRANT_3_PIPE = ChipItem(Quad3PipeChip())
+        val CHIP_QUADRANT_4_PIPE = ChipItem(Quad4PipeChip())
+
+        // Delay
         val CHIP_DELAY_1 = ChipItem(DelayChip(1))
+        val CHIP_DELAY_2 = ChipItem(DelayChip(2))
+        val CHIP_DELAY_3 = ChipItem(DelayChip(3))
+        val CHIP_DELAY_4 = ChipItem(DelayChip(4))
+        val CHIP_DELAY_5 = ChipItem(DelayChip(5))
+        val CHIP_DELAY_10 = ChipItem(DelayChip(10))
+        val CHIP_DELAY_20 = ChipItem(DelayChip(20))
 
         fun register() {
             fun Item.register(itemID: String) {
@@ -53,9 +78,6 @@ object Global {
             }
 
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
-            CHIP_PIPE.register("chip_pipe")
-            CHIP_CROSS.register("chip_cross")
-            CHIP_DELAY_1.register("chip_delay_1")
         }
     }
 
@@ -66,7 +88,7 @@ object Global {
         fun register() {
             fun Block.registerAndItem(blockID: String) {
                 Registry.register(Registry.BLOCK, id(blockID), this)
-                Registry.register(Registry.ITEM, id(blockID), BlockItem(this, FabricItemSettings()))
+                Registry.register(Registry.ITEM, id(blockID), BlockItem(this, FabricItemSettings().group(ITEMS.ITEM_GROUP)))
             }
 
             CIRCUIT_TABLE.registerAndItem("circuit_table")

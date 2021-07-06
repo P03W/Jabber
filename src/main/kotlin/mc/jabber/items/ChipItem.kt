@@ -1,7 +1,7 @@
 package mc.jabber.items
 
 import mc.jabber.Global
-import mc.jabber.chips.abstracts.ChipProcess
+import mc.jabber.chips.abstract.ChipProcess
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Item
 
