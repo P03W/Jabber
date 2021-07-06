@@ -5,7 +5,13 @@ import mc.jabber.circuit.CircuitManager
 import mc.jabber.data.CircuitType
 import mc.jabber.data.ComputeData
 import mc.jabber.data.serial.LongBox
-import mc.jabber.items.chips.PipeChip
+import mc.jabber.chips.meta.DuplicateChip
+import mc.jabber.chips.pipes.HorizontalPipeChip
+import mc.jabber.chips.pipes.corners.LeftDownPipeChip
+import mc.jabber.chips.pipes.corners.LeftUpPipeChip
+import mc.jabber.chips.pipes.corners.RightDownPipeChip
+import mc.jabber.chips.pipes.corners.RightUpPipeChip
+import mc.jabber.util.log
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
@@ -56,12 +62,12 @@ class BasicSimulationTest {
                 }
             }
 
-            it.board[0, 1] = PipeChip()
-            it.board[1, 1] = PipeChip()
-            it.board[1, 0] = PipeChip()
-            it.board[2, 0] = PipeChip()
-            it.board[3, 0] = PipeChip()
-            it.board[3, 1] = PipeChip()
+            it.board[0, 1] = HorizontalPipeChip()
+            it.board[1, 1] = LeftUpPipeChip()
+            it.board[1, 0] = RightDownPipeChip()
+            it.board[2, 0] = HorizontalPipeChip()
+            it.board[3, 0] = LeftDownPipeChip()
+            it.board[3, 1] = RightUpPipeChip()
             it.setup()
             repeat(20) { _ ->
                 it.simulate()

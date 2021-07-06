@@ -1,12 +1,11 @@
-package mc.jabber.items.chips
+package mc.jabber.chips.meta
 
 import mc.jabber.data.CardinalData
 import mc.jabber.data.serial.NbtTransformable
-import mc.jabber.items.chips.abstracts.ChipItem
-import mc.jabber.items.chips.abstracts.ChipProcess
+import mc.jabber.chips.abstracts.ChipProcess
 import mc.jabber.math.Vec2I
 
-class PipeChip : ChipProcess() {
+class DuplicateChip : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,

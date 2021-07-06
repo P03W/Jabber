@@ -1,9 +1,7 @@
-package mc.jabber.items.chips.abstracts
+package mc.jabber.items
 
 import mc.jabber.Global
-import mc.jabber.data.CardinalData
-import mc.jabber.data.serial.NbtTransformable
-import mc.jabber.math.Vec2I
+import mc.jabber.chips.abstracts.ChipProcess
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Item
 

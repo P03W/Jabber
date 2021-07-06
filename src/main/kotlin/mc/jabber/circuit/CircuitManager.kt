@@ -4,6 +4,7 @@ import mc.jabber.data.CardinalData
 import mc.jabber.data.CircuitType
 import mc.jabber.data.util.DualHashMap
 import mc.jabber.math.Vec2I
+import mc.jabber.util.log
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)

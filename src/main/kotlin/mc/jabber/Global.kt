@@ -4,10 +4,10 @@ import mc.jabber.block.CircuitTable
 import mc.jabber.block.SimpleComputerBlock
 import mc.jabber.block.entity.SimpleComputerBE
 import mc.jabber.items.CircuitItem
-import mc.jabber.items.chips.CrossChip
-import mc.jabber.items.chips.DelayChip
-import mc.jabber.items.chips.PipeChip
-import mc.jabber.items.chips.abstracts.ChipItem
+import mc.jabber.chips.pipes.CrossPipeChip
+import mc.jabber.chips.special.DelayChip
+import mc.jabber.chips.meta.DuplicateChip
+import mc.jabber.items.ChipItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -43,8 +43,8 @@ object Global {
         val CIRCUIT_ITEM_5x5 = CircuitItem(5, 5)
 
         // Chips
-        val CHIP_PIPE = ChipItem(PipeChip())
-        val CHIP_CROSS = ChipItem(CrossChip())
+        val CHIP_PIPE = ChipItem(DuplicateChip())
+        val CHIP_CROSS = ChipItem(CrossPipeChip())
         val CHIP_DELAY_1 = ChipItem(DelayChip(1))
 
         fun register() {
