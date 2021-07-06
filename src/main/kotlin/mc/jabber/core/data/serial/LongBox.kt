@@ -2,6 +2,9 @@ package mc.jabber.core.data.serial
 
 import net.minecraft.nbt.NbtCompound
 
+/**
+ * A box around [Long] that implements [NbtTransformable], mutable
+ */
 data class LongBox(var long: Long): NbtTransformable {
     override fun toNbt(): NbtCompound {
         return NbtCompound().also { it.putLong("l", long) }
@@ -17,9 +20,5 @@ data class LongBox(var long: Long): NbtTransformable {
 
     override fun toString(): String {
         return long.toString()
-    }
-
-    operator fun plusAssign(amount: Long) {
-        long += amount
     }
 }

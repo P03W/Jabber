@@ -8,7 +8,11 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-// Type erasure ruining everything once again, all methods must use Any?
+/**
+ * A sealed class representing 4 stored values, in line with the 4 [Cardinal] directions
+ *
+ * Note that due to type erasure, most methods take [NbtTransformable], these types are still enforced and cannot actually use any [NbtTransformable]
+ */
 sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
@@ -20,7 +24,9 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
     }
 
     /**
-     * Returns null if all values are null, or a random value from the non-null ones
+     * Gets random data
+     *
+     * @return null if all values are null, or a random value from the non-null ones
      */
     fun acquire(): Pair<Cardinal, T>? {
         val dirs = Cardinal.values()
@@ -32,7 +38,12 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
         return null
     }
 
-    fun with(direction: Cardinal, value: Any?): CardinalData<T> {
+    /**
+     * Simple transform
+     *
+     * @return A new [CardinalData] of the same type, but with the [direction] replaced with [value]
+     */
+    fun with(direction: Cardinal, value: NbtTransformable?): CardinalData<T> {
         return when (direction) {
             Cardinal.UP -> of(value, down, left, right)
             Cardinal.DOWN -> of(up, value, left, right)
@@ -41,6 +52,11 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
         }
     }
 
+    /**
+     * Data separation/extraction
+     *
+     * @return A new [CardinalData] with only the value specified with [direction]
+     */
     fun only(direction: Cardinal): CardinalData<T> {
         return when (direction) {
             Cardinal.UP -> of(up, null, null, null)
@@ -50,18 +66,35 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
         }
     }
 
-    fun of(up: Any?, down: Any?, left: Any?, right: Any?): CardinalData<T> {
+    /**
+     * Makes a new [CardinalData] with all the specified values
+     */
+    fun of(up: NbtTransformable?, down: NbtTransformable?, left: NbtTransformable?, right: NbtTransformable?): CardinalData<T> {
         return when (this) {
-            is ComputeData -> ComputeData(up as LongBox?, down as LongBox?, left as LongBox?, right as LongBox?).assertType()
+            is ComputeData -> ComputeData(
+                up as LongBox?,
+                down as LongBox?,
+                left as LongBox?,
+                right as LongBox?
+            ).assertType()
         }
     }
 
+    /**
+     * Makes an empty form of the data
+     */
     fun empty() = ofAll(null)
 
-    fun ofAll(value: Any?): CardinalData<T> {
+    /**
+     * Creates a new [CardinalData] where all values are [value]
+     */
+    fun ofAll(value: NbtTransformable?): CardinalData<T> {
         return of(value, value, value, value)
     }
 
+    /**
+     * Iterates all values provided, so your method will be called 4 times
+     */
     @OptIn(ExperimentalContracts::class)
     inline fun forEach(method: (Cardinal, T?) -> Unit) {
         contract {

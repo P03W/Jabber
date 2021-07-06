@@ -5,6 +5,20 @@ import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
 abstract class ChipProcess {
+    /**
+     * The main function that makes everything tick
+     *
+     * [data] is provided raw as a minor optimisation for chips that do not store data,
+     * this specific chip's data can be found with `chipData[pos]`, use [assertType] to quickly qualify the data
+     *
+     * @param data The data received on this simulation step
+     * @param pos The position of this chip on the board
+     * @param chipData Any data the chip has declared it wants stored in [makeInitialStateEntry]
+     *
+     * @return The data this chip outputs for this step
+     *
+     */
+    @Suppress("KDocUnresolvedReference")
     abstract fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
@@ -12,7 +26,7 @@ abstract class ChipProcess {
     ): CardinalData<T>
 
     /**
-     * Called once in chip setup
+     * Called *once per chip* in board setup, will not be called on deserialization
      *
      * @return The data to be stored by default in the state
      */

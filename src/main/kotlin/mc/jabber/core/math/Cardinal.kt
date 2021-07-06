@@ -9,6 +9,10 @@ enum class Cardinal(val vec: Vec2I) {
     LEFT(Vec2I(-1, 0)),
     RIGHT(Vec2I(1, 0));
 
+    /**
+     * Flips the direction
+     * @return The opposite of the Cardinal, so up returns down, ect.
+     */
     fun mirror(): Cardinal {
         return when (this) {
             UP -> DOWN

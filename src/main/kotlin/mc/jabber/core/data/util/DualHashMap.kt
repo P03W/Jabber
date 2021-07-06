@@ -7,7 +7,7 @@
 package mc.jabber.core.data.util
 
 /**
- * A data structure that keeps 2 `HashMap`s updated in parallel
+ * A data structure that keeps 2 [HashMap]s updated in parallel
  */
 class DualHashMap<KEY, TYPE_A, TYPE_B> {
     val backingOfA: HashMap<KEY, TYPE_A> = hashMapOf()

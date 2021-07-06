@@ -24,7 +24,11 @@ inline fun Any?.log() {
 /**
  * A short and simple type assertion with no UncheckedCast warnings
  *
- * Has a nice error message system as well
+ * Has a nice error message as well that states the received and expected types
+ *
+ * @param T The expected type, may be inferred by compiler
+ * @return The value this was called on
+ * @throws AssertionError If the value was not of the expected type
  */
 @OptIn(ExperimentalContracts::class)
 inline fun <reified T> Any?.assertType(): T {

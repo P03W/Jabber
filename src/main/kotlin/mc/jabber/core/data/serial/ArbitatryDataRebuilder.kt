@@ -9,13 +9,15 @@ import net.minecraft.nbt.NbtIo
 @Suppress("UnstableApiUsage")
 fun rebuildArbitraryData(bytes: List<Byte>): NbtTransformable {
     val mut = bytes.toMutableList()
-    return when (val id = mut.removeFirst().toInt()) {
+    val id = mut.removeFirst().toInt()
+    val tag = NbtIo.read(ByteStreams.newDataInput(mut.toByteArray()))
+    return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
         1 -> {
-            val long = NbtIo.read(ByteStreams.newDataInput(mut.toByteArray())).getLong("l")
+            val long = tag.getLong("l")
             LongBox(long)
         }
-        2 -> Vec2I(0, 0).also { it.fromNbt(NbtIo.read(ByteStreams.newDataInput(mut.toByteArray()))) }
+        2 -> Vec2I(0, 0).also { it.fromNbt(tag) }
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }

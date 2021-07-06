@@ -15,10 +15,10 @@ class AddChip(val amount: Long) : ChipProcess() {
     ): CardinalData<T> {
         return when (data) {
             is ComputeData -> {
-                val up = data.up?.also { it += amount }
-                val down = data.down?.also { it += amount }
-                val left = data.left?.also { it += amount }
-                val right = data.right?.also { it += amount }
+                val up = data.up?.also { it.long += amount }
+                val down = data.down?.also { it.long += amount }
+                val left = data.left?.also { it.long += amount }
+                val right = data.right?.also { it.long += amount }
                 data.of(down, up, right, left).assertType()
             }
         }
