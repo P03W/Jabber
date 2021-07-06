@@ -1,6 +1,6 @@
 package data
 
-import mc.jabber.data.util.DualHashMap
+import mc.jabber.core.data.util.DualHashMap
 import org.junit.jupiter.api.Test
 
 class DualHashmapTest {

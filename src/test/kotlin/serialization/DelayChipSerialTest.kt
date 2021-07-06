@@ -1,9 +1,9 @@
 package serialization
 
-import mc.jabber.data.serial.LongBox
-import mc.jabber.data.util.TriSet
-import mc.jabber.chips.special.DelayChip
-import mc.jabber.math.Cardinal
+import mc.jabber.core.data.serial.LongBox
+import mc.jabber.core.data.util.TriSet
+import mc.jabber.core.chips.special.DelayChip
+import mc.jabber.core.math.Cardinal
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 

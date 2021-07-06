@@ -1,6 +1,6 @@
 package data
 
-import mc.jabber.data.util.TriSet
+import mc.jabber.core.data.util.TriSet
 import org.junit.jupiter.api.Test
 
 class TriSetTest {

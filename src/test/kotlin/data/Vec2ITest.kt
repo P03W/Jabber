@@ -1,6 +1,6 @@
 package data
 
-import mc.jabber.math.Vec2I
+import mc.jabber.core.math.Vec2I
 
 class Vec2ITest {
     fun testVec2IEquality() {

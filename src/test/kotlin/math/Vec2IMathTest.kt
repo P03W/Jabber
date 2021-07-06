@@ -1,7 +1,7 @@
 package math
 
-import mc.jabber.math.Cardinal
-import mc.jabber.math.Vec2I
+import mc.jabber.core.math.Cardinal
+import mc.jabber.core.math.Vec2I
 import org.junit.jupiter.api.Test
 
 class Vec2IMathTest {

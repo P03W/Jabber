@@ -1,6 +1,6 @@
 package data
 
-import mc.jabber.math.Cardinal
+import mc.jabber.core.math.Cardinal
 import org.junit.jupiter.api.Test
 
 class CardinalTest {
