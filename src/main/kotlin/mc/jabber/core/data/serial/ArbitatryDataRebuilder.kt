@@ -13,10 +13,7 @@ fun rebuildArbitraryData(bytes: List<Byte>): NbtTransformable {
     val tag = NbtIo.read(ByteStreams.newDataInput(mut.toByteArray()))
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
-        1 -> {
-            val long = tag.getLong("l")
-            LongBox(long)
-        }
+        1 -> LongBox(tag.getLong("l"))
         2 -> Vec2I(0, 0).also { it.fromNbt(tag) }
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }

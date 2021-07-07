@@ -33,6 +33,7 @@ class BasicSimulationTest {
     @Test
     fun testEmptyBoard() {
         val circuitManager = CircuitManager(CircuitType.COMPUTE, 4, 3)
+        circuitManager.board.inputMaker = { ComputeData(null, null, null, LongBox(1)) }
         circuitManager.setup()
         repeat(5) {
             circuitManager.simulate()
