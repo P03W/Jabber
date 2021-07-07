@@ -47,7 +47,6 @@ object Main : ModInitializer {
                                 repeat(500_000) { _ ->
                                     it.simulate()
                                 }
-                                it.log()
                             }
                         }
                         context.source.sendFeedback(LiteralText("Finished stress test in $time"), false)
