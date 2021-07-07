@@ -2,12 +2,13 @@ package mc.jabber.core.circuit
 
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitType
+import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
 
-    val chipData: HashMap<Vec2I, Any> = hashMapOf()
+    val chipData: HashMap<Vec2I, NbtTransformable> = hashMapOf()
     val state: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
     val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
 

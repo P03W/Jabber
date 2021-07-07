@@ -9,7 +9,7 @@ class Quad2PipeChip : ChipProcess() {
     override fun <T : NbtTransformable> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        chipData: HashMap<Vec2I, Any>
+        chipData: HashMap<Vec2I, NbtTransformable>
     ): CardinalData<T> {
         return data.of(data.right, null, data.down, null)
     }

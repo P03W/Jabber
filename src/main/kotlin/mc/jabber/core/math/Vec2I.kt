@@ -63,10 +63,6 @@ data class Vec2I(var x: Int, var y: Int): NbtTransformable {
 
     operator fun compareTo(other: Cardinal): Int = compareTo(other.vec)
 
-    companion object {
-        val ZERO = Vec2I(0, 0)
-    }
-
     override fun toNbt(): NbtCompound {
         val out = NbtCompound()
         val buffer = ByteBuffer.allocate(16)
@@ -87,5 +83,9 @@ data class Vec2I(var x: Int, var y: Int): NbtTransformable {
 
     override fun type(): Byte {
         return 2
+    }
+
+    companion object {
+        val ZERO = Vec2I(0, 0)
     }
 }
