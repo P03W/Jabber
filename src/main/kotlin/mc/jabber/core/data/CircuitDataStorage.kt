@@ -2,7 +2,7 @@ package mc.jabber.core.data
 
 import mc.jabber.core.math.Vec2I
 
-class CircuitDataStorage(val sizeX: Int, val sizeY: Int) : ArrayList<CardinalData<*>?>(sizeX * sizeY) {
+class CircuitDataStorage(private val sizeX: Int, sizeY: Int) : ArrayList<CardinalData<*>?>(sizeX * sizeY) {
     val totalSize = sizeX * sizeY
     init {
         for (i in 0..totalSize) {
@@ -27,7 +27,7 @@ class CircuitDataStorage(val sizeX: Int, val sizeY: Int) : ArrayList<CardinalDat
     }
 
     fun indexToVec(index: Int): Vec2I {
-        return Vec2I(index / sizeX, index % sizeX)
+        return Vec2I(index % sizeX, index / sizeX)
     }
 
     fun vecToIndex(vec2I: Vec2I): Int {

@@ -10,7 +10,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
     val chipData: HashMap<Vec2I, NbtTransformable> = hashMapOf()
     val state = CircuitDataStorage(sizeX, sizeY)
-    val stagingMap = CircuitDataStorage(sizeX, sizeY).also { println(it.size) }
+    val stagingMap = CircuitDataStorage(sizeX, sizeY)
 
     val inputPoint = Vec2I(0, board.sizeY / 2)
 

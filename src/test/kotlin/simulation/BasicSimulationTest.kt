@@ -71,6 +71,7 @@ class BasicSimulationTest {
             it.setup()
             repeat(20) { _ ->
                 it.simulate()
+                println("----------")
             }
 
             assert(expected.isEmpty()) { "Did not receive all expected values! Still missing $expected" }
