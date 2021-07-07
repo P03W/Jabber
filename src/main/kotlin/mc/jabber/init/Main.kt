@@ -33,7 +33,7 @@ object Main : ModInitializer {
         CommandRegistrationCallback.EVENT.register { d, _ ->
             d.register("jabber") {
                 literal("stress") {
-                    executes { context ->
+                    executes(debug = true) { context ->
                         val time = measureTime {
                             CircuitManager(CircuitType.COMPUTE, 4, 3).also {
                                 it.board[0, 1] = HorizontalPipeChip()

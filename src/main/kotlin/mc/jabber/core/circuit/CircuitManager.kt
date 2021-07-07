@@ -1,6 +1,6 @@
 package mc.jabber.core.circuit
 
-import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
@@ -9,8 +9,8 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
 
     val chipData: HashMap<Vec2I, NbtTransformable> = hashMapOf()
-    val state: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
-    val stagingMap: HashMap<Vec2I, CardinalData<*>> = hashMapOf()
+    val state = CircuitDataStorage(sizeX, sizeY)
+    val stagingMap = CircuitDataStorage(sizeX, sizeY).also { println(it.size) }
 
     val inputPoint = Vec2I(0, board.sizeY / 2)
 
@@ -28,7 +28,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         if (input != null && board[inputPoint] != null) state[inputPoint] = input
 
         // Simulate each state
-        state.forEach { (vec2I, data) ->
+        state.forEach { vec2I, data ->
             board[vec2I]!!.receive(data, vec2I, chipData).forEach { dir, any ->
                 val offset = vec2I + dir
 
@@ -43,7 +43,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         state.clear()
 
         // Copy the staged data back in
-        stagingMap.forEach { (point, data) ->
+        stagingMap.forEach { point, data ->
             state[point] = data
         }
 
