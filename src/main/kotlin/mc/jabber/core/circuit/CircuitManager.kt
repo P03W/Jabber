@@ -8,7 +8,7 @@ import mc.jabber.core.math.Vec2I
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
 
-    val chipData: HashMap<Vec2I, NbtTransformable> = hashMapOf()
+    val chipData: HashMap<Vec2I, NbtTransformable<*>> = hashMapOf()
     val state = CircuitDataStorage(sizeX, sizeY)
     val stagingMap = CircuitDataStorage(sizeX, sizeY)
 

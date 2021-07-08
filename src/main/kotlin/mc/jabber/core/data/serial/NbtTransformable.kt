@@ -7,8 +7,8 @@ import net.minecraft.nbt.NbtCompound
  *
  * Deserialization is handled by [rebuildArbitraryData]
  */
-interface NbtTransformable {
+interface NbtTransformable<out THIS> {
     fun toNbt(): NbtCompound
-    fun fromNbt(nbt: NbtCompound)
+    fun fromNbt(nbt: NbtCompound): THIS
     fun type(): Byte { return 0 }
 }

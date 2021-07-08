@@ -31,7 +31,7 @@ class DelayChipSerialTest {
         val compound = state.toNbt()
 
         // Make sure we can de-serialize
-        val result = DelayChip.DelayState().also { it.fromNbt(compound) }
+        val result = state.fromNbt(compound)
 
         // Make sure the data is the same
         assert(result.data[0] == expectedA) { "Expected $expectedA but got ${result.data[0]}" }

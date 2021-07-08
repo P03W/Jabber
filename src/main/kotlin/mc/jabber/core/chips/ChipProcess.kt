@@ -19,10 +19,10 @@ abstract class ChipProcess {
      *
      */
     @Suppress("KDocUnresolvedReference")
-    abstract fun <T : NbtTransformable> receive(
+    abstract fun <T : NbtTransformable<*>> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        chipData: HashMap<Vec2I, NbtTransformable>
+        chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData<T>
 
     /**
@@ -30,7 +30,7 @@ abstract class ChipProcess {
      *
      * @return The data to be stored by default in the state
      */
-    open fun makeInitialStateEntry(): NbtTransformable? {
+    open fun makeInitialStateEntry(): NbtTransformable<*>? {
         return null
     }
 }

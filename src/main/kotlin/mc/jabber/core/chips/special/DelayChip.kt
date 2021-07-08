@@ -17,14 +17,14 @@ import net.minecraft.nbt.NbtList
 import java.nio.ByteBuffer
 
 class DelayChip(val delay: Short) : ChipProcess() {
-    override fun makeInitialStateEntry(): NbtTransformable {
+    override fun makeInitialStateEntry(): NbtTransformable<DelayState> {
         return DelayState()
     }
 
-    override fun <T : NbtTransformable> receive(
+    override fun <T : NbtTransformable<*>> receive(
         data: CardinalData<T>,
         pos: Vec2I,
-        chipData: HashMap<Vec2I, NbtTransformable>
+        chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData<T> {
         // Grab the queue
         val queue = chipData[pos].assertType<DelayState>()
@@ -50,8 +50,8 @@ class DelayChip(val delay: Short) : ChipProcess() {
         return out
     }
 
-    class DelayState : NbtTransformable {
-        var data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable>>()
+    class DelayState : NbtTransformable<DelayState> {
+        var data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable<*>>>()
 
         /**
          * Format is a NBT_COMPOUND with a single entry "d" (for data)
@@ -83,8 +83,9 @@ class DelayChip(val delay: Short) : ChipProcess() {
             return out
         }
 
-        override fun fromNbt(nbt: NbtCompound) {
-            data.clear()
+        override fun fromNbt(nbt: NbtCompound): DelayState {
+            val newData = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable<*>>>()
+
             val list = nbt.getList("d", NbtType.BYTE_ARRAY)
 
             list.forEach {
@@ -100,8 +101,9 @@ class DelayChip(val delay: Short) : ChipProcess() {
                 val array = buffer.array()
                 val arbitrary = array.drop(array.size - buffer.remaining())
 
-                data.add(TriSet(remainingDelay, cardinal, rebuildArbitraryData(arbitrary)))
+                newData.add(TriSet(remainingDelay, cardinal, rebuildArbitraryData(arbitrary)))
             }
+            return DelayState().also { it.data = newData }
         }
     }
 }

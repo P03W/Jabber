@@ -8,14 +8,9 @@ import mc.jabber.core.math.Vec2I
  * @param sizeX The X dimension, hidden as its used later, but sizeY is not stored as it does not need to be used in later computation, hence [sizeX] is private to avoid confusion
  * @param sizeY The Y dimension, only used for initial size allocations
  */
-class CircuitDataStorage(private val sizeX: Int, sizeY: Int) : ArrayList<CardinalData<*>?>(sizeX * sizeY) {
+class CircuitDataStorage(private val sizeX: Int, sizeY: Int){
     val totalSize = sizeX * sizeY
-    init {
-        // Allocate the array to prevent IndexOutOfBounds exceptions being thrown
-        for (i in 0..totalSize) {
-            add(null)
-        }
-    }
+    val array: Array<CardinalData<*>?> = Array(sizeX * sizeY) {null}
 
     /**
      * Iterates over the collection as if it was a map
@@ -23,7 +18,7 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) : ArrayList<Cardina
      * Skips null values, and provides a Vec2I instead of the raw index
      */
     inline fun forEach(action: (Vec2I, CardinalData<*>)->Unit) {
-        forEachIndexed { i, data ->
+        array.forEachIndexed { i, data ->
             if (data != null) {
                 action(indexToVec(i), data)
             }
@@ -36,11 +31,11 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) : ArrayList<Cardina
      * [index] in implicitly converted to a raw index through [vecToIndex]
      */
     operator fun set(index: Vec2I, data: CardinalData<*>) {
-        this[vecToIndex(index)] = data
+        array[vecToIndex(index)] = data
     }
 
     operator fun get(index: Vec2I): CardinalData<*>? {
-        return this[vecToIndex(index)]
+        return array[vecToIndex(index)]
     }
 
     /**
@@ -55,5 +50,14 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) : ArrayList<Cardina
      */
     fun vecToIndex(vec2I: Vec2I): Int {
         return vec2I.y * sizeX + vec2I.x
+    }
+
+    /**
+     * Clear out any data
+     */
+    fun clear() {
+        for (i in array.indices) {
+            array[i] = null
+        }
     }
 }

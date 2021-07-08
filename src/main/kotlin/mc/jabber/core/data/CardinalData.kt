@@ -11,9 +11,9 @@ import kotlin.contracts.contract
 /**
  * A sealed class representing 4 stored values, in line with the 4 [Cardinal] directions
  *
- * Note that due to type erasure, most methods take [NbtTransformable], these types are still enforced and cannot actually use any [NbtTransformable]
+ * Note that due to type erasure, most methods take [NbtTransformable<*>], these types are still enforced and cannot actually use any [NbtTransformable<*>]
  */
-sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val left: T?, val right: T?) {
+sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
             Cardinal.UP -> up
@@ -43,7 +43,7 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
      *
      * @return A new [CardinalData] of the same type, but with the [direction] replaced with [value]
      */
-    fun with(direction: Cardinal, value: NbtTransformable?): CardinalData<T> {
+    fun with(direction: Cardinal, value: NbtTransformable<*>?): CardinalData<T> {
         return when (direction) {
             Cardinal.UP -> of(value, down, left, right)
             Cardinal.DOWN -> of(up, value, left, right)
@@ -69,7 +69,7 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
     /**
      * Makes a new [CardinalData] with all the specified values
      */
-    fun of(up: NbtTransformable?, down: NbtTransformable?, left: NbtTransformable?, right: NbtTransformable?): CardinalData<T> {
+    fun of(up: NbtTransformable<*>?, down: NbtTransformable<*>?, left: NbtTransformable<*>?, right: NbtTransformable<*>?): CardinalData<T> {
         return when (this) {
             is ComputeData -> ComputeData(
                 up as LongBox?,
@@ -88,7 +88,7 @@ sealed class CardinalData<T : NbtTransformable>(val up: T?, val down: T?, val le
     /**
      * Creates a new [CardinalData] where all values are [value]
      */
-    fun ofAll(value: NbtTransformable?): CardinalData<T> {
+    fun ofAll(value: NbtTransformable<*>?): CardinalData<T> {
         return of(value, value, value, value)
     }
 
