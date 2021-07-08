@@ -1,20 +1,20 @@
 package mc.jabber
 
-import mc.jabber.minecraft.block.CircuitTable
-import mc.jabber.minecraft.block.SimpleComputerBlock
-import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.core.chips.action.AddChip
-import mc.jabber.minecraft.items.CircuitItem
-import mc.jabber.core.chips.pipes.CrossPipeChip
-import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.chips.duplicate.Duplicate4WayChip
+import mc.jabber.core.chips.pipes.CrossPipeChip
 import mc.jabber.core.chips.pipes.HorizontalPipeChip
 import mc.jabber.core.chips.pipes.VerticalPipeChip
 import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
+import mc.jabber.core.chips.special.DelayChip
+import mc.jabber.minecraft.block.CircuitTable
+import mc.jabber.minecraft.block.SimpleComputerBlock
+import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.minecraft.items.ChipItem
+import mc.jabber.minecraft.items.CircuitItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -88,7 +88,11 @@ object Global {
         fun register() {
             fun Block.registerAndItem(blockID: String) {
                 Registry.register(Registry.BLOCK, id(blockID), this)
-                Registry.register(Registry.ITEM, id(blockID), BlockItem(this, FabricItemSettings().group(ITEMS.ITEM_GROUP)))
+                Registry.register(
+                    Registry.ITEM,
+                    id(blockID),
+                    BlockItem(this, FabricItemSettings().group(ITEMS.ITEM_GROUP))
+                )
             }
 
             CIRCUIT_TABLE.registerAndItem("circuit_table")

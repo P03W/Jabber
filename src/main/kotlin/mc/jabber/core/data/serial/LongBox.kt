@@ -5,7 +5,7 @@ import net.minecraft.nbt.NbtCompound
 /**
  * A box around [Long] that implements [NbtTransformable], mutable
  */
-data class LongBox(var long: Long): NbtTransformable<LongBox> {
+data class LongBox(var long: Long) : NbtTransformable<LongBox> {
     override fun toNbt(): NbtCompound {
         return NbtCompound().also { it.putLong("l", long) }
     }

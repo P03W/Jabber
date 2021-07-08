@@ -1,11 +1,11 @@
 package mc.jabber.core.chips.special
 
 import com.google.common.io.ByteStreams
+import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.data.util.TriSet
-import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType

@@ -30,7 +30,9 @@ object Resources : RRPPreGenEntrypoint {
             val name = it.name
             when {
                 name.startsWith("CIRCUIT_ITEM_") -> makeCircuit(name, lang)
-                name.startsWith("CHIP_") -> { toAutoRegister.add(it); makeChip(name, lang) }
+                name.startsWith("CHIP_") -> {
+                    toAutoRegister.add(it); makeChip(name, lang)
+                }
             }
         }
 
@@ -46,7 +48,8 @@ object Resources : RRPPreGenEntrypoint {
     @Suppress("ControlFlowWithEmptyBody")
     fun autoRegisterChips() {
         // Safety to make sure we arent registering stuff in the middle of resource generation
-        while (!canRegister.get()) {}
+        while (!canRegister.get()) {
+        }
 
         toAutoRegister.forEach {
             val type = it.name.removePrefix("CHIP_").lowercase()

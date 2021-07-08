@@ -10,5 +10,7 @@ import net.minecraft.nbt.NbtCompound
 interface NbtTransformable<out THIS> {
     fun toNbt(): NbtCompound
     fun fromNbt(nbt: NbtCompound): THIS
-    fun type(): Byte { return 0 }
+    fun type(): Byte {
+        return 0
+    }
 }

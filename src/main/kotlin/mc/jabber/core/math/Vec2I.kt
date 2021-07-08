@@ -8,7 +8,7 @@ import kotlin.math.sqrt
 /**
  * A simple 2 int class with math operators
  */
-data class Vec2I(var x: Int, var y: Int): NbtTransformable<Vec2I> {
+data class Vec2I(var x: Int, var y: Int) : NbtTransformable<Vec2I> {
 
     /*
 

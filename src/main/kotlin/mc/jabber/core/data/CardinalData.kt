@@ -69,7 +69,12 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
     /**
      * Makes a new [CardinalData] with all the specified values
      */
-    fun of(up: NbtTransformable<*>?, down: NbtTransformable<*>?, left: NbtTransformable<*>?, right: NbtTransformable<*>?): CardinalData<T> {
+    fun of(
+        up: NbtTransformable<*>?,
+        down: NbtTransformable<*>?,
+        left: NbtTransformable<*>?,
+        right: NbtTransformable<*>?
+    ): CardinalData<T> {
         return when (this) {
             is ComputeData -> ComputeData(
                 up as LongBox?,
@@ -112,4 +117,5 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
     }
 }
 
-class ComputeData(up: LongBox?, down: LongBox?, left: LongBox?, right: LongBox?) : CardinalData<LongBox>(up, down, left, right)
+class ComputeData(up: LongBox?, down: LongBox?, left: LongBox?, right: LongBox?) :
+    CardinalData<LongBox>(up, down, left, right)
