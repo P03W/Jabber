@@ -6,6 +6,11 @@ import mc.jabber.core.math.Vec2I
 
 abstract class ChipProcess {
     /**
+     * If this process should be run to generate state
+     */
+    open val isInput = false
+
+    /**
      * The main function that makes everything tick
      *
      * [data] is provided raw as a minor optimisation for chips that do not store data,

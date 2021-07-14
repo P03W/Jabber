@@ -7,6 +7,7 @@ import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
+import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.ComputeData
@@ -35,13 +36,13 @@ object Main : ModInitializer {
                     executes(debug = true) { context ->
                         val time = measureTime {
                             CircuitManager(CircuitType.COMPUTE, 4, 3).also {
-                                it.board[0, 1] = HorizontalPipeChip()
+                                it.board[0, 0] = CustomChip(true) { data, _, _ -> data.ofAll(LongBox(1)) }
+                                it.board[0, 1] = Quad1PipeChip()
                                 it.board[1, 1] = Quad2PipeChip()
                                 it.board[1, 0] = Quad4PipeChip()
                                 it.board[2, 0] = HorizontalPipeChip()
                                 it.board[3, 0] = Quad3PipeChip()
                                 it.board[3, 1] = Quad1PipeChip()
-                                it.board.inputMaker = { ComputeData(null, null, null, LongBox(1)) }
                                 it.setup()
                                 repeat(500_000) { _ ->
                                     it.simulate()

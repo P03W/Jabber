@@ -2,6 +2,7 @@ package mc.jabber.minecraft.block.entity
 
 import mc.jabber.Global
 import mc.jabber.core.circuit.CircuitManager
+import mc.jabber.core.data.CircuitType
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
 import net.minecraft.block.BlockState
@@ -22,12 +23,14 @@ class SimpleComputerBE(pos: BlockPos, state: BlockState) :
         if (new == null) {
             circuit = null; return
         }
-        new.item.assertType<CircuitItem>()
+        val item = new.item.assertType<CircuitItem>()
+        circuit = CircuitManager(CircuitType.COMPUTE, item.sizeX, item.sizeY)
+        circuit!!.setup()
     }
 
     companion object {
         fun tick(world: World, blockPos: BlockPos, state: BlockState, be: SimpleComputerBE) {
-
+            be.circuit?.simulate()
         }
     }
 }

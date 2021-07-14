@@ -10,12 +10,8 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         assert(sizeX > 0) { "Attempted to create a CircuitBoard with a negative or 0 amount of columns! ($sizeX)" }
     }
 
-    private val board = Array<Array<ChipProcess?>>(sizeY) { Array(sizeX) { null } }
-
-    var inputMaker: (() -> CardinalData<*>?)? = null
-    var outputConsumer: ((Any) -> Unit) = {}
-
-    val outputPoint = Vec2I(sizeX, sizeY / 2)
+    @PublishedApi
+    internal val board = Array<Array<ChipProcess?>>(sizeY) { Array(sizeX) { null } }
 
     operator fun get(x: Int, y: Int): ChipProcess? = board[y][x]
     operator fun get(vec: Vec2I): ChipProcess? = get(vec.x, vec.y)
@@ -43,12 +39,20 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         }
     }
 
-    fun forEach(action: (Vec2I, ChipProcess) -> Unit) {
+    inline fun forEach(action: (Vec2I, ChipProcess) -> Unit) {
         board.forEachIndexed { y, array ->
             array.forEachIndexed { x, chipProcess ->
                 if (chipProcess != null) {
                     action(Vec2I(x, y), chipProcess)
                 }
+            }
+        }
+    }
+
+    inline fun forEachInput(action: (Vec2I, ChipProcess) -> Unit) {
+        forEach { vec2I, chipProcess ->
+            if (chipProcess.isInput) {
+                action(vec2I, chipProcess)
             }
         }
     }

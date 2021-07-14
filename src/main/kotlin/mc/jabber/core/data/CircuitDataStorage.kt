@@ -59,4 +59,8 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
             array[i] = null
         }
     }
+
+    override fun toString(): String {
+        return array.toList().toString()
+    }
 }
