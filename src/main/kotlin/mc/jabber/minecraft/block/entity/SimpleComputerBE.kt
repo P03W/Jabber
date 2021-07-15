@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import kotlin.properties.Delegates.observable
@@ -18,8 +19,7 @@ class SimpleComputerBE(
     pos: BlockPos,
     state: BlockState,
     blockEntity: BlockEntityType<SimpleComputerBE>
-) :
-    BlockEntity(blockEntity, pos, state) {
+) : BlockEntity(blockEntity, pos, state) {
     var circuitItem: ItemStack? by observable(null, ::rebuildCircuit)
     private var circuit: CircuitManager? = null
 
@@ -31,6 +31,20 @@ class SimpleComputerBE(
         val item = new.item.assertType<CircuitItem>()
         circuit = CircuitManager(CircuitType.COMPUTE, item.sizeX, item.sizeY)
         circuit!!.setup()
+    }
+
+    override fun readNbt(nbt: NbtCompound) {
+        if (nbt.contains("c")) {
+            circuitItem = ItemStack.fromNbt(nbt.getCompound("c"))
+        }
+    }
+
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        val working = super.writeNbt(nbt)
+        if (circuitItem != null) {
+            working.put("c", circuitItem!!.writeNbt(NbtCompound()))
+        }
+        return working
     }
 
     companion object {
