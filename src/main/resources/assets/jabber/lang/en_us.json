@@ -2,5 +2,6 @@
   "itemGroup.jabber.items": "Jabber Items",
 
   "block.jabber.simple_computer": "Simple Computer",
-  "block.jabber.quad_computer": "Quad Computer"
+  "block.jabber.quad_computer": "Quad Computer",
+  "block.jabber.circuit_table": "Circuit Table"
 }

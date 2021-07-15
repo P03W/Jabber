@@ -83,7 +83,7 @@ object Global {
     }
 
     object BLOCKS {
-        val CIRCUIT_TABLE = CircuitTable(FabricBlockSettings.of(Material.REPAIR_STATION))
+        val CIRCUIT_TABLE = CircuitTable(FabricBlockSettings.of(Material.REPAIR_STATION).nonOpaque())
         val SIMPLE_COMPUTER = SimpleComputerBlock(1, FabricBlockSettings.of(Material.REPAIR_STATION))
         val QUAD_COMPUTER = SimpleComputerBlock(4, FabricBlockSettings.of(Material.REPAIR_STATION))
 

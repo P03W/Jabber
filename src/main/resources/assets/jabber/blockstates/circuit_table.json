@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "jabber:block/circuit_table" }
+  }
+}
