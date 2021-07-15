@@ -46,6 +46,10 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
             if (item.item is CircuitItem) {
                 val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
 
+                if (be.circuitItem != null) {
+                    player.giveItemStack(be.circuitItem)
+                }
+
                 be.circuitItem = item.copy()
                 item.decrement(1)
 
