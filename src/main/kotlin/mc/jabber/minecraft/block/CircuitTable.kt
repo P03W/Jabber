@@ -7,9 +7,9 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
@@ -53,6 +53,8 @@ class CircuitTable(settings: Settings) : Block(settings) {
     override fun getCullingShape(state: BlockState?, world: BlockView?, pos: BlockPos?): VoxelShape = COLLISION
 
     companion object {
-        val COLLISION: VoxelShape = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.81, 1.0)
+        private val BOTTOM_COLLISION = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.81, 1.0)
+        private val TOP_COLLISION = VoxelShapes.cuboid(0.31, 0.81, 0.31, 0.69, 0.94, 0.69)
+        val COLLISION: VoxelShape = VoxelShapes.combineAndSimplify(BOTTOM_COLLISION, TOP_COLLISION, BooleanBiFunction.OR)
     }
 }
