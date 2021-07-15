@@ -20,7 +20,12 @@ import net.minecraft.world.World
 
 class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return SimpleComputerBE(stepsPerTick, pos, state, Registry.BLOCK_ENTITY_TYPE.idFlip(Registry.BLOCK, this).assertType())
+        return SimpleComputerBE(
+            stepsPerTick,
+            pos,
+            state,
+            Registry.BLOCK_ENTITY_TYPE.idFlip(Registry.BLOCK, this).assertType()
+        )
     }
 
     override fun getRenderType(state: BlockState): BlockRenderType {

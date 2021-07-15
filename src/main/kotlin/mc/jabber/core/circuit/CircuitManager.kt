@@ -1,9 +1,7 @@
 package mc.jabber.core.circuit
 
-import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
-import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 

@@ -13,7 +13,12 @@ import net.minecraft.world.World
 import kotlin.properties.Delegates.observable
 import kotlin.reflect.KProperty
 
-class SimpleComputerBE(val stepsPerTick: Int, pos: BlockPos, state: BlockState, blockEntity: BlockEntityType<SimpleComputerBE>) :
+class SimpleComputerBE(
+    val stepsPerTick: Int,
+    pos: BlockPos,
+    state: BlockState,
+    blockEntity: BlockEntityType<SimpleComputerBE>
+) :
     BlockEntity(blockEntity, pos, state) {
     var circuitItem: ItemStack? by observable(null, ::rebuildCircuit)
     private var circuit: CircuitManager? = null
