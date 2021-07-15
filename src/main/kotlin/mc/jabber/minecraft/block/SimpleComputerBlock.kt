@@ -3,6 +3,7 @@ package mc.jabber.minecraft.block
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
+import mc.jabber.util.idFlip
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -14,11 +15,12 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
-class SimpleComputerBlock(settings: Settings) : BlockWithEntity(settings) {
+class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return SimpleComputerBE(pos, state)
+        return SimpleComputerBE(stepsPerTick, pos, state, Registry.BLOCK_ENTITY_TYPE.idFlip(Registry.BLOCK, this).assertType())
     }
 
     override fun getRenderType(state: BlockState): BlockRenderType {

@@ -13,6 +13,7 @@ import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.minecraft.block.CircuitTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
+import mc.jabber.minecraft.block.entity.SimpleComputerBEFactory
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -83,7 +84,8 @@ object Global {
 
     object BLOCKS {
         val CIRCUIT_TABLE = CircuitTable(FabricBlockSettings.of(Material.REPAIR_STATION))
-        val SIMPLE_COMPUTER = SimpleComputerBlock(FabricBlockSettings.of(Material.REPAIR_STATION))
+        val SIMPLE_COMPUTER = SimpleComputerBlock(1, FabricBlockSettings.of(Material.REPAIR_STATION))
+        val QUAD_COMPUTER = SimpleComputerBlock(4, FabricBlockSettings.of(Material.REPAIR_STATION))
 
         fun register() {
             fun Block.registerAndItem(blockID: String) {
@@ -97,17 +99,27 @@ object Global {
 
             CIRCUIT_TABLE.registerAndItem("circuit_table")
             SIMPLE_COMPUTER.registerAndItem("simple_computer")
+            QUAD_COMPUTER.registerAndItem("quad_computer")
         }
 
         object ENTITIES {
             lateinit var SIMPLE_COMPUTER: BlockEntityType<SimpleComputerBE>
+            lateinit var QUAD_COMPUTER: BlockEntityType<SimpleComputerBE>
 
             fun register() {
                 SIMPLE_COMPUTER = Registry.register(
                     Registry.BLOCK_ENTITY_TYPE,
                     id("simple_computer"),
                     FabricBlockEntityTypeBuilder
-                        .create(::SimpleComputerBE, BLOCKS.SIMPLE_COMPUTER)
+                        .create(SimpleComputerBEFactory(1) { SIMPLE_COMPUTER }::make, BLOCKS.SIMPLE_COMPUTER)
+                        .build()
+                )
+
+                QUAD_COMPUTER = Registry.register(
+                    Registry.BLOCK_ENTITY_TYPE,
+                    id("quad_computer"),
+                    FabricBlockEntityTypeBuilder
+                        .create(SimpleComputerBEFactory(4) { QUAD_COMPUTER }::make, BLOCKS.QUAD_COMPUTER)
                         .build()
                 )
             }
