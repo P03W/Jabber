@@ -41,13 +41,24 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
         hit: BlockHitResult
     ): ActionResult {
         val item = player.getStackInHand(hand)
-        if (!world.isClient && item.item is CircuitItem) {
-            if (!player.isCreative) item.decrement(1)
-            val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
+        if (!world.isClient) {
+            // TODO: Sounds
+            if (item.item is CircuitItem) {
+                val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
 
-            be.circuitItem = item
+                be.circuitItem = item.copy()
+                item.decrement(1)
 
-            return ActionResult.SUCCESS
+                return ActionResult.SUCCESS
+            } else if (item.isEmpty && player.isSneaky) {
+                val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
+
+                if (be.circuitItem != null) {
+                    player.giveItemStack(be.circuitItem)
+                    be.circuitItem = null
+                }
+                return ActionResult.SUCCESS
+            }
         }
         return ActionResult.PASS
     }
