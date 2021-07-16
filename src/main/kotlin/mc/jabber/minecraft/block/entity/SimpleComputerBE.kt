@@ -25,6 +25,7 @@ class SimpleComputerBE(
 
     @Suppress("UNUSED_PARAMETER")
     fun rebuildCircuit(prop: KProperty<*>, old: ItemStack?, new: ItemStack?) {
+        markDirty()
         if (new == null) {
             circuit = null; return
         }
@@ -34,17 +35,23 @@ class SimpleComputerBE(
     }
 
     override fun readNbt(nbt: NbtCompound) {
+        println(nbt)
         if (nbt.contains("c")) {
             circuitItem = ItemStack.fromNbt(nbt.getCompound("c"))
         }
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        val working = super.writeNbt(nbt)
+        super.writeNbt(nbt)
         if (circuitItem != null) {
-            working.put("c", circuitItem!!.writeNbt(NbtCompound()))
+            nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
         }
-        return working
+        println(nbt)
+        return nbt
+    }
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        return writeNbt(NbtCompound())
     }
 
     companion object {

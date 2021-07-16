@@ -11,6 +11,8 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -42,7 +44,6 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
     ): ActionResult {
         val item = player.getStackInHand(hand)
         if (!world.isClient) {
-            // TODO: Sounds
             if (item.item is CircuitItem) {
                 val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
 
@@ -53,12 +54,15 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
                 be.circuitItem = item.copy()
                 item.decrement(1)
 
+                player.playSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 0.5f, 1.4f)
+
                 return ActionResult.SUCCESS
             } else if (item.isEmpty && player.isSneaky) {
                 val be = world.getBlockEntity(pos).assertType<SimpleComputerBE>()
 
                 if (be.circuitItem != null) {
                     player.giveItemStack(be.circuitItem)
+                    player.playSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 0.5f, 1.4f)
                     be.circuitItem = null
                 }
                 return ActionResult.SUCCESS

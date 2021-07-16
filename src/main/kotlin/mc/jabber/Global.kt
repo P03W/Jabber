@@ -12,25 +12,33 @@ import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.minecraft.block.CircuitTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
+import mc.jabber.minecraft.block.entity.CircuitTableBE
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.minecraft.block.entity.SimpleComputerBEFactory
+import mc.jabber.minecraft.client.screen.circuit_table.CircuitTableGuiDescription
+import mc.jabber.minecraft.client.screen.circuit_table.CircuitTableScreen
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
 
 // All constants
 object Global {
@@ -103,10 +111,19 @@ object Global {
         }
 
         object ENTITIES {
+            lateinit var CIRCUIT_TABLE: BlockEntityType<CircuitTableBE>
             lateinit var SIMPLE_COMPUTER: BlockEntityType<SimpleComputerBE>
             lateinit var QUAD_COMPUTER: BlockEntityType<SimpleComputerBE>
 
             fun register() {
+                CIRCUIT_TABLE = Registry.register(
+                    Registry.BLOCK_ENTITY_TYPE,
+                    id("circuit_table"),
+                    FabricBlockEntityTypeBuilder
+                        .create(::CircuitTableBE, BLOCKS.CIRCUIT_TABLE)
+                        .build()
+                )
+
                 SIMPLE_COMPUTER = Registry.register(
                     Registry.BLOCK_ENTITY_TYPE,
                     id("simple_computer"),
@@ -121,6 +138,26 @@ object Global {
                     FabricBlockEntityTypeBuilder
                         .create(SimpleComputerBEFactory(4) { QUAD_COMPUTER }::make, BLOCKS.QUAD_COMPUTER)
                         .build()
+                )
+            }
+        }
+    }
+
+    object GUI {
+        lateinit var CIRCUIT_TABLE_GUI: ScreenHandlerType<CircuitTableGuiDescription>
+
+        fun registerBoth() {
+            CIRCUIT_TABLE_GUI = ScreenHandlerRegistry.registerSimple(id("circuit_table")) { i: Int, inv: PlayerInventory ->
+                CircuitTableGuiDescription(i, inv)
+            }
+        }
+
+        fun registerClient() {
+            ScreenRegistry.register(CIRCUIT_TABLE_GUI) { gui, inventory, title ->
+                CircuitTableScreen(
+                    gui,
+                    inventory.player,
+                    title
                 )
             }
         }

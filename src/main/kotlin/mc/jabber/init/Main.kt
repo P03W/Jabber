@@ -21,13 +21,13 @@ import kotlin.time.measureTime
 object Main : ModInitializer {
     @OptIn(ExperimentalTime::class)
     override fun onInitialize() {
-        Global.LOG.info("Main init")
-
         Global.BLOCKS.register()
         Global.BLOCKS.ENTITIES.register()
 
         Resources.autoRegisterChips()
         Global.ITEMS.register()
+
+        Global.GUI.registerBoth()
 
         CommandRegistrationCallback.EVENT.register { d, _ ->
             d.register("jabber") {

@@ -18,17 +18,20 @@
   "entrypoints": {
     "main": [
       {
-        "value": "mc.jabber.init.Main::INSTANCE"
+        "adapter": "kotlin",
+        "value": "mc.jabber.init.Main"
       }
     ],
     "client": [
       {
-        "value": "mc.jabber.init.Client::INSTANCE"
+        "adapter": "kotlin",
+        "value": "mc.jabber.init.Client"
       }
     ],
     "rrp:pregen": [
       {
-        "value": "mc.jabber.init.Resources::INSTANCE"
+        "adapter": "kotlin",
+        "value": "mc.jabber.init.Resources"
       }
     ]
   },

@@ -33,6 +33,10 @@ repositories {
         name = "ARRP"
         url = uri("https://storage.googleapis.com/devan-maven/")
     }
+    maven {
+        name = "CottonMC"
+        url = uri("https://server.bbkr.space/artifactory/libs-release")
+    }
     mavenCentral()
 }
 
@@ -56,6 +60,10 @@ dependencies {
     // ARRP
     modImplementation "net.devtech:arrp:0.4.3"
     include "net.devtech:arrp:0.4.3"
+
+    // LibGui
+    modImplementation "io.github.cottonmc:LibGui:4.1.4+1.17.1"
+    include "io.github.cottonmc:LibGui:4.1.4+1.17.1"
 
     // Test suite
     implementation 'org.junit.jupiter:junit-jupiter:5.7.2'
