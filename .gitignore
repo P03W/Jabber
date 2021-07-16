@@ -13,3 +13,5 @@ out/
 run/
 
 logs/
+
+protobuf/

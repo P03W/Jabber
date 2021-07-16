@@ -1,5 +1,6 @@
 package mc.jabber.core.data
 
+import kotlinx.serialization.Serializable
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Cardinal
@@ -13,6 +14,7 @@ import kotlin.contracts.contract
  *
  * Note that due to type erasure, most methods take [NbtTransformable<*>], these types are still enforced and cannot actually use any [NbtTransformable<*>]
  */
+@Serializable
 sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {

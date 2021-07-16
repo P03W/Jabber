@@ -1,0 +1,11 @@
+syntax = "proto3";
+package mc.jabber.proto;
+
+import "mc/jabber/proto/cardinalDataBuffer.proto";
+import "mc/jabber/proto/circuitBoardBuffer.proto";
+
+message CircuitManager {
+  CircuitBoard board = 1;
+  map<int32, CardinalData> chipData = 2;
+  map<int32, CardinalData> state = 3;
+}

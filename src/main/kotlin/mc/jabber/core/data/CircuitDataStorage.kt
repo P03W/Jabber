@@ -1,5 +1,6 @@
 package mc.jabber.core.data
 
+import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import net.minecraft.nbt.NbtByte
 import net.minecraft.nbt.NbtCompound
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NbtList
  * @param sizeY The Y dimension, only used for initial size allocations
  */
 class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
-    val array: Array<CardinalData<*>?> = Array(sizeX * sizeY) { null }
+    val array: Array<CardinalData<out NbtTransformable<*>>?> = Array(sizeX * sizeY) { null }
 
     /**
      * Iterates over the collection as if it was a map
@@ -32,7 +33,7 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      *
      * [index] in implicitly converted to a raw index through [vecToIndex]
      */
-    operator fun set(index: Vec2I, data: CardinalData<*>) {
+    operator fun set(index: Vec2I, data: CardinalData<out NbtTransformable<*>>) {
         array[vecToIndex(index)] = data
     }
 

@@ -1,5 +1,6 @@
 package mc.jabber.core.math
 
+import kotlinx.serialization.Serializable
 import mc.jabber.core.data.serial.NbtTransformable
 import net.minecraft.nbt.NbtCompound
 import java.nio.ByteBuffer
@@ -8,6 +9,7 @@ import kotlin.math.sqrt
 /**
  * A simple 2 int class with math operators
  */
+@Serializable
 data class Vec2I(var x: Int, var y: Int) : NbtTransformable<Vec2I> {
 
     /*

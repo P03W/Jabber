@@ -1,11 +1,10 @@
 package mc.jabber.core.circuit
 
-import mc.jabber.Global
+import kotlinx.serialization.Serializable
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.registry.Registry
 
+@Serializable
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
     init {
         assert(sizeY % 2 == 1) { "Attempted to create a CircuitBoard with an even amount of rows! ($sizeY)" }
