@@ -59,19 +59,6 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         stagingMap.clear()
     }
 
-    @Suppress("UnstableApiUsage")
-    fun toNbt(): NbtCompound {
-        val out = NbtCompound()
-
-        val data = NbtList().also { chipData.forEach { (t, u) -> it.add(NbtCompound().also { it.put("p", t.toNbt()); it.put("s", u.toNbt()); it.put("t", NbtByte.of(u.type())) }) } }
-        val state = state.toNbt()
-
-        out.put("d", data)
-        out.put("s", state)
-        out.put("b", board.toNbt())
-        return out
-    }
-
     override fun toString(): String {
         return "\nCircuitManager(type=$type)\n$state\n$board"
     }

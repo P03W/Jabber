@@ -63,29 +63,6 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
         }
     }
 
-    fun toNbt(): NbtList {
-        val out = NbtList()
-
-        forEach { vec2I, data ->
-            out.add(NbtCompound().also {
-                it.put("p", vec2I.toNbt())
-                val compact = NbtCompound()
-                var push = false
-                data.forEach { cardinal, nbtTransformable ->
-                    if (nbtTransformable != null) {
-                        push = true
-                        compact.putByte("c", cardinal.ordinal.toByte())
-                        compact.put("d", nbtTransformable.toNbt())
-                        compact.putByte("t", nbtTransformable.type())
-                    }
-                }
-                if (push) it.put("d", compact)
-            })
-        }
-
-        return out
-    }
-
     override fun toString(): String {
         return array.toList().toString()
     }

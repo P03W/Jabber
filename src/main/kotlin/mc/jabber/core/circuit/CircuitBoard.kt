@@ -58,20 +58,4 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
             }
         }
     }
-
-    fun toNbt(): NbtCompound {
-        val out = NbtCompound()
-
-        out.putInt("x", sizeX)
-        out.putInt("y", sizeY)
-
-        forEach { vec2I, chipProcess ->
-            out.put("c", NbtCompound().also {
-                it.put("p", vec2I.toNbt())
-                it.putString("i", Registry.ITEM.getId(Global.PROCESS_ITEM_MAP[chipProcess]).toString())
-            })
-        }
-
-        return out
-    }
 }
