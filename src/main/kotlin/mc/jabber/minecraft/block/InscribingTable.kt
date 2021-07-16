@@ -1,8 +1,6 @@
 package mc.jabber.minecraft.block
 
-import mc.jabber.Global
-import mc.jabber.minecraft.block.entity.CircuitTableBE
-import mc.jabber.minecraft.items.CircuitItem
+import mc.jabber.minecraft.block.entity.InscribingTableBE
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -19,9 +17,9 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class CircuitTable(settings: Settings) : BlockWithEntity(settings) {
+class InscribingTable(settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return CircuitTableBE(
+        return InscribingTableBE(
             pos,
             state
         )

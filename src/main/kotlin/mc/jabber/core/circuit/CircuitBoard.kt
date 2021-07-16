@@ -1,7 +1,10 @@
 package mc.jabber.core.circuit
 
+import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.util.registry.Registry
 
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
     init {
@@ -54,5 +57,21 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
                 action(vec2I, chipProcess)
             }
         }
+    }
+
+    fun toNbt(): NbtCompound {
+        val out = NbtCompound()
+
+        out.putInt("x", sizeX)
+        out.putInt("y", sizeY)
+
+        forEach { vec2I, chipProcess ->
+            out.put("c", NbtCompound().also {
+                it.put("p", vec2I.toNbt())
+                it.putString("i", Registry.ITEM.getId(Global.PROCESS_ITEM_MAP[chipProcess]).toString())
+            })
+        }
+
+        return out
     }
 }

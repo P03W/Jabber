@@ -35,7 +35,6 @@ class SimpleComputerBE(
     }
 
     override fun readNbt(nbt: NbtCompound) {
-        println(nbt)
         if (nbt.contains("c")) {
             circuitItem = ItemStack.fromNbt(nbt.getCompound("c"))
         }
@@ -46,7 +45,6 @@ class SimpleComputerBE(
         if (circuitItem != null) {
             nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
         }
-        println(nbt)
         return nbt
     }
 

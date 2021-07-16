@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
 
 
-class CircuitTableGuiDescription(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Global.GUI.CIRCUIT_TABLE_GUI, i, inv) {
+class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Global.GUI.INSCRIBING_TABLE_GUI, i, inv) {
     val inventory = SimpleInventory(1)
     val currentItem get() = inventory.getStack(0)
 
@@ -21,7 +21,7 @@ class CircuitTableGuiDescription(i: Int, inv: PlayerInventory) : SyncedGuiDescri
         root.setSize(380, 220)
         root.insets = Insets.ROOT_PANEL
 
-        val itemSlot = WItemSlot.of(inventory, 0).setFilter(SlotFilters.ChipOnly)
+        val itemSlot = WItemSlot.of(inventory, 0).setFilter(SlotFilters.ChipOnly or SlotFilters.CircuitOnly)
         root.add(itemSlot, 4, 3)
 
         root.add(this.createPlayerInventoryPanel(), 0, 7)

@@ -4,6 +4,9 @@ import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
+import net.minecraft.nbt.NbtByte
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
@@ -54,6 +57,19 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
         // Delete the old data we copied in
         stagingMap.clear()
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun toNbt(): NbtCompound {
+        val out = NbtCompound()
+
+        val data = NbtList().also { chipData.forEach { (t, u) -> it.add(NbtCompound().also { it.put("p", t.toNbt()); it.put("s", u.toNbt()); it.put("t", NbtByte.of(u.type())) }) } }
+        val state = state.toNbt()
+
+        out.put("d", data)
+        out.put("s", state)
+        out.put("b", board.toNbt())
+        return out
     }
 
     override fun toString(): String {

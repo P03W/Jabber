@@ -1,6 +1,9 @@
 package mc.jabber.core.data
 
 import mc.jabber.core.math.Vec2I
+import net.minecraft.nbt.NbtByte
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 
 /**
  * A wrapper over [ArrayList]<[CardinalData]<*>?> that provides indexing and retrieval using [Vec2I]s as keys (in map form)
@@ -58,6 +61,29 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
         for (i in array.indices) {
             array[i] = null
         }
+    }
+
+    fun toNbt(): NbtList {
+        val out = NbtList()
+
+        forEach { vec2I, data ->
+            out.add(NbtCompound().also {
+                it.put("p", vec2I.toNbt())
+                val compact = NbtCompound()
+                var push = false
+                data.forEach { cardinal, nbtTransformable ->
+                    if (nbtTransformable != null) {
+                        push = true
+                        compact.putByte("c", cardinal.ordinal.toByte())
+                        compact.put("d", nbtTransformable.toNbt())
+                        compact.putByte("t", nbtTransformable.type())
+                    }
+                }
+                if (push) it.put("d", compact)
+            })
+        }
+
+        return out
     }
 
     override fun toString(): String {

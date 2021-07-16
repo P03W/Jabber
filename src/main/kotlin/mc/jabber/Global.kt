@@ -1,5 +1,7 @@
 package mc.jabber
 
+import com.google.common.collect.HashBiMap
+import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.duplicate.Duplicate4WayChip
 import mc.jabber.core.chips.pipes.CrossPipeChip
@@ -10,13 +12,13 @@ import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.special.DelayChip
-import mc.jabber.minecraft.block.CircuitTable
+import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
-import mc.jabber.minecraft.block.entity.CircuitTableBE
+import mc.jabber.minecraft.block.entity.InscribingTableBE
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.minecraft.block.entity.SimpleComputerBEFactory
-import mc.jabber.minecraft.client.screen.circuit_table.CircuitTableGuiDescription
-import mc.jabber.minecraft.client.screen.circuit_table.CircuitTableScreen
+import mc.jabber.minecraft.client.screen.circuit_table.InscribingTableGui
+import mc.jabber.minecraft.client.screen.circuit_table.InscribingTableScreen
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -44,6 +46,8 @@ import org.slf4j.LoggerFactory
 object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
+
+    val PROCESS_ITEM_MAP: HashBiMap<ChipProcess, ChipItem> = HashBiMap.create()
 
     //  Makes an ID with the MOD_ID
     fun id(path: String): Identifier {
@@ -83,6 +87,9 @@ object Global {
 
         fun register() {
             fun Item.register(itemID: String) {
+                if (this is ChipItem) {
+                    PROCESS_ITEM_MAP[this.process] = this
+                }
                 Registry.register(Registry.ITEM, id(itemID), this)
             }
 
@@ -91,7 +98,7 @@ object Global {
     }
 
     object BLOCKS {
-        val CIRCUIT_TABLE = CircuitTable(FabricBlockSettings.of(Material.REPAIR_STATION).nonOpaque())
+        val INSCRIBING_TABLE = InscribingTable(FabricBlockSettings.of(Material.REPAIR_STATION).nonOpaque())
         val SIMPLE_COMPUTER = SimpleComputerBlock(1, FabricBlockSettings.of(Material.REPAIR_STATION))
         val QUAD_COMPUTER = SimpleComputerBlock(4, FabricBlockSettings.of(Material.REPAIR_STATION))
 
@@ -105,22 +112,22 @@ object Global {
                 )
             }
 
-            CIRCUIT_TABLE.registerAndItem("circuit_table")
+            INSCRIBING_TABLE.registerAndItem("inscribing_table")
             SIMPLE_COMPUTER.registerAndItem("simple_computer")
             QUAD_COMPUTER.registerAndItem("quad_computer")
         }
 
         object ENTITIES {
-            lateinit var CIRCUIT_TABLE: BlockEntityType<CircuitTableBE>
+            lateinit var INSCRIBING_TABLE: BlockEntityType<InscribingTableBE>
             lateinit var SIMPLE_COMPUTER: BlockEntityType<SimpleComputerBE>
             lateinit var QUAD_COMPUTER: BlockEntityType<SimpleComputerBE>
 
             fun register() {
-                CIRCUIT_TABLE = Registry.register(
+                INSCRIBING_TABLE = Registry.register(
                     Registry.BLOCK_ENTITY_TYPE,
-                    id("circuit_table"),
+                    id("inscribing_table"),
                     FabricBlockEntityTypeBuilder
-                        .create(::CircuitTableBE, BLOCKS.CIRCUIT_TABLE)
+                        .create(::InscribingTableBE, BLOCKS.INSCRIBING_TABLE)
                         .build()
                 )
 
@@ -144,17 +151,17 @@ object Global {
     }
 
     object GUI {
-        lateinit var CIRCUIT_TABLE_GUI: ScreenHandlerType<CircuitTableGuiDescription>
+        lateinit var INSCRIBING_TABLE_GUI: ScreenHandlerType<InscribingTableGui>
 
         fun registerBoth() {
-            CIRCUIT_TABLE_GUI = ScreenHandlerRegistry.registerSimple(id("circuit_table")) { i: Int, inv: PlayerInventory ->
-                CircuitTableGuiDescription(i, inv)
+            INSCRIBING_TABLE_GUI = ScreenHandlerRegistry.registerSimple(id("inscribing_table")) { i: Int, inv: PlayerInventory ->
+                InscribingTableGui(i, inv)
             }
         }
 
         fun registerClient() {
-            ScreenRegistry.register(CIRCUIT_TABLE_GUI) { gui, inventory, title ->
-                CircuitTableScreen(
+            ScreenRegistry.register(INSCRIBING_TABLE_GUI) { gui, inventory, title ->
+                InscribingTableScreen(
                     gui,
                     inventory.player,
                     title
