@@ -1,0 +1,11 @@
+syntax = "proto3";
+package mc.jabber.proto;
+
+message DelayChipStateProto {
+  message entry {
+    uint32 remainingDelay = 1;
+    uint32 direction = 2;
+    bytes data = 3;
+  }
+  repeated entry entries = 1;
+}

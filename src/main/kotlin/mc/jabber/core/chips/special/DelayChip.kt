@@ -1,6 +1,7 @@
 package mc.jabber.core.chips.special
 
 import com.google.common.io.ByteStreams
+import com.google.protobuf.ByteString
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
@@ -8,15 +9,15 @@ import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.data.util.TriSet
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
+import mc.jabber.proto.DelayChipStateBuffer
+import mc.jabber.proto.DelayChipStateProtoKt.entry
+import mc.jabber.proto.delayChipStateProto
 import mc.jabber.util.assertType
-import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtIo
-import net.minecraft.nbt.NbtList
-import java.nio.ByteBuffer
 
-class DelayChip(val delay: Short) : ChipProcess() {
+class DelayChip(val delay: Int) : ChipProcess() {
     override fun makeInitialStateEntry(): NbtTransformable<DelayState> {
         return DelayState()
     }
@@ -51,58 +52,35 @@ class DelayChip(val delay: Short) : ChipProcess() {
     }
 
     class DelayState : NbtTransformable<DelayState> {
-        var data = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable<*>>>()
+        var data = mutableListOf<TriSet<Int, Cardinal, out NbtTransformable<*>>>()
 
-        /**
-         * Format is a NBT_COMPOUND with a single entry "d" (for data)
-         * "d" is a list of byte arrays of the format
-         * 2 bytes -> Remaining delay
-         * 1 byte  -> Direction to output
-         * 1 byte  -> Format of remaining data
-         * X bytes -> All remaining data is whatever the format is
-         */
         @Suppress("UnstableApiUsage")
         override fun toNbt(): NbtCompound {
             val out = NbtCompound()
-            out.put("d", NbtList().also {
-                data.forEach { set ->
-                    val additionalBytes = ByteStreams.newDataOutput()
-                    NbtIo.write(set.third.toNbt(), additionalBytes)
-
-                    val additionalFixed = additionalBytes.toByteArray()
-
-                    val compact = ByteBuffer.allocate(4 + additionalFixed.size)
-                    compact.putShort(set.first)
-                    compact.put(set.second.ordinal.toByte())
-                    compact.put(set.third.type())
-                    compact.put(additionalFixed)
-
-                    it.add(NbtByteArray(compact.array()))
+            val data = NbtByteArray(delayChipStateProto {
+                data.forEach {
+                    entries += entry {
+                        remainingDelay = it.first
+                        direction = it.second.ordinal
+                        val additionalBytes = ByteStreams.newDataOutput()
+                        additionalBytes.writeByte(it.third.type().toInt())
+                        NbtIo.write(it.third.toNbt(), additionalBytes)
+                        data = ByteString.copyFrom(additionalBytes.toByteArray())
+                    }
                 }
-            })
+            }.toByteArray())
+            out.put("d", data)
             return out
         }
 
         override fun fromNbt(nbt: NbtCompound): DelayState {
-            val newData = mutableListOf<TriSet<Short, Cardinal, out NbtTransformable<*>>>()
+            val newData = mutableListOf<TriSet<Int, Cardinal, out NbtTransformable<*>>>()
 
-            val list = nbt.getList("d", NbtType.BYTE_ARRAY)
-
-            list.forEach {
-                it.assertType<NbtByteArray>()
-                val buffer = ByteBuffer.allocate(it.size).also { buffer -> buffer.mark() }
-                it.forEach { byte -> buffer.put(byte.byteValue()) }
-
-                buffer.reset()
-
-                val remainingDelay = buffer.short
-                val cardinal = Cardinal.values()[buffer.get().toInt()]
-
-                val array = buffer.array()
-                val arbitrary = array.drop(array.size - buffer.remaining())
-
-                newData.add(TriSet(remainingDelay, cardinal, rebuildArbitraryData(arbitrary)))
+            val proto = DelayChipStateBuffer.DelayChipStateProto.parseFrom(nbt.getByteArray("d"))
+            proto.entriesList.forEach {
+                newData += TriSet(it.remainingDelay, Cardinal.values()[it.direction], rebuildArbitraryData(it.data))
             }
+
             return DelayState().also { it.data = newData }
         }
     }
