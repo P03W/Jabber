@@ -58,4 +58,4 @@ fun <T> NbtTransformable<T>.asIdableByteArray(): ByteArray {
     return bytes.toByteArray()
 }
 
-fun ByteArray.toByteString() = ByteString.copyFrom(this)
+fun ByteArray.toByteString(): ByteString = ByteString.copyFrom(this)

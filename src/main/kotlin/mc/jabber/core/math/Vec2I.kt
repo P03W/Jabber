@@ -1,9 +1,5 @@
 package mc.jabber.core.math
 
-import kotlinx.serialization.Serializable
-import mc.jabber.core.data.serial.NbtTransformable
-import net.minecraft.nbt.NbtCompound
-import java.nio.ByteBuffer
 import kotlin.math.sqrt
 
 /**

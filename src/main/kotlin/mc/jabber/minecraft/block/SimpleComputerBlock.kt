@@ -97,11 +97,7 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
         type: BlockEntityType<T>
     ): BlockEntityTicker<T> {
         return BlockEntityTicker<T> { world1: World, blockPos: BlockPos, blockState: BlockState, t: T ->
-            if (t is SimpleComputerBE) {
-                SimpleComputerBE.tick(world1, blockPos, blockState, t)
-            } else {
-                throw IllegalArgumentException("Got $type for the tick function!?")
-            }
+            SimpleComputerBE.tick(world1, blockPos, blockState, t.assertType())
         }
     }
 }

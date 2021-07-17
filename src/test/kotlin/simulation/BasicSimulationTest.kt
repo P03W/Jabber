@@ -1,21 +1,19 @@
 package simulation
 
+import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
+import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
+import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
+import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
+import mc.jabber.core.chips.special.CustomChip
+import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.ComputeData
 import mc.jabber.core.data.serial.LongBox
-import mc.jabber.core.chips.pipes.HorizontalPipeChip
-import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
-import mc.jabber.core.chips.special.CustomChip
-import mc.jabber.core.chips.special.DelayChip
 import net.minecraft.util.Identifier
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.random.Random
 
 class BasicSimulationTest {
     @Test

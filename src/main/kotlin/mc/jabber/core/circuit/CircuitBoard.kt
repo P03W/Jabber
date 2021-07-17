@@ -4,12 +4,8 @@ import kotlinx.serialization.Serializable
 import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
-import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.proto.circuitBoardProto
-import mc.jabber.util.assertType
-import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 @Serializable
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {

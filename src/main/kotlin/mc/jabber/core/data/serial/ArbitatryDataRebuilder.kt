@@ -2,7 +2,6 @@ package mc.jabber.core.data.serial
 
 import com.google.common.io.ByteStreams
 import com.google.protobuf.ByteString
-import mc.jabber.core.math.Vec2I
 import mc.jabber.util.error.InvalidDataFormatException
 import mc.jabber.util.error.UnknownDataFormatException
 import net.minecraft.nbt.NbtIo

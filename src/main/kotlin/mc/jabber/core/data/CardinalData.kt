@@ -1,7 +1,5 @@
 package mc.jabber.core.data
 
-import com.google.common.io.ByteStreams
-import com.google.protobuf.ByteString
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
@@ -11,7 +9,6 @@ import mc.jabber.proto.cardinalDataProto
 import mc.jabber.util.asIdableByteArray
 import mc.jabber.util.assertType
 import mc.jabber.util.toByteString
-import net.minecraft.nbt.NbtIo
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -21,7 +18,7 @@ import kotlin.contracts.contract
  *
  * Note that due to type erasure, most methods take [NbtTransformable<*>], these types are still enforced and cannot actually use any [NbtTransformable<*>]
  */
-sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
+sealed class CardinalData<out T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
             Cardinal.UP -> up
