@@ -1,12 +1,17 @@
 package mc.jabber.core.circuit
 
+import com.google.common.io.ByteStreams
+import com.google.protobuf.ByteString
+import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
+import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
-import net.minecraft.nbt.NbtByte
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
+import mc.jabber.proto.CircuitManagerBuffer
+import mc.jabber.proto.cardinalData
+import mc.jabber.proto.circuitManager
+import net.minecraft.nbt.NbtIo
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     val board = CircuitBoard(sizeX, sizeY)
@@ -57,6 +62,40 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
         // Delete the old data we copied in
         stagingMap.clear()
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun serialize(): CircuitManagerBuffer.CircuitManager {
+        return circuitManager {
+            board = this@CircuitManager.board.serialize()
+            chipData.run {
+                this@CircuitManager.chipData.forEach { (vec2i, u) ->
+                    val additionalBytes = ByteStreams.newDataOutput()
+                    NbtIo.write(u.toNbt(), additionalBytes)
+                    val string = ByteString.copyFrom(additionalBytes.toByteArray())
+                    put(vec2i.transformInto(this@CircuitManager.board.sizeX), string)
+                }
+            }
+            state.run {
+                this@CircuitManager.state.forEach { vec2I, data ->
+                    put(vec2I.transformInto(this@CircuitManager.board.sizeX), cardinalData {
+                        data.forEach { cardinal, u ->
+                            if (u != null) {
+                                val additionalBytes = ByteStreams.newDataOutput()
+                                NbtIo.write(u.toNbt(), additionalBytes)
+                                val string = ByteString.copyFrom(additionalBytes.toByteArray())
+                                when (cardinal) {
+                                    Cardinal.UP -> up = string
+                                    Cardinal.DOWN -> down = string
+                                    Cardinal.LEFT -> left = string
+                                    Cardinal.RIGHT -> right = string
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
     }
 
     override fun toString(): String {

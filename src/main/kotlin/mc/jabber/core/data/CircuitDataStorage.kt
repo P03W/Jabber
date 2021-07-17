@@ -45,14 +45,14 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      * Expands the [index] against the backing array using the initially given [sizeX]
      */
     fun indexToVec(index: Int): Vec2I {
-        return Vec2I(index % sizeX, index / sizeX)
+        return Vec2I.transformOut(index, sizeX)
     }
 
     /**
      * Flattens [vec2I] against the backing array using the initially given [sizeX]
      */
     fun vecToIndex(vec2I: Vec2I): Int {
-        return vec2I.y * sizeX + vec2I.x
+        return vec2I.transformInto(sizeX)
     }
 
     /**

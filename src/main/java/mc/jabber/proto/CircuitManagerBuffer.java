@@ -34,11 +34,11 @@ public final class CircuitManagerBuffer {
     mc.jabber.proto.CircuitBoardBuffer.CircuitBoardOrBuilder getBoardOrBuilder();
 
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     int getChipDataCount();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     boolean containsChipData(
         int key);
@@ -46,25 +46,25 @@ public final class CircuitManagerBuffer {
      * Use {@link #getChipDataMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+    java.util.Map<java.lang.Integer, com.google.protobuf.ByteString>
     getChipData();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
-    java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+    java.util.Map<java.lang.Integer, com.google.protobuf.ByteString>
     getChipDataMap();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
-    mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrDefault(
+    com.google.protobuf.ByteString getChipDataOrDefault(
         int key,
-        mc.jabber.proto.CardinalDataBuffer.CardinalData defaultValue);
+        com.google.protobuf.ByteString defaultValue);
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
-    mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrThrow(
+    com.google.protobuf.ByteString getChipDataOrThrow(
         int key);
 
     /**
@@ -166,7 +166,7 @@ public final class CircuitManagerBuffer {
                     ChipDataDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
               }
-              com.google.protobuf.MapEntry<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+              com.google.protobuf.MapEntry<java.lang.Integer, com.google.protobuf.ByteString>
               chipData__ = input.readMessage(
                   ChipDataDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               chipData_.getMutableMap().put(
@@ -261,18 +261,18 @@ public final class CircuitManagerBuffer {
     public static final int CHIPDATA_FIELD_NUMBER = 2;
     private static final class ChipDataDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> defaultEntry =
+          java.lang.Integer, com.google.protobuf.ByteString> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>newDefaultInstance(
+              .<java.lang.Integer, com.google.protobuf.ByteString>newDefaultInstance(
                   mc.jabber.proto.CircuitManagerBuffer.internal_static_mc_jabber_proto_CircuitManager_ChipDataEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.INT32,
                   0,
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  mc.jabber.proto.CardinalDataBuffer.CardinalData.getDefaultInstance());
+                  com.google.protobuf.WireFormat.FieldType.BYTES,
+                  com.google.protobuf.ByteString.EMPTY);
     }
     private com.google.protobuf.MapField<
-        java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> chipData_;
-    private com.google.protobuf.MapField<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+        java.lang.Integer, com.google.protobuf.ByteString> chipData_;
+    private com.google.protobuf.MapField<java.lang.Integer, com.google.protobuf.ByteString>
     internalGetChipData() {
       if (chipData_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -285,7 +285,7 @@ public final class CircuitManagerBuffer {
       return internalGetChipData().getMap().size();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
     @java.lang.Override
@@ -299,39 +299,39 @@ public final class CircuitManagerBuffer {
      */
     @java.lang.Override
     @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> getChipData() {
+    public java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> getChipData() {
       return getChipDataMap();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
-    public java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> getChipDataMap() {
+    public java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> getChipDataMap() {
       return internalGetChipData().getMap();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
-    public mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrDefault(
+    public com.google.protobuf.ByteString getChipDataOrDefault(
         int key,
-        mc.jabber.proto.CardinalDataBuffer.CardinalData defaultValue) {
+        com.google.protobuf.ByteString defaultValue) {
       
-      java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> map =
+      java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> map =
           internalGetChipData().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
-    public mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrThrow(
+    public com.google.protobuf.ByteString getChipDataOrThrow(
         int key) {
       
-      java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> map =
+      java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> map =
           internalGetChipData().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
@@ -462,9 +462,9 @@ public final class CircuitManagerBuffer {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getBoard());
       }
-      for (java.util.Map.Entry<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> entry
+      for (java.util.Map.Entry<java.lang.Integer, com.google.protobuf.ByteString> entry
            : internalGetChipData().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+        com.google.protobuf.MapEntry<java.lang.Integer, com.google.protobuf.ByteString>
         chipData__ = ChipDataDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -937,8 +937,8 @@ public final class CircuitManagerBuffer {
       }
 
       private com.google.protobuf.MapField<
-          java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> chipData_;
-      private com.google.protobuf.MapField<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+          java.lang.Integer, com.google.protobuf.ByteString> chipData_;
+      private com.google.protobuf.MapField<java.lang.Integer, com.google.protobuf.ByteString>
       internalGetChipData() {
         if (chipData_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -946,7 +946,7 @@ public final class CircuitManagerBuffer {
         }
         return chipData_;
       }
-      private com.google.protobuf.MapField<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+      private com.google.protobuf.MapField<java.lang.Integer, com.google.protobuf.ByteString>
       internalGetMutableChipData() {
         onChanged();;
         if (chipData_ == null) {
@@ -963,7 +963,7 @@ public final class CircuitManagerBuffer {
         return internalGetChipData().getMap().size();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       @java.lang.Override
@@ -977,39 +977,39 @@ public final class CircuitManagerBuffer {
        */
       @java.lang.Override
       @java.lang.Deprecated
-      public java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> getChipData() {
+      public java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> getChipData() {
         return getChipDataMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
-      public java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> getChipDataMap() {
+      public java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> getChipDataMap() {
         return internalGetChipData().getMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
-      public mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrDefault(
+      public com.google.protobuf.ByteString getChipDataOrDefault(
           int key,
-          mc.jabber.proto.CardinalDataBuffer.CardinalData defaultValue) {
+          com.google.protobuf.ByteString defaultValue) {
         
-        java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> map =
+        java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> map =
             internalGetChipData().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
-      public mc.jabber.proto.CardinalDataBuffer.CardinalData getChipDataOrThrow(
+      public com.google.protobuf.ByteString getChipDataOrThrow(
           int key) {
         
-        java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> map =
+        java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> map =
             internalGetChipData().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -1023,7 +1023,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       public Builder removeChipData(
@@ -1037,16 +1037,16 @@ public final class CircuitManagerBuffer {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData>
+      public java.util.Map<java.lang.Integer, com.google.protobuf.ByteString>
       getMutableChipData() {
         return internalGetMutableChipData().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       public Builder putChipData(
           int key,
-          mc.jabber.proto.CardinalDataBuffer.CardinalData value) {
+          com.google.protobuf.ByteString value) {
         
         if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableChipData().getMutableMap()
@@ -1054,11 +1054,11 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       public Builder putAllChipData(
-          java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalData> values) {
+          java.util.Map<java.lang.Integer, com.google.protobuf.ByteString> values) {
         internalGetMutableChipData().getMutableMap()
             .putAll(values);
         return this;
@@ -1271,16 +1271,15 @@ public final class CircuitManagerBuffer {
       "\n*mc/jabber/proto/circuitManagerBuffer.p" +
       "roto\022\017mc.jabber.proto\032(mc/jabber/proto/c" +
       "ardinalDataBuffer.proto\032(mc/jabber/proto" +
-      "/circuitBoardBuffer.proto\"\327\002\n\016CircuitMan" +
+      "/circuitBoardBuffer.proto\"\270\002\n\016CircuitMan" +
       "ager\022,\n\005board\030\001 \001(\0132\035.mc.jabber.proto.Ci" +
       "rcuitBoard\022?\n\010chipData\030\002 \003(\0132-.mc.jabber" +
       ".proto.CircuitManager.ChipDataEntry\0229\n\005s" +
       "tate\030\003 \003(\0132*.mc.jabber.proto.CircuitMana" +
-      "ger.StateEntry\032N\n\rChipDataEntry\022\013\n\003key\030\001" +
-      " \001(\005\022,\n\005value\030\002 \001(\0132\035.mc.jabber.proto.Ca" +
-      "rdinalData:\0028\001\032K\n\nStateEntry\022\013\n\003key\030\001 \001(" +
-      "\005\022,\n\005value\030\002 \001(\0132\035.mc.jabber.proto.Cardi" +
-      "nalData:\0028\001b\006proto3"
+      "ger.StateEntry\032/\n\rChipDataEntry\022\013\n\003key\030\001" +
+      " \001(\005\022\r\n\005value\030\002 \001(\014:\0028\001\032K\n\nStateEntry\022\013\n" +
+      "\003key\030\001 \001(\005\022,\n\005value\030\002 \001(\0132\035.mc.jabber.pr" +
+      "oto.CardinalData:\0028\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

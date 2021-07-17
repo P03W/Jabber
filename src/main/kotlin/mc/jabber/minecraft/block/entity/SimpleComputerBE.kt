@@ -7,10 +7,13 @@ import mc.jabber.util.assertType
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.MinecraftClient
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import java.util.*
 import kotlin.properties.Delegates.observable
 import kotlin.reflect.KProperty
 
@@ -44,6 +47,10 @@ class SimpleComputerBE(
         super.writeNbt(nbt)
         if (circuitItem != null) {
             nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
+
+            MinecraftClient.getInstance().player?.sendChatMessage("Serialized to protobuf: ${Arrays.toString(circuit?.serialize()?.toByteArray())}")
+
+            println(Arrays.toString(circuit?.serialize()?.toByteArray()))
         }
         return nbt
     }

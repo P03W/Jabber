@@ -53,55 +53,55 @@ object CircuitManagerKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     class ChipDataProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
-     val chipData: com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
+     val chipData: com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
       @kotlin.jvm.JvmSynthetic
       @JvmName("getChipDataMap")
       get() = com.google.protobuf.kotlin.DslMap(
         _builder.getChipDataMap()
       )
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @JvmName("putChipData")
-    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
-      .put(key: kotlin.Int, value: mc.jabber.proto.CardinalDataBuffer.CardinalData) {
+    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
+      .put(key: kotlin.Int, value: com.google.protobuf.ByteString) {
          _builder.putChipData(key, value)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("setChipData")
-    inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
-      .set(key: kotlin.Int, value: mc.jabber.proto.CardinalDataBuffer.CardinalData) {
+    inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
+      .set(key: kotlin.Int, value: com.google.protobuf.ByteString) {
          put(key, value)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("removeChipData")
-    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
+    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
       .remove(key: kotlin.Int) {
          _builder.removeChipData(key)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("putAllChipData")
-    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
-      .putAll(map: kotlin.collections.Map<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData>) {
+    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
+      .putAll(map: kotlin.collections.Map<kotlin.Int, com.google.protobuf.ByteString>) {
          _builder.putAllChipData(map)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("clearChipData")
-    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, ChipDataProxy>
+    fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
       .clear() {
          _builder.clearChipData()
        }

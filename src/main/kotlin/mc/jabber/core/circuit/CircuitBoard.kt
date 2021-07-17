@@ -1,8 +1,12 @@
 package mc.jabber.core.circuit
 
 import kotlinx.serialization.Serializable
+import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
+import mc.jabber.proto.CircuitBoardBuffer
+import mc.jabber.proto.circuitBoard
+import net.minecraft.util.registry.Registry
 
 @Serializable
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
@@ -54,6 +58,16 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         forEach { vec2I, chipProcess ->
             if (chipProcess.isInput) {
                 action(vec2I, chipProcess)
+            }
+        }
+    }
+
+    fun serialize(): CircuitBoardBuffer.CircuitBoard {
+        return circuitBoard {
+            sizeX = this@CircuitBoard.sizeX
+            sizeY = this@CircuitBoard.sizeY
+            forEach { vec2I, process ->
+                entries[vec2I.transformInto(sizeX)] = Registry.ITEM.getId(Global.PROCESS_ITEM_MAP[process]).toString()
             }
         }
     }

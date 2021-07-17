@@ -88,7 +88,15 @@ data class Vec2I(var x: Int, var y: Int) : NbtTransformable<Vec2I> {
         return 2
     }
 
+    fun transformInto(sizedDimension: Int): Int {
+        return y * sizedDimension + x
+    }
+
     companion object {
         val ZERO = Vec2I(0, 0)
+
+        fun transformOut(value: Int, sizedDimension: Int): Vec2I {
+            return Vec2I(value % sizedDimension, value / sizedDimension)
+        }
     }
 }
