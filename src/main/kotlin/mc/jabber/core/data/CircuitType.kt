@@ -8,17 +8,17 @@ import mc.jabber.proto.CircuitManagerBuffer
 enum class CircuitType(val templateData: CardinalData<*>) {
     COMPUTE(ComputeData(null, null, null, null));
 
-    fun toProto(): CircuitManagerBuffer.CircuitManager.Type {
+    fun toProto(): CircuitManagerBuffer.CircuitManagerProto.Type {
         return when (this) {
-            COMPUTE -> CircuitManagerBuffer.CircuitManager.Type.COMPUTE
+            COMPUTE -> CircuitManagerBuffer.CircuitManagerProto.Type.COMPUTE
         }
     }
 
     companion object {
-        fun fromProto(type: CircuitManagerBuffer.CircuitManager.Type): CircuitType {
+        fun fromProto(type: CircuitManagerBuffer.CircuitManagerProto.Type): CircuitType {
             return when (type) {
-                CircuitManagerBuffer.CircuitManager.Type.COMPUTE -> COMPUTE
-                CircuitManagerBuffer.CircuitManager.Type.UNRECOGNIZED -> throw IllegalStateException("Did not recognize enum of circuit type")
+                CircuitManagerBuffer.CircuitManagerProto.Type.COMPUTE -> COMPUTE
+                CircuitManagerBuffer.CircuitManagerProto.Type.UNRECOGNIZED -> throw IllegalStateException("Did not recognize enum of circuit type")
             }
         }
     }
