@@ -153,9 +153,10 @@ object Global {
         lateinit var INSCRIBING_TABLE_GUI: ScreenHandlerType<InscribingTableGui>
 
         fun registerBoth() {
-            INSCRIBING_TABLE_GUI = ScreenHandlerRegistry.registerSimple(id("inscribing_table")) { i: Int, inv: PlayerInventory ->
-                InscribingTableGui(i, inv)
-            }
+            INSCRIBING_TABLE_GUI =
+                ScreenHandlerRegistry.registerSimple(id("inscribing_table")) { i: Int, inv: PlayerInventory ->
+                    InscribingTableGui(i, inv)
+                }
         }
 
         fun registerClient() {

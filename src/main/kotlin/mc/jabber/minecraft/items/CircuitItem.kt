@@ -2,7 +2,6 @@ package mc.jabber.minecraft.items
 
 import mc.jabber.Global
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack

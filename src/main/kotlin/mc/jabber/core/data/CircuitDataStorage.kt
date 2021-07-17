@@ -2,9 +2,6 @@ package mc.jabber.core.data
 
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.nbt.NbtByte
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
 
 /**
  * A wrapper over [ArrayList]<[CardinalData]<*>?> that provides indexing and retrieval using [Vec2I]s as keys (in map form)

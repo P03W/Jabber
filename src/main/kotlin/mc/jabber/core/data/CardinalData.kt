@@ -2,13 +2,12 @@ package mc.jabber.core.data
 
 import com.google.common.io.ByteStreams
 import com.google.protobuf.ByteString
-import kotlinx.serialization.Serializable
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Cardinal
 import mc.jabber.proto.CardinalDataBuffer
-import mc.jabber.proto.cardinalData
+import mc.jabber.proto.cardinalDataProto
 import mc.jabber.util.assertType
 import net.minecraft.nbt.NbtIo
 import kotlin.contracts.ExperimentalContracts
@@ -124,8 +123,8 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
     }
 
     @Suppress("UnstableApiUsage")
-    fun serialize(): CardinalDataBuffer.CardinalData {
-        return cardinalData {
+    fun serialize(): CardinalDataBuffer.CardinalDataProto {
+        return cardinalDataProto {
             forEach { cardinal, u ->
                 if (u != null) {
                     val additionalBytes = ByteStreams.newDataOutput()
@@ -144,14 +143,19 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
     }
 
     companion object {
-        fun deserialize(proto: CardinalDataBuffer.CardinalData): CardinalData<NbtTransformable<*>> {
+        fun deserialize(proto: CardinalDataBuffer.CardinalDataProto): CardinalData<NbtTransformable<*>> {
             val up = if (proto.hasUp()) rebuildArbitraryData(proto.up.toList()) else null
             val down = if (proto.hasDown()) rebuildArbitraryData(proto.down.toList()) else null
             val left = if (proto.hasLeft()) rebuildArbitraryData(proto.left.toList()) else null
             val right = if (proto.hasRight()) rebuildArbitraryData(proto.right.toList()) else null
 
             when (up) {
-                is LongBox -> return ComputeData(up, down.assertType(), left.assertType(), right.assertType()).assertType()
+                is LongBox -> return ComputeData(
+                    up,
+                    down.assertType(),
+                    left.assertType(),
+                    right.assertType()
+                ).assertType()
                 else -> throw IllegalStateException("Don't know how to rebuild cardinal data! up=$up down=$down left=$left right=$right")
             }
         }

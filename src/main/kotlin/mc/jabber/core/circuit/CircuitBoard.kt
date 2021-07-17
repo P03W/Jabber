@@ -6,7 +6,7 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.proto.CircuitBoardBuffer
-import mc.jabber.proto.circuitBoard
+import mc.jabber.proto.circuitBoardProto
 import mc.jabber.util.assertType
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -65,8 +65,8 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         }
     }
 
-    fun serialize(): CircuitBoardBuffer.CircuitBoard {
-        return circuitBoard {
+    fun serialize(): CircuitBoardBuffer.CircuitBoardProto {
+        return circuitBoardProto {
             sizeX = this@CircuitBoard.sizeX
             sizeY = this@CircuitBoard.sizeY
             forEach { vec2I, process ->
@@ -76,7 +76,7 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
     }
 
     companion object {
-        fun deserialize(proto: CircuitBoardBuffer.CircuitBoard): CircuitBoard {
+        fun deserialize(proto: CircuitBoardBuffer.CircuitBoardProto): CircuitBoard {
             val sizeX = proto.sizeX
             val sizeY = proto.sizeY
             val board = CircuitBoard(sizeX, sizeY)

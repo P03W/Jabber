@@ -5,5 +5,4 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 
 class InscribingTableScreen(gui: InscribingTableGui, player: PlayerEntity, title: Text) :
-    CottonInventoryScreen<InscribingTableGui>(gui, player, title) {
-}
+    CottonInventoryScreen<InscribingTableGui>(gui, player, title)

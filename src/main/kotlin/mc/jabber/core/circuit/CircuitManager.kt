@@ -7,11 +7,9 @@ import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
-import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
-import mc.jabber.proto.cardinalData
-import mc.jabber.proto.circuitManager
+import mc.jabber.proto.circuitManagerProto
 import net.minecraft.nbt.NbtIo
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
@@ -67,8 +65,8 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     }
 
     @Suppress("UnstableApiUsage")
-    fun serialize(): CircuitManagerBuffer.CircuitManager {
-        return circuitManager {
+    fun serialize(): CircuitManagerBuffer.CircuitManagerProto {
+        return circuitManagerProto {
             type = this@CircuitManager.type.toProto()
             board = this@CircuitManager.board.serialize()
             chipData.run {
@@ -93,7 +91,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     }
 
     companion object {
-        fun deserialize(proto: CircuitManagerBuffer.CircuitManager): CircuitManager {
+        fun deserialize(proto: CircuitManagerBuffer.CircuitManagerProto): CircuitManager {
             val type = CircuitType.fromProto(proto.type)
             val board = CircuitBoard.deserialize(proto.board)
 

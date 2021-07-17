@@ -10,7 +10,7 @@ object SlotFilters {
     val CircuitOnly = SlotFilterWrapper { item: ItemStack -> item.item is CircuitItem }
 }
 
-class SlotFilterWrapper(var predicate: (ItemStack) -> Boolean): Predicate<ItemStack> {
+class SlotFilterWrapper(var predicate: (ItemStack) -> Boolean) : Predicate<ItemStack> {
     override fun test(t: ItemStack): Boolean = predicate(t)
     operator fun invoke(t: ItemStack) = test(t)
 

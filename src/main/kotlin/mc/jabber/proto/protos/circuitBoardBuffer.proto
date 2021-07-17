@@ -1,7 +1,7 @@
 syntax = "proto3";
 package mc.jabber.proto;
 
-message CircuitBoard {
+message CircuitBoardProto {
   int32 sizeX = 1;
   int32 sizeY = 2;
   map<int32, string> entries = 3;
