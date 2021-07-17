@@ -1,10 +1,16 @@
 package mc.jabber.core.data
 
+import com.google.common.io.ByteStreams
+import com.google.protobuf.ByteString
 import kotlinx.serialization.Serializable
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
+import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Cardinal
+import mc.jabber.proto.CardinalDataBuffer
+import mc.jabber.proto.cardinalData
 import mc.jabber.util.assertType
+import net.minecraft.nbt.NbtIo
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -14,7 +20,6 @@ import kotlin.contracts.contract
  *
  * Note that due to type erasure, most methods take [NbtTransformable<*>], these types are still enforced and cannot actually use any [NbtTransformable<*>]
  */
-@Serializable
 sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val left: T?, val right: T?) {
     operator fun get(direction: Cardinal): T? {
         return when (direction) {
@@ -116,6 +121,40 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
 
     override fun toString(): String {
         return this::class.simpleName + "(up=$up, down=$down, left=$left, right=$right)"
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun serialize(): CardinalDataBuffer.CardinalData {
+        return cardinalData {
+            forEach { cardinal, u ->
+                if (u != null) {
+                    val additionalBytes = ByteStreams.newDataOutput()
+                    additionalBytes.writeByte(u.type().toInt())
+                    NbtIo.write(u.toNbt(), additionalBytes)
+                    val string = ByteString.copyFrom(additionalBytes.toByteArray())
+                    when (cardinal) {
+                        Cardinal.UP -> up = string
+                        Cardinal.DOWN -> down = string
+                        Cardinal.LEFT -> left = string
+                        Cardinal.RIGHT -> right = string
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        fun deserialize(proto: CardinalDataBuffer.CardinalData): CardinalData<NbtTransformable<*>> {
+            val up = if (proto.hasUp()) rebuildArbitraryData(proto.up.toList()) else null
+            val down = if (proto.hasDown()) rebuildArbitraryData(proto.down.toList()) else null
+            val left = if (proto.hasLeft()) rebuildArbitraryData(proto.left.toList()) else null
+            val right = if (proto.hasRight()) rebuildArbitraryData(proto.right.toList()) else null
+
+            when (up) {
+                is LongBox -> return ComputeData(up, down.assertType(), left.assertType(), right.assertType()).assertType()
+                else -> throw IllegalStateException("Don't know how to rebuild cardinal data! up=$up down=$down left=$left right=$right")
+            }
+        }
     }
 }
 

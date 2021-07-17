@@ -6,6 +6,7 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
+import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
@@ -14,7 +15,8 @@ import mc.jabber.proto.circuitManager
 import net.minecraft.nbt.NbtIo
 
 class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
-    val board = CircuitBoard(sizeX, sizeY)
+    var board = CircuitBoard(sizeX, sizeY)
+        private set
 
     val chipData: HashMap<Vec2I, NbtTransformable<*>> = hashMapOf()
     val state = CircuitDataStorage(sizeX, sizeY)
@@ -67,10 +69,12 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
     @Suppress("UnstableApiUsage")
     fun serialize(): CircuitManagerBuffer.CircuitManager {
         return circuitManager {
+            type = this@CircuitManager.type.toProto()
             board = this@CircuitManager.board.serialize()
             chipData.run {
                 this@CircuitManager.chipData.forEach { (vec2i, u) ->
                     val additionalBytes = ByteStreams.newDataOutput()
+                    additionalBytes.writeByte(u.type().toInt())
                     NbtIo.write(u.toNbt(), additionalBytes)
                     val string = ByteString.copyFrom(additionalBytes.toByteArray())
                     put(vec2i.transformInto(this@CircuitManager.board.sizeX), string)
@@ -78,21 +82,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             }
             state.run {
                 this@CircuitManager.state.forEach { vec2I, data ->
-                    put(vec2I.transformInto(this@CircuitManager.board.sizeX), cardinalData {
-                        data.forEach { cardinal, u ->
-                            if (u != null) {
-                                val additionalBytes = ByteStreams.newDataOutput()
-                                NbtIo.write(u.toNbt(), additionalBytes)
-                                val string = ByteString.copyFrom(additionalBytes.toByteArray())
-                                when (cardinal) {
-                                    Cardinal.UP -> up = string
-                                    Cardinal.DOWN -> down = string
-                                    Cardinal.LEFT -> left = string
-                                    Cardinal.RIGHT -> right = string
-                                }
-                            }
-                        }
-                    })
+                    put(vec2I.transformInto(this@CircuitManager.board.sizeX), data.serialize())
                 }
             }
         }
@@ -100,5 +90,25 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
 
     override fun toString(): String {
         return "\nCircuitManager(type=$type)\n$state\n$board"
+    }
+
+    companion object {
+        fun deserialize(proto: CircuitManagerBuffer.CircuitManager): CircuitManager {
+            val type = CircuitType.fromProto(proto.type)
+            val board = CircuitBoard.deserialize(proto.board)
+
+            val manager = CircuitManager(type, board.sizeX, board.sizeY)
+            manager.board = board
+
+            proto.chipDataMap.forEach { (pos, u) ->
+                manager.chipData[Vec2I.transformOut(pos, board.sizeX)] = rebuildArbitraryData(u.toList())
+            }
+
+            proto.stateMap.forEach { (pos, data) ->
+                manager.state[Vec2I.transformOut(pos, board.sizeX)] = CardinalData.deserialize(data)
+            }
+
+            return manager
+        }
     }
 }

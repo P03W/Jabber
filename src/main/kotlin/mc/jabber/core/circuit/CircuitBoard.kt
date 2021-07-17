@@ -4,8 +4,11 @@ import kotlinx.serialization.Serializable
 import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
+import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.proto.circuitBoard
+import mc.jabber.util.assertType
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 @Serializable
@@ -69,6 +72,20 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
             forEach { vec2I, process ->
                 entries[vec2I.transformInto(sizeX)] = Registry.ITEM.getId(Global.PROCESS_ITEM_MAP[process]).toString()
             }
+        }
+    }
+
+    companion object {
+        fun deserialize(proto: CircuitBoardBuffer.CircuitBoard): CircuitBoard {
+            val sizeX = proto.sizeX
+            val sizeY = proto.sizeY
+            val board = CircuitBoard(sizeX, sizeY)
+
+            proto.entriesMap.forEach { (index, data) ->
+                board[Vec2I.transformOut(index, sizeX)] = Registry.ITEM[Identifier(data)].assertType<ChipItem>().process
+            }
+
+            return board
         }
     }
 }

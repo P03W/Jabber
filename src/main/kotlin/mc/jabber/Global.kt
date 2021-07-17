@@ -1,6 +1,5 @@
 package mc.jabber
 
-import com.google.common.collect.HashBiMap
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.duplicate.Duplicate4WayChip
@@ -47,7 +46,7 @@ object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
-    val PROCESS_ITEM_MAP: HashBiMap<ChipProcess, ChipItem> = HashBiMap.create()
+    val PROCESS_ITEM_MAP: HashMap<ChipProcess, ChipItem> = hashMapOf()
 
     //  Makes an ID with the MOD_ID
     fun id(path: String): Identifier {

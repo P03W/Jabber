@@ -66,14 +66,12 @@ dependencies {
     modImplementation "io.github.cottonmc:LibGui:4.1.4+1.17.1"
     include "io.github.cottonmc:LibGui:4.1.4+1.17.1"
 
-    // Kotlinx serialization to protobuf
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.2'
-
     // Protobuf libraries
-    implementation 'com.google.protobuf:protobuf-kotlin:3.17.3'
+    implementation "com.google.protobuf:protobuf-kotlin:3.17.3"
+    include "com.google.protobuf:protobuf-kotlin:3.17.3"
 
     // Test suite
-    implementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    implementation "org.junit.jupiter:junit-jupiter:5.7.2"
 }
 
 processResources {

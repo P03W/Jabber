@@ -3,17 +3,15 @@ package mc.jabber.minecraft.block.entity
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
 import mc.jabber.minecraft.items.CircuitItem
+import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.util.assertType
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.MinecraftClient
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import java.util.*
 import kotlin.properties.Delegates.observable
 import kotlin.reflect.KProperty
 
@@ -23,11 +21,14 @@ class SimpleComputerBE(
     state: BlockState,
     blockEntity: BlockEntityType<SimpleComputerBE>
 ) : BlockEntity(blockEntity, pos, state) {
+    var isRebuildingFromNbt = false
     var circuitItem: ItemStack? by observable(null, ::rebuildCircuit)
     private var circuit: CircuitManager? = null
 
     @Suppress("UNUSED_PARAMETER")
     fun rebuildCircuit(prop: KProperty<*>, old: ItemStack?, new: ItemStack?) {
+        if (isRebuildingFromNbt) return
+
         markDirty()
         if (new == null) {
             circuit = null; return
@@ -38,19 +39,26 @@ class SimpleComputerBE(
     }
 
     override fun readNbt(nbt: NbtCompound) {
+        isRebuildingFromNbt = true
         if (nbt.contains("c")) {
             circuitItem = ItemStack.fromNbt(nbt.getCompound("c"))
         }
+        if (nbt.contains("d")) {
+            val rebuild = CircuitManagerBuffer.CircuitManager.parseFrom(nbt.getByteArray("d"))
+            circuit = CircuitManager.deserialize(rebuild)
+        }
+        println(circuitItem)
+        println(circuit)
+        isRebuildingFromNbt = false
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         super.writeNbt(nbt)
-        if (circuitItem != null) {
+        println(circuitItem)
+        println(circuit)
+        if (circuitItem != null && circuit != null) {
             nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
-
-            MinecraftClient.getInstance().player?.sendChatMessage("Serialized to protobuf: ${Arrays.toString(circuit?.serialize()?.toByteArray())}")
-
-            println(Arrays.toString(circuit?.serialize()?.toByteArray()))
+            nbt.putByteArray("d", circuit!!.serialize().toByteArray())
         }
         return nbt
     }

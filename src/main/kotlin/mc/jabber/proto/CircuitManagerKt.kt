@@ -23,7 +23,24 @@ object CircuitManagerKt {
     internal fun _build(): mc.jabber.proto.CircuitManagerBuffer.CircuitManager = _builder.build()
 
     /**
-     * <code>.mc.jabber.proto.CircuitBoard board = 1;</code>
+     * <code>.mc.jabber.proto.CircuitManager.Type type = 1;</code>
+     */
+    var type: mc.jabber.proto.CircuitManagerBuffer.CircuitManager.Type
+      @JvmName("getType")
+      get() = _builder.getType()
+      @JvmName("setType")
+      set(value) {
+        _builder.setType(value)
+      }
+    /**
+     * <code>.mc.jabber.proto.CircuitManager.Type type = 1;</code>
+     */
+    fun clearType() {
+      _builder.clearType()
+    }
+
+    /**
+     * <code>.mc.jabber.proto.CircuitBoard board = 2;</code>
      */
     var board: mc.jabber.proto.CircuitBoardBuffer.CircuitBoard
       @JvmName("getBoard")
@@ -33,13 +50,13 @@ object CircuitManagerKt {
         _builder.setBoard(value)
       }
     /**
-     * <code>.mc.jabber.proto.CircuitBoard board = 1;</code>
+     * <code>.mc.jabber.proto.CircuitBoard board = 2;</code>
      */
     fun clearBoard() {
       _builder.clearBoard()
     }
     /**
-     * <code>.mc.jabber.proto.CircuitBoard board = 1;</code>
+     * <code>.mc.jabber.proto.CircuitBoard board = 2;</code>
      * @return Whether the board field is set.
      */
     fun hasBoard(): kotlin.Boolean {
@@ -53,7 +70,7 @@ object CircuitManagerKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     class ChipDataProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
      val chipData: com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
       @kotlin.jvm.JvmSynthetic
@@ -62,7 +79,7 @@ object CircuitManagerKt {
         _builder.getChipDataMap()
       )
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
     @JvmName("putChipData")
     fun com.google.protobuf.kotlin.DslMap<kotlin.Int, com.google.protobuf.ByteString, ChipDataProxy>
@@ -70,7 +87,7 @@ object CircuitManagerKt {
          _builder.putChipData(key, value)
        }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("setChipData")
@@ -79,7 +96,7 @@ object CircuitManagerKt {
          put(key, value)
        }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("removeChipData")
@@ -88,7 +105,7 @@ object CircuitManagerKt {
          _builder.removeChipData(key)
        }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("putAllChipData")
@@ -97,7 +114,7 @@ object CircuitManagerKt {
          _builder.putAllChipData(map)
        }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("clearChipData")
@@ -113,7 +130,7 @@ object CircuitManagerKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     class StateProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
      val state: com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, StateProxy>
       @kotlin.jvm.JvmSynthetic
@@ -122,7 +139,7 @@ object CircuitManagerKt {
         _builder.getStateMap()
       )
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
     @JvmName("putState")
     fun com.google.protobuf.kotlin.DslMap<kotlin.Int, mc.jabber.proto.CardinalDataBuffer.CardinalData, StateProxy>
@@ -130,7 +147,7 @@ object CircuitManagerKt {
          _builder.putState(key, value)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("setState")
@@ -139,7 +156,7 @@ object CircuitManagerKt {
          put(key, value)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("removeState")
@@ -148,7 +165,7 @@ object CircuitManagerKt {
          _builder.removeState(key)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("putAllState")
@@ -157,7 +174,7 @@ object CircuitManagerKt {
          _builder.putAllState(map)
        }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 3;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalData&gt; state = 4;</code>
      */
     @kotlin.jvm.JvmSynthetic
     @JvmName("clearState")
