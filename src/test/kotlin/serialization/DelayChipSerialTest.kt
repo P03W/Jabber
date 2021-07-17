@@ -19,9 +19,9 @@ class DelayChipSerialTest {
 
         val random = Random(21095478)
 
-        val expectedA = TriSet(random.nextInt().toShort(), Cardinal.LEFT, LongBox(random.nextLong()))
-        val expectedB = TriSet(random.nextInt().toShort(), Cardinal.UP, LongBox(random.nextLong()))
-        val expectedC = TriSet(random.nextInt().toShort(), Cardinal.DOWN, LongBox(random.nextLong()))
+        val expectedA = TriSet(random.nextInt(), Cardinal.LEFT, LongBox(random.nextLong()))
+        val expectedB = TriSet(random.nextInt(), Cardinal.UP, LongBox(random.nextLong()))
+        val expectedC = TriSet(random.nextInt(), Cardinal.DOWN, LongBox(random.nextLong()))
 
         state.data.add(expectedA)
         state.data.add(expectedB)

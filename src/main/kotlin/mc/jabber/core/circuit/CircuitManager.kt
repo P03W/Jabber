@@ -1,7 +1,5 @@
 package mc.jabber.core.circuit
 
-import com.google.common.io.ByteStreams
-import com.google.protobuf.ByteString
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.CircuitType
@@ -10,10 +8,12 @@ import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.proto.circuitManagerProto
-import net.minecraft.nbt.NbtIo
+import mc.jabber.util.asIdableByteArray
+import mc.jabber.util.toByteString
 
-class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
-    var board = CircuitBoard(sizeX, sizeY)
+class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
+
+    var board = _initialBoard
         private set
 
     val chipData: HashMap<Vec2I, NbtTransformable<*>> = hashMapOf()
@@ -64,18 +64,13 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
         stagingMap.clear()
     }
 
-    @Suppress("UnstableApiUsage")
     fun serialize(): CircuitManagerBuffer.CircuitManagerProto {
         return circuitManagerProto {
             type = this@CircuitManager.type.toProto()
             board = this@CircuitManager.board.serialize()
             chipData.run {
                 this@CircuitManager.chipData.forEach { (vec2i, u) ->
-                    val additionalBytes = ByteStreams.newDataOutput()
-                    additionalBytes.writeByte(u.type().toInt())
-                    NbtIo.write(u.toNbt(), additionalBytes)
-                    val string = ByteString.copyFrom(additionalBytes.toByteArray())
-                    put(vec2i.transformInto(this@CircuitManager.board.sizeX), string)
+                    put(vec2i.transformInto(this@CircuitManager.board.sizeX), u.asIdableByteArray().toByteString())
                 }
             }
             state.run {

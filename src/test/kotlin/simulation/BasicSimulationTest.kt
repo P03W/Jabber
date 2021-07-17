@@ -12,6 +12,7 @@ import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.chips.special.DelayChip
+import net.minecraft.util.Identifier
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
@@ -51,13 +52,13 @@ class BasicSimulationTest {
         queue.addAll(expected.map { it.copy() })
 
         CircuitManager(CircuitType.COMPUTE, 4, 3).also {
-            it.board[0, 0] = CustomChip(true) { _, _, _ -> ComputeData(null, queue.removeFirstOrNull(), null, null) }
+            it.board[0, 0] = CustomChip(Identifier("jabber:a")) { _, _, _ -> ComputeData(null, queue.removeFirstOrNull(), null, null) }
             it.board[0, 1] = Quad1PipeChip()
             it.board[1, 1] = Quad2PipeChip()
             it.board[1, 0] = Quad4PipeChip()
             it.board[2, 0] = DelayChip(1)
             it.board[3, 0] = Quad3PipeChip()
-            it.board[3, 1] = CustomChip { data, _, _ ->
+            it.board[3, 1] = CustomChip(Identifier("jabber:b")) { data, _, _ ->
                 if (expected.first() == data.acquire()?.second) {
                     expected.removeFirst()
                 } else {
@@ -68,7 +69,6 @@ class BasicSimulationTest {
             it.setup()
             repeat(20) { _ ->
                 it.simulate()
-                println(it)
             }
 
             assert(expected.isEmpty()) { "Did not receive all expected values! Still missing $expected" }

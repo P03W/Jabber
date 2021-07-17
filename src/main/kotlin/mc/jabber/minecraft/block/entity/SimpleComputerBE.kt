@@ -1,8 +1,10 @@
 package mc.jabber.minecraft.block.entity
 
+import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
 import mc.jabber.minecraft.items.CircuitItem
+import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.util.assertType
 import net.minecraft.block.BlockState
@@ -10,6 +12,8 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import kotlin.properties.Delegates.observable
@@ -34,7 +38,12 @@ class SimpleComputerBE(
             circuit = null; return
         }
         val item = new.item.assertType<CircuitItem>()
-        circuit = CircuitManager(CircuitType.COMPUTE, item.sizeX, item.sizeY)
+        circuit = CircuitManager(
+            CircuitType.COMPUTE,
+            item.sizeX,
+            item.sizeY,
+            CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(new.nbt!!.getByteArray("c")))
+        )
         circuit!!.setup()
     }
 
@@ -47,15 +56,11 @@ class SimpleComputerBE(
             val rebuild = CircuitManagerBuffer.CircuitManagerProto.parseFrom(nbt.getByteArray("d"))
             circuit = CircuitManager.deserialize(rebuild)
         }
-        println(circuitItem)
-        println(circuit)
         isRebuildingFromNbt = false
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         super.writeNbt(nbt)
-        println(circuitItem)
-        println(circuit)
         if (circuitItem != null && circuit != null) {
             nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
             nbt.putByteArray("d", circuit!!.serialize().toByteArray())
@@ -70,8 +75,10 @@ class SimpleComputerBE(
     companion object {
         @Suppress("UNUSED_PARAMETER")
         fun tick(world: World, blockPos: BlockPos, state: BlockState, be: SimpleComputerBE) {
-            repeat(be.stepsPerTick) {
-                be.circuit?.simulate()
+            if (world is ServerWorld) {
+                repeat(be.stepsPerTick) {
+                    be.circuit?.simulate()
+                }
             }
         }
     }

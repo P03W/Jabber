@@ -15,7 +15,6 @@ fun rebuildArbitraryData(bytes: List<Byte>): NbtTransformable<*> {
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
         1 -> LongBox(tag.getLong("l"))
-        2 -> Vec2I.ZERO.fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }
@@ -28,7 +27,6 @@ fun rebuildArbitraryData(bytes: ByteString): NbtTransformable<*> {
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
         1 -> LongBox(tag.getLong("l"))
-        2 -> Vec2I.ZERO.fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }

@@ -1,6 +1,5 @@
 package mc.jabber
 
-import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.duplicate.Duplicate4WayChip
 import mc.jabber.core.chips.pipes.CrossPipeChip
@@ -10,7 +9,10 @@ import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
+import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.chips.special.DelayChip
+import mc.jabber.core.data.ComputeData
+import mc.jabber.core.data.serial.LongBox
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
 import mc.jabber.minecraft.block.entity.InscribingTableBE
@@ -29,13 +31,16 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandlerType
+import net.minecraft.text.LiteralText
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -46,7 +51,7 @@ object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
-    val PROCESS_ITEM_MAP: HashMap<ChipProcess, ChipItem> = hashMapOf()
+    val PROCESS_ITEM_MAP: HashMap<Identifier, ChipItem> = hashMapOf()
 
     //  Makes an ID with the MOD_ID
     fun id(path: String): Identifier {
@@ -84,11 +89,18 @@ object Global {
         val CHIP_DELAY_10 = ChipItem(DelayChip(10))
         val CHIP_DELAY_20 = ChipItem(DelayChip(20))
 
+        // Debug
+        val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("constant_1"), true) { _, _, _ ->
+            return@CustomChip ComputeData(LongBox(1), LongBox(1), LongBox(1), LongBox(1))
+        })
+        val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
+            println(data)
+            MinecraftClient.getInstance().player?.sendSystemMessage(LiteralText("DEBUG: output of $data"), Util.NIL_UUID)
+            return@CustomChip data.empty()
+        })
+
         fun register() {
             fun Item.register(itemID: String) {
-                if (this is ChipItem) {
-                    PROCESS_ITEM_MAP[this.process] = this
-                }
                 Registry.register(Registry.ITEM, id(itemID), this)
             }
 

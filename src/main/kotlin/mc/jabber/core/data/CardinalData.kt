@@ -8,7 +8,9 @@ import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Cardinal
 import mc.jabber.proto.CardinalDataBuffer
 import mc.jabber.proto.cardinalDataProto
+import mc.jabber.util.asIdableByteArray
 import mc.jabber.util.assertType
+import mc.jabber.util.toByteString
 import net.minecraft.nbt.NbtIo
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -127,10 +129,7 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
         return cardinalDataProto {
             forEach { cardinal, u ->
                 if (u != null) {
-                    val additionalBytes = ByteStreams.newDataOutput()
-                    additionalBytes.writeByte(u.type().toInt())
-                    NbtIo.write(u.toNbt(), additionalBytes)
-                    val string = ByteString.copyFrom(additionalBytes.toByteArray())
+                    val string = u.asIdableByteArray().toByteString()
                     when (cardinal) {
                         Cardinal.UP -> up = string
                         Cardinal.DOWN -> down = string
@@ -149,9 +148,9 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
             val left = if (proto.hasLeft()) rebuildArbitraryData(proto.left) else null
             val right = if (proto.hasRight()) rebuildArbitraryData(proto.right) else null
 
-            when (up) {
+            when (up ?: down ?: left ?: right) {
                 is LongBox -> return ComputeData(
-                    up,
+                    up.assertType(),
                     down.assertType(),
                     left.assertType(),
                     right.assertType()

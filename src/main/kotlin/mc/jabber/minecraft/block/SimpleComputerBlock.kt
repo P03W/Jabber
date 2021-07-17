@@ -11,10 +11,13 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
@@ -69,6 +72,23 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
             }
         }
         return ActionResult.PASS
+    }
+
+    override fun onStateReplaced(
+        state: BlockState,
+        world: World,
+        pos: BlockPos?,
+        newState: BlockState,
+        moved: Boolean
+    ) {
+        if (!state.isOf(newState.block)) {
+            val be = world.getBlockEntity(pos)
+            if (be is SimpleComputerBE && be.circuitItem != null) {
+                ItemScatterer.spawn(world, pos, DefaultedList.of<ItemStack>().also { it.add(be.circuitItem) })
+            }
+        }
+        @Suppress("DEPRECATION")
+        super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     override fun <T : BlockEntity> getTicker(

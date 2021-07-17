@@ -70,7 +70,7 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
             sizeX = this@CircuitBoard.sizeX
             sizeY = this@CircuitBoard.sizeY
             forEach { vec2I, process ->
-                entries[vec2I.transformInto(sizeX)] = Registry.ITEM.getId(Global.PROCESS_ITEM_MAP[process]).toString()
+                entries[vec2I.transformInto(sizeX)] = process.id.path
             }
         }
     }
@@ -82,7 +82,7 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
             val board = CircuitBoard(sizeX, sizeY)
 
             proto.entriesMap.forEach { (index, data) ->
-                board[Vec2I.transformOut(index, sizeX)] = Registry.ITEM[Identifier(data)].assertType<ChipItem>().process
+                board[Vec2I.transformOut(index, sizeX)] = Global.PROCESS_ITEM_MAP[Global.id(data)]?.process
             }
 
             return board

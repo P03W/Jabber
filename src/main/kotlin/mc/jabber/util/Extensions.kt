@@ -1,8 +1,12 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "UnstableApiUsage")
 
 package mc.jabber.util
 
+import com.google.common.io.ByteStreams
+import com.google.protobuf.ByteString
 import mc.jabber.Global
+import mc.jabber.core.data.serial.NbtTransformable
+import net.minecraft.nbt.NbtIo
 import org.slf4j.Logger
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -46,3 +50,12 @@ inline fun <reified T> Any?.assertType(): T {
 
     return this as T
 }
+
+fun <T> NbtTransformable<T>.asIdableByteArray(): ByteArray {
+    val bytes = ByteStreams.newDataOutput()
+    bytes.writeByte(type().toInt())
+    NbtIo.write(toNbt(), bytes)
+    return bytes.toByteArray()
+}
+
+fun ByteArray.toByteString() = ByteString.copyFrom(this)

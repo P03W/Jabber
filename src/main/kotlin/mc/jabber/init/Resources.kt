@@ -1,6 +1,7 @@
 package mc.jabber.init
 
 import mc.jabber.Global
+import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.util.assertType
 import mc.jabber.util.capitalize
 import net.devtech.arrp.api.RRPCallback
@@ -54,7 +55,11 @@ object Resources : RRPPreGenEntrypoint {
         toAutoRegister.forEach {
             val type = it.name.removePrefix("CHIP_").lowercase()
             val itemId = Global.id("chip_$type")
-            Registry.register(Registry.ITEM, itemId, it.get(Global.ITEMS).assertType())
+            val item = it.get(Global.ITEMS).assertType<ChipItem>()
+
+            Registry.register(Registry.ITEM, itemId, item)
+
+            Global.PROCESS_ITEM_MAP[item.process.id] = item
         }
     }
 

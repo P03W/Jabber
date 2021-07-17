@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
+import net.minecraft.util.Identifier
 
 @Serializable
 abstract class ChipProcess {
@@ -11,6 +12,7 @@ abstract class ChipProcess {
      * If this process should be run to generate state (will cause [receive] to be called with an empty data an extra time at start of step)
      */
     open val isInput = false
+    abstract val id: Identifier
 
     /**
      * The main function that makes everything tick

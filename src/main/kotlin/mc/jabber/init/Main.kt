@@ -35,7 +35,7 @@ object Main : ModInitializer {
                     executes(debug = true) { context ->
                         val time = measureTime {
                             CircuitManager(CircuitType.COMPUTE, 4, 3).also {
-                                it.board[0, 0] = CustomChip(true) { data, _, _ -> data.ofAll(LongBox(1)) }
+                                it.board[0, 0] = CustomChip(Global.id("stress"), true) { data, _, _ -> data.ofAll(LongBox(1)) }
                                 it.board[0, 1] = Quad1PipeChip()
                                 it.board[1, 1] = Quad2PipeChip()
                                 it.board[1, 0] = Quad4PipeChip()

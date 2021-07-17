@@ -1,7 +1,6 @@
 package mc.jabber.core.chips.special
 
-import com.google.common.io.ByteStreams
-import com.google.protobuf.ByteString
+import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
@@ -12,12 +11,15 @@ import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.DelayChipStateBuffer
 import mc.jabber.proto.DelayChipStateProtoKt.entry
 import mc.jabber.proto.delayChipStateProto
+import mc.jabber.util.asIdableByteArray
 import mc.jabber.util.assertType
+import mc.jabber.util.toByteString
 import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtIo
+import net.minecraft.util.Identifier
 
 class DelayChip(val delay: Int) : ChipProcess() {
+    override val id: Identifier = Global.id("delay$delay")
     override fun makeInitialStateEntry(): NbtTransformable<DelayState> {
         return DelayState()
     }
@@ -54,7 +56,6 @@ class DelayChip(val delay: Int) : ChipProcess() {
     class DelayState : NbtTransformable<DelayState> {
         var data = mutableListOf<TriSet<Int, Cardinal, out NbtTransformable<*>>>()
 
-        @Suppress("UnstableApiUsage")
         override fun toNbt(): NbtCompound {
             val out = NbtCompound()
             val data = NbtByteArray(delayChipStateProto {
@@ -62,10 +63,7 @@ class DelayChip(val delay: Int) : ChipProcess() {
                     entries += entry {
                         remainingDelay = it.first
                         direction = it.second.ordinal
-                        val additionalBytes = ByteStreams.newDataOutput()
-                        additionalBytes.writeByte(it.third.type().toInt())
-                        NbtIo.write(it.third.toNbt(), additionalBytes)
-                        data = ByteString.copyFrom(additionalBytes.toByteArray())
+                        data = it.third.asIdableByteArray().toByteString()
                     }
                 }
             }.toByteArray())

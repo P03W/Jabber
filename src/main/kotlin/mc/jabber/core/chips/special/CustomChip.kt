@@ -5,8 +5,10 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
+import net.minecraft.util.Identifier
 
 class CustomChip(
+    override val id: Identifier,
     override val isInput: Boolean = false,
     private val method: (CardinalData<*>, Vec2I, HashMap<Vec2I, NbtTransformable<*>>) -> CardinalData<*>
 ) :

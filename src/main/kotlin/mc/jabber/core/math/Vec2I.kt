@@ -9,8 +9,7 @@ import kotlin.math.sqrt
 /**
  * A simple 2 int class with math operators
  */
-@Serializable
-data class Vec2I(var x: Int, var y: Int) : NbtTransformable<Vec2I> {
+data class Vec2I(var x: Int, var y: Int) {
 
     /*
 
@@ -64,29 +63,6 @@ data class Vec2I(var x: Int, var y: Int) : NbtTransformable<Vec2I> {
     operator fun timesAssign(other: Cardinal) = timesAssign(other.vec)
 
     operator fun compareTo(other: Cardinal): Int = compareTo(other.vec)
-
-    override fun toNbt(): NbtCompound {
-        val out = NbtCompound()
-        val buffer = ByteBuffer.allocate(16)
-        buffer.putInt(x)
-        buffer.putInt(y)
-
-        out.putByteArray("p", buffer.array())
-        return out
-    }
-
-    override fun fromNbt(nbt: NbtCompound): Vec2I {
-        val array = nbt.getByteArray("p")
-        val buffer = ByteBuffer.wrap(array)
-
-        x = buffer.int
-        y = buffer.int
-        return Vec2I(x, y)
-    }
-
-    override fun type(): Byte {
-        return 2
-    }
 
     fun transformInto(sizedDimension: Int): Int {
         return y * sizedDimension + x
