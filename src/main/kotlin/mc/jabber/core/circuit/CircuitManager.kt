@@ -99,7 +99,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int) {
             manager.board = board
 
             proto.chipDataMap.forEach { (pos, u) ->
-                manager.chipData[Vec2I.transformOut(pos, board.sizeX)] = rebuildArbitraryData(u.toList())
+                manager.chipData[Vec2I.transformOut(pos, board.sizeX)] = rebuildArbitraryData(u)
             }
 
             proto.stateMap.forEach { (pos, data) ->

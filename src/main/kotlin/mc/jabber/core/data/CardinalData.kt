@@ -144,10 +144,10 @@ sealed class CardinalData<T : NbtTransformable<*>>(val up: T?, val down: T?, val
 
     companion object {
         fun deserialize(proto: CardinalDataBuffer.CardinalDataProto): CardinalData<NbtTransformable<*>> {
-            val up = if (proto.hasUp()) rebuildArbitraryData(proto.up.toList()) else null
-            val down = if (proto.hasDown()) rebuildArbitraryData(proto.down.toList()) else null
-            val left = if (proto.hasLeft()) rebuildArbitraryData(proto.left.toList()) else null
-            val right = if (proto.hasRight()) rebuildArbitraryData(proto.right.toList()) else null
+            val up = if (proto.hasUp()) rebuildArbitraryData(proto.up) else null
+            val down = if (proto.hasDown()) rebuildArbitraryData(proto.down) else null
+            val left = if (proto.hasLeft()) rebuildArbitraryData(proto.left) else null
+            val right = if (proto.hasRight()) rebuildArbitraryData(proto.right) else null
 
             when (up) {
                 is LongBox -> return ComputeData(
