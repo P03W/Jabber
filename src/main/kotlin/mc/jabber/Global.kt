@@ -65,7 +65,11 @@ object Global {
         ) { ItemStack(CIRCUIT_ITEM_5x5) }
 
         // Circuit Boards
+        val CIRCUIT_ITEM_2x2 = CircuitItem(2, 2)
+        val CIRCUIT_ITEM_4x3 = CircuitItem(4, 3)
         val CIRCUIT_ITEM_5x5 = CircuitItem(5, 5)
+        val CIRCUIT_ITEM_8x6 = CircuitItem(8, 6)
+        val CIRCUIT_ITEM_10x10 = CircuitItem(10, 10)
 
         // Chips
         val CHIP_DUPLICATE_4_WAY = ChipItem(Duplicate4WayChip())
@@ -107,7 +111,11 @@ object Global {
                 Registry.register(Registry.ITEM, id(itemID), this)
             }
 
+            CIRCUIT_ITEM_2x2.register("circuit_2x2")
+            CIRCUIT_ITEM_4x3.register("circuit_4x3")
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
+            CIRCUIT_ITEM_8x6.register("circuit_8x6")
+            CIRCUIT_ITEM_10x10.register("circuit_10x10")
         }
     }
 

@@ -90,7 +90,9 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         } else if (inputItem is CircuitItem && lastInputItem is CircuitItem && editingInv.getStack(0).nbt != lastKnownInv.getStack(0).nbt) {
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
             openDimensions(editingInv.getStack(0).item.assertType())
-            deserializeTo(editingInv, editingInv.getStack(0))
+            if (editingInv.getStack(0).orCreateNbt.contains("c", NbtType.BYTE_ARRAY)) {
+                deserializeTo(editingInv, editingInv.getStack(0))
+            }
         }
 
         if (inputItem is CircuitItem) serializeTo(editingInv, editingInv.getStack(0))
