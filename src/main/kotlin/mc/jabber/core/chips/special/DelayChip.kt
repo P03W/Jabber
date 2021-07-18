@@ -56,6 +56,10 @@ class DelayChip(val delay: Int) : ChipProcess() {
     class DelayState : NbtTransformable<DelayState> {
         var data = mutableListOf<TriSet<Int, Cardinal, out NbtTransformable<*>>>()
 
+        override fun type(): Byte {
+            return 2
+        }
+
         override fun toNbt(): NbtCompound {
             val out = NbtCompound()
             val data = NbtByteArray(delayChipStateProto {

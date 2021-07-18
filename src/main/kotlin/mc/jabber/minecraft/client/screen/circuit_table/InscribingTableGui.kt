@@ -7,6 +7,7 @@ import io.github.cottonmc.cotton.gui.widget.data.Insets
 import mc.jabber.Global
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.math.Vec2I
+import mc.jabber.minecraft.client.screen.CustomBackgroundPainters
 import mc.jabber.minecraft.client.screen.SimpleSingleItemInv
 import mc.jabber.minecraft.client.screen.util.SlotFilters
 import mc.jabber.minecraft.items.ChipItem
@@ -15,6 +16,7 @@ import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.util.assertType
 import mc.jabber.util.forEach
 import mc.jabber.util.peers
+import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -40,6 +42,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         build()
 
         editingInv.addListener {
+            chipInputs.backgroundPainter = CustomBackgroundPainters.SLOT
             if (isFiringListener) return@addListener
             isFiringListener = true
             onContentChanged(it)
@@ -64,13 +67,18 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         root.add(this.createPlayerInventoryPanel(), 0, 7)
 
         root.validate(this)
+
+        chipInputs.backgroundPainter = CustomBackgroundPainters.SLOT
     }
 
     override fun onContentChanged(inventory: Inventory) {
+        chipInputs.backgroundPainter = CustomBackgroundPainters.SLOT
         if (inputItem is CircuitItem) {
             if (lastInputItem !is CircuitItem) {
                 openDimensions(editingInv.getStack(0).item.assertType())
-                deserializeTo(editingInv, editingInv.getStack(0))
+                if (editingInv.getStack(0).orCreateNbt.contains("c", NbtType.BYTE_ARRAY)) {
+                    deserializeTo(editingInv, editingInv.getStack(0))
+                }
             }
         } else {
             openDimensions(CircuitItem(0, 0))
@@ -99,7 +107,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         val board = CircuitBoard(circuitItem.sizeX, circuitItem.sizeY)
 
         inv.forEach { i, itemStack ->
-            if (i == 0 || itemStack.isEmpty) return@forEach
+            if (i == 0 || itemStack.item !is ChipItem) return@forEach
             board[Vec2I.transformOut(i - 1, 10)] = itemStack.item.assertType<ChipItem>().process
         }
 
@@ -137,9 +145,10 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         for (x in 0 until circuit.sizeX) {
             for (y in 0 until circuit.sizeY) {
                 val index = Vec2I(x, y).transformInto(10)
-                peers[index].isVisible = true
-                peers[index].isInsertingAllowed = true
-                peers[index].isTakingAllowed = true
+                val validatedSlot = peers[index]
+                validatedSlot.isVisible = true
+                validatedSlot.isInsertingAllowed = true
+                validatedSlot.isTakingAllowed = true
             }
         }
     }
