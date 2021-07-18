@@ -19,45 +19,51 @@ public final class CardinalDataBuffer {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>int32 typeByte = 1;</code>
+     * @return The typeByte.
+     */
+    int getTypeByte();
+
+    /**
+     * <code>optional bytes up = 2;</code>
      * @return Whether the up field is set.
      */
     boolean hasUp();
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>optional bytes up = 2;</code>
      * @return The up.
      */
     com.google.protobuf.ByteString getUp();
 
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      * @return Whether the down field is set.
      */
     boolean hasDown();
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      * @return The down.
      */
     com.google.protobuf.ByteString getDown();
 
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      * @return Whether the right field is set.
      */
     boolean hasRight();
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      * @return The right.
      */
     com.google.protobuf.ByteString getRight();
 
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      * @return Whether the left field is set.
      */
     boolean hasLeft();
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      * @return The left.
      */
     com.google.protobuf.ByteString getLeft();
@@ -112,22 +118,27 @@ public final class CardinalDataBuffer {
             case 0:
               done = true;
               break;
-            case 10: {
+            case 8: {
+
+              typeByte_ = input.readInt32();
+              break;
+            }
+            case 18: {
               bitField0_ |= 0x00000001;
               up_ = input.readBytes();
               break;
             }
-            case 18: {
+            case 26: {
               bitField0_ |= 0x00000002;
               down_ = input.readBytes();
               break;
             }
-            case 26: {
+            case 34: {
               bitField0_ |= 0x00000004;
               right_ = input.readBytes();
               break;
             }
-            case 34: {
+            case 42: {
               bitField0_ |= 0x00000008;
               left_ = input.readBytes();
               break;
@@ -165,10 +176,21 @@ public final class CardinalDataBuffer {
     }
 
     private int bitField0_;
-    public static final int UP_FIELD_NUMBER = 1;
+    public static final int TYPEBYTE_FIELD_NUMBER = 1;
+    private int typeByte_;
+    /**
+     * <code>int32 typeByte = 1;</code>
+     * @return The typeByte.
+     */
+    @java.lang.Override
+    public int getTypeByte() {
+      return typeByte_;
+    }
+
+    public static final int UP_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString up_;
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>optional bytes up = 2;</code>
      * @return Whether the up field is set.
      */
     @java.lang.Override
@@ -176,7 +198,7 @@ public final class CardinalDataBuffer {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>optional bytes up = 2;</code>
      * @return The up.
      */
     @java.lang.Override
@@ -184,10 +206,10 @@ public final class CardinalDataBuffer {
       return up_;
     }
 
-    public static final int DOWN_FIELD_NUMBER = 2;
+    public static final int DOWN_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString down_;
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      * @return Whether the down field is set.
      */
     @java.lang.Override
@@ -195,7 +217,7 @@ public final class CardinalDataBuffer {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      * @return The down.
      */
     @java.lang.Override
@@ -203,10 +225,10 @@ public final class CardinalDataBuffer {
       return down_;
     }
 
-    public static final int RIGHT_FIELD_NUMBER = 3;
+    public static final int RIGHT_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString right_;
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      * @return Whether the right field is set.
      */
     @java.lang.Override
@@ -214,7 +236,7 @@ public final class CardinalDataBuffer {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      * @return The right.
      */
     @java.lang.Override
@@ -222,10 +244,10 @@ public final class CardinalDataBuffer {
       return right_;
     }
 
-    public static final int LEFT_FIELD_NUMBER = 4;
+    public static final int LEFT_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString left_;
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      * @return Whether the left field is set.
      */
     @java.lang.Override
@@ -233,7 +255,7 @@ public final class CardinalDataBuffer {
       return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      * @return The left.
      */
     @java.lang.Override
@@ -255,17 +277,20 @@ public final class CardinalDataBuffer {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (typeByte_ != 0) {
+        output.writeInt32(1, typeByte_);
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeBytes(1, up_);
+        output.writeBytes(2, up_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeBytes(2, down_);
+        output.writeBytes(3, down_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeBytes(3, right_);
+        output.writeBytes(4, right_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeBytes(4, left_);
+        output.writeBytes(5, left_);
       }
       unknownFields.writeTo(output);
     }
@@ -276,21 +301,25 @@ public final class CardinalDataBuffer {
       if (size != -1) return size;
 
       size = 0;
+      if (typeByte_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, typeByte_);
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, up_);
+          .computeBytesSize(2, up_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, down_);
+          .computeBytesSize(3, down_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, right_);
+          .computeBytesSize(4, right_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, left_);
+          .computeBytesSize(5, left_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -307,6 +336,8 @@ public final class CardinalDataBuffer {
       }
       mc.jabber.proto.CardinalDataBuffer.CardinalDataProto other = (mc.jabber.proto.CardinalDataBuffer.CardinalDataProto) obj;
 
+      if (getTypeByte()
+          != other.getTypeByte()) return false;
       if (hasUp() != other.hasUp()) return false;
       if (hasUp()) {
         if (!getUp()
@@ -338,6 +369,8 @@ public final class CardinalDataBuffer {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TYPEBYTE_FIELD_NUMBER;
+      hash = (53 * hash) + getTypeByte();
       if (hasUp()) {
         hash = (37 * hash) + UP_FIELD_NUMBER;
         hash = (53 * hash) + getUp().hashCode();
@@ -487,6 +520,8 @@ public final class CardinalDataBuffer {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        typeByte_ = 0;
+
         up_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
         down_ = com.google.protobuf.ByteString.EMPTY;
@@ -523,6 +558,7 @@ public final class CardinalDataBuffer {
         mc.jabber.proto.CardinalDataBuffer.CardinalDataProto result = new mc.jabber.proto.CardinalDataBuffer.CardinalDataProto(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        result.typeByte_ = typeByte_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
@@ -588,6 +624,9 @@ public final class CardinalDataBuffer {
 
       public Builder mergeFrom(mc.jabber.proto.CardinalDataBuffer.CardinalDataProto other) {
         if (other == mc.jabber.proto.CardinalDataBuffer.CardinalDataProto.getDefaultInstance()) return this;
+        if (other.getTypeByte() != 0) {
+          setTypeByte(other.getTypeByte());
+        }
         if (other.hasUp()) {
           setUp(other.getUp());
         }
@@ -630,9 +669,40 @@ public final class CardinalDataBuffer {
       }
       private int bitField0_;
 
+      private int typeByte_ ;
+      /**
+       * <code>int32 typeByte = 1;</code>
+       * @return The typeByte.
+       */
+      @java.lang.Override
+      public int getTypeByte() {
+        return typeByte_;
+      }
+      /**
+       * <code>int32 typeByte = 1;</code>
+       * @param value The typeByte to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTypeByte(int value) {
+        
+        typeByte_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 typeByte = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTypeByte() {
+        
+        typeByte_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.ByteString up_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes up = 1;</code>
+       * <code>optional bytes up = 2;</code>
        * @return Whether the up field is set.
        */
       @java.lang.Override
@@ -640,7 +710,7 @@ public final class CardinalDataBuffer {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>optional bytes up = 1;</code>
+       * <code>optional bytes up = 2;</code>
        * @return The up.
        */
       @java.lang.Override
@@ -648,7 +718,7 @@ public final class CardinalDataBuffer {
         return up_;
       }
       /**
-       * <code>optional bytes up = 1;</code>
+       * <code>optional bytes up = 2;</code>
        * @param value The up to set.
        * @return This builder for chaining.
        */
@@ -662,7 +732,7 @@ public final class CardinalDataBuffer {
         return this;
       }
       /**
-       * <code>optional bytes up = 1;</code>
+       * <code>optional bytes up = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearUp() {
@@ -674,7 +744,7 @@ public final class CardinalDataBuffer {
 
       private com.google.protobuf.ByteString down_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes down = 2;</code>
+       * <code>optional bytes down = 3;</code>
        * @return Whether the down field is set.
        */
       @java.lang.Override
@@ -682,7 +752,7 @@ public final class CardinalDataBuffer {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
-       * <code>optional bytes down = 2;</code>
+       * <code>optional bytes down = 3;</code>
        * @return The down.
        */
       @java.lang.Override
@@ -690,7 +760,7 @@ public final class CardinalDataBuffer {
         return down_;
       }
       /**
-       * <code>optional bytes down = 2;</code>
+       * <code>optional bytes down = 3;</code>
        * @param value The down to set.
        * @return This builder for chaining.
        */
@@ -704,7 +774,7 @@ public final class CardinalDataBuffer {
         return this;
       }
       /**
-       * <code>optional bytes down = 2;</code>
+       * <code>optional bytes down = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearDown() {
@@ -716,7 +786,7 @@ public final class CardinalDataBuffer {
 
       private com.google.protobuf.ByteString right_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes right = 3;</code>
+       * <code>optional bytes right = 4;</code>
        * @return Whether the right field is set.
        */
       @java.lang.Override
@@ -724,7 +794,7 @@ public final class CardinalDataBuffer {
         return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>optional bytes right = 3;</code>
+       * <code>optional bytes right = 4;</code>
        * @return The right.
        */
       @java.lang.Override
@@ -732,7 +802,7 @@ public final class CardinalDataBuffer {
         return right_;
       }
       /**
-       * <code>optional bytes right = 3;</code>
+       * <code>optional bytes right = 4;</code>
        * @param value The right to set.
        * @return This builder for chaining.
        */
@@ -746,7 +816,7 @@ public final class CardinalDataBuffer {
         return this;
       }
       /**
-       * <code>optional bytes right = 3;</code>
+       * <code>optional bytes right = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearRight() {
@@ -758,7 +828,7 @@ public final class CardinalDataBuffer {
 
       private com.google.protobuf.ByteString left_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes left = 4;</code>
+       * <code>optional bytes left = 5;</code>
        * @return Whether the left field is set.
        */
       @java.lang.Override
@@ -766,7 +836,7 @@ public final class CardinalDataBuffer {
         return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>optional bytes left = 4;</code>
+       * <code>optional bytes left = 5;</code>
        * @return The left.
        */
       @java.lang.Override
@@ -774,7 +844,7 @@ public final class CardinalDataBuffer {
         return left_;
       }
       /**
-       * <code>optional bytes left = 4;</code>
+       * <code>optional bytes left = 5;</code>
        * @param value The left to set.
        * @return This builder for chaining.
        */
@@ -788,7 +858,7 @@ public final class CardinalDataBuffer {
         return this;
       }
       /**
-       * <code>optional bytes left = 4;</code>
+       * <code>optional bytes left = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearLeft() {
@@ -865,11 +935,11 @@ public final class CardinalDataBuffer {
   static {
     java.lang.String[] descriptorData = {
       "\n/mc/jabber/proto/protos/cardinalDataBuf" +
-      "fer.proto\022\017mc.jabber.proto\"\201\001\n\021CardinalD" +
-      "ataProto\022\017\n\002up\030\001 \001(\014H\000\210\001\001\022\021\n\004down\030\002 \001(\014H" +
-      "\001\210\001\001\022\022\n\005right\030\003 \001(\014H\002\210\001\001\022\021\n\004left\030\004 \001(\014H\003" +
-      "\210\001\001B\005\n\003_upB\007\n\005_downB\010\n\006_rightB\007\n\005_leftb\006" +
-      "proto3"
+      "fer.proto\022\017mc.jabber.proto\"\223\001\n\021CardinalD" +
+      "ataProto\022\020\n\010typeByte\030\001 \001(\005\022\017\n\002up\030\002 \001(\014H\000" +
+      "\210\001\001\022\021\n\004down\030\003 \001(\014H\001\210\001\001\022\022\n\005right\030\004 \001(\014H\002\210" +
+      "\001\001\022\021\n\004left\030\005 \001(\014H\003\210\001\001B\005\n\003_upB\007\n\005_downB\010\n" +
+      "\006_rightB\007\n\005_leftb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -880,7 +950,7 @@ public final class CardinalDataBuffer {
     internal_static_mc_jabber_proto_CardinalDataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mc_jabber_proto_CardinalDataProto_descriptor,
-        new java.lang.String[] { "Up", "Down", "Right", "Left", "Up", "Down", "Right", "Left", });
+        new java.lang.String[] { "TypeByte", "Up", "Down", "Right", "Left", "Up", "Down", "Right", "Left", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

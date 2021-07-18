@@ -43,7 +43,7 @@ object Main : ModInitializer {
                                 it.board[3, 0] = Quad3PipeChip()
                                 it.board[3, 1] = Quad1PipeChip()
                                 it.setup()
-                                repeat(500_000) { _ ->
+                                repeat(1_000_000) { _ ->
                                     it.simulate()
                                 }
                             }

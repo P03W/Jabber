@@ -23,7 +23,24 @@ object CardinalDataProtoKt {
     internal fun _build(): mc.jabber.proto.CardinalDataBuffer.CardinalDataProto = _builder.build()
 
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>int32 typeByte = 1;</code>
+     */
+    var typeByte: kotlin.Int
+      @JvmName("getTypeByte")
+      get() = _builder.getTypeByte()
+      @JvmName("setTypeByte")
+      set(value) {
+        _builder.setTypeByte(value)
+      }
+    /**
+     * <code>int32 typeByte = 1;</code>
+     */
+    fun clearTypeByte() {
+      _builder.clearTypeByte()
+    }
+
+    /**
+     * <code>optional bytes up = 2;</code>
      */
     var up: com.google.protobuf.ByteString
       @JvmName("getUp")
@@ -33,13 +50,13 @@ object CardinalDataProtoKt {
         _builder.setUp(value)
       }
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>optional bytes up = 2;</code>
      */
     fun clearUp() {
       _builder.clearUp()
     }
     /**
-     * <code>optional bytes up = 1;</code>
+     * <code>optional bytes up = 2;</code>
      * @return Whether the up field is set.
      */
     fun hasUp(): kotlin.Boolean {
@@ -47,7 +64,7 @@ object CardinalDataProtoKt {
     }
 
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      */
     var down: com.google.protobuf.ByteString
       @JvmName("getDown")
@@ -57,13 +74,13 @@ object CardinalDataProtoKt {
         _builder.setDown(value)
       }
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      */
     fun clearDown() {
       _builder.clearDown()
     }
     /**
-     * <code>optional bytes down = 2;</code>
+     * <code>optional bytes down = 3;</code>
      * @return Whether the down field is set.
      */
     fun hasDown(): kotlin.Boolean {
@@ -71,7 +88,7 @@ object CardinalDataProtoKt {
     }
 
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      */
     var right: com.google.protobuf.ByteString
       @JvmName("getRight")
@@ -81,13 +98,13 @@ object CardinalDataProtoKt {
         _builder.setRight(value)
       }
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      */
     fun clearRight() {
       _builder.clearRight()
     }
     /**
-     * <code>optional bytes right = 3;</code>
+     * <code>optional bytes right = 4;</code>
      * @return Whether the right field is set.
      */
     fun hasRight(): kotlin.Boolean {
@@ -95,7 +112,7 @@ object CardinalDataProtoKt {
     }
 
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      */
     var left: com.google.protobuf.ByteString
       @JvmName("getLeft")
@@ -105,13 +122,13 @@ object CardinalDataProtoKt {
         _builder.setLeft(value)
       }
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      */
     fun clearLeft() {
       _builder.clearLeft()
     }
     /**
-     * <code>optional bytes left = 4;</code>
+     * <code>optional bytes left = 5;</code>
      * @return Whether the left field is set.
      */
     fun hasLeft(): kotlin.Boolean {

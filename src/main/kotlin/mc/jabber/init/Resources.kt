@@ -94,7 +94,7 @@ object Resources : RRPPreGenEntrypoint {
                 .parent("item/generated")
                 .textures(
                     JTextures()
-                        .layer0("jabber:item/chips/chip_$type")
+                        .layer0("jabber:item/chips/$type")
                 ),
             Global.id("item/chip_$type")
         )
