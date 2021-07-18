@@ -93,6 +93,9 @@ object Global {
         val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("constant_1"), true) { _, _, _ ->
             return@CustomChip ComputeData(LongBox(1), LongBox(1), LongBox(1), LongBox(1))
         })
+        val CHIP_DEBUG_VOID = ChipItem(CustomChip(id("void")) { data, _, _ ->
+            return@CustomChip data.empty()
+        })
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
             println(data)
             MinecraftClient.getInstance().player?.sendSystemMessage(LiteralText("DEBUG: output of $data"), Util.NIL_UUID)

@@ -6,6 +6,8 @@ import com.google.common.io.ByteStreams
 import com.google.protobuf.ByteString
 import mc.jabber.Global
 import mc.jabber.core.data.serial.NbtTransformable
+import net.minecraft.inventory.Inventory
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtIo
 import org.slf4j.Logger
 import kotlin.contracts.ExperimentalContracts
@@ -59,3 +61,9 @@ fun <T> NbtTransformable<T>.asIdableByteArray(): ByteArray {
 }
 
 fun ByteArray.toByteString(): ByteString = ByteString.copyFrom(this)
+
+inline fun Inventory.forEach(action: (Int, ItemStack)->Unit) {
+    for (i in 0 until size()) {
+        action(i, this.getStack(i))
+    }
+}

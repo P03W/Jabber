@@ -41,7 +41,7 @@ class SimpleComputerBE(
             CircuitType.COMPUTE,
             item.sizeX,
             item.sizeY,
-            CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(new.nbt!!.getByteArray("c")))
+            CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(new.orCreateNbt.getByteArray("c")))
         )
         circuit!!.setup()
     }
