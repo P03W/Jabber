@@ -7,12 +7,14 @@ import io.github.cottonmc.cotton.gui.widget.data.Insets
 import mc.jabber.Global
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.math.Vec2I
+import mc.jabber.minecraft.client.screen.SimpleSingleItemInv
 import mc.jabber.minecraft.client.screen.util.SlotFilters
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.util.assertType
 import mc.jabber.util.forEach
+import mc.jabber.util.peers
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -21,8 +23,8 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 
 class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Global.GUI.INSCRIBING_TABLE_GUI, i, inv) {
-    val editingInv = SimpleInventory(10 * 10 + 1)
-    val lastKnownInv = SimpleInventory(10 * 10 + 1)
+    val editingInv = SimpleSingleItemInv(10 * 10 + 1)
+    val lastKnownInv = SimpleSingleItemInv(10 * 10 + 1)
 
     val inputItem: Item get() = editingInv.getStack(0).item
     val lastInputItem: Item get() = lastKnownInv.getStack(0).item
@@ -56,6 +58,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
 
         root.add(itemSlot, 4, 3)
 
+        chipInputs.isModifiable = false
         root.add(chipInputs, 10, 1)
 
         root.add(this.createPlayerInventoryPanel(), 0, 7)
@@ -65,21 +68,20 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
 
     override fun onContentChanged(inventory: Inventory) {
         if (inputItem is CircuitItem) {
-            chipInputs.isInsertingAllowed = true
-            chipInputs.onShown()
-
             if (lastInputItem !is CircuitItem) {
+                openDimensions(editingInv.getStack(0).item.assertType())
                 deserializeTo(editingInv, editingInv.getStack(0))
             }
         } else {
-            chipInputs.isInsertingAllowed = false
-            chipInputs.onHidden()
+            openDimensions(CircuitItem(0, 0))
         }
 
         if (inputItem !is CircuitItem && lastInputItem is CircuitItem) {
+            openDimensions(CircuitItem(0, 0))
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
         } else if (inputItem is CircuitItem && lastInputItem is CircuitItem && editingInv.getStack(0).nbt != lastKnownInv.getStack(0).nbt) {
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
+            openDimensions(editingInv.getStack(0).item.assertType())
             deserializeTo(editingInv, editingInv.getStack(0))
         }
 
@@ -121,5 +123,24 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
     override fun close(player: PlayerEntity) {
         super.close(player)
         dropInventory(player, SimpleInventory(1).also { it.setStack(0, editingInv.getStack(0)) } )
+    }
+
+    fun openDimensions(circuit: CircuitItem) {
+        val peers = chipInputs.peers
+
+        peers.forEach {
+            it.isVisible = false
+            it.isInsertingAllowed = false
+            it.isTakingAllowed = false
+        }
+
+        for (x in 0 until circuit.sizeX) {
+            for (y in 0 until circuit.sizeY) {
+                val index = Vec2I(x, y).transformInto(10)
+                peers[index].isVisible = true
+                peers[index].isInsertingAllowed = true
+                peers[index].isTakingAllowed = true
+            }
+        }
     }
 }

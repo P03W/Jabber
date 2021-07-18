@@ -2,7 +2,9 @@
   "required": true,
   "package": "mc.jabber.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": [],
+  "mixins": [
+    "WItemSlotPeerAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
