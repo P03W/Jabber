@@ -24,7 +24,6 @@ object Main : ModInitializer {
         Global.BLOCKS.register()
         Global.BLOCKS.ENTITIES.register()
 
-        Resources.autoRegisterChips()
         Global.ITEMS.register()
 
         Global.GUI.registerBoth()

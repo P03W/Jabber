@@ -17,13 +17,6 @@ import org.junit.jupiter.api.Test
 
 class BasicSimulationTest {
     @Test
-    fun testIllegalCircuitSizeY() {
-        Assertions.assertThrows(AssertionError::class.java) {
-            CircuitBoard(3, 4)
-        }
-    }
-
-    @Test
     fun testIllegalCircuitSizeX() {
         Assertions.assertThrows(AssertionError::class.java) {
             CircuitBoard(0, 1)

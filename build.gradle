@@ -70,6 +70,10 @@ dependencies {
     implementation "com.google.protobuf:protobuf-kotlin:3.17.3"
     include "com.google.protobuf:protobuf-kotlin:3.17.3"
 
+    // Reflection
+    implementation "org.reflections:reflections:0.9.12"
+    include "org.reflections:reflections:0.9.12"
+
     // Test suite
     implementation "org.junit.jupiter:junit-jupiter:5.7.2"
 }

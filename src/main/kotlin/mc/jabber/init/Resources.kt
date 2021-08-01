@@ -21,9 +21,6 @@ import kotlin.reflect.full.memberProperties
 object Resources : RRPPreGenEntrypoint {
     val RESOURCE_PACK: RuntimeResourcePack = RuntimeResourcePack.create("jabber_runtime")
 
-    val toAutoRegister: MutableList<KProperty1<Global.ITEMS, *>> = mutableListOf()
-    var canRegister = AtomicBoolean()
-
     override fun pregen() {
         val lang = JLang()
 
@@ -31,36 +28,15 @@ object Resources : RRPPreGenEntrypoint {
             val name = it.name
             when {
                 name.startsWith("CIRCUIT_ITEM_") -> makeCircuit(name, lang)
-                name.startsWith("CHIP_") -> {
-                    toAutoRegister.add(it); makeChip(name, lang)
-                }
+                name.startsWith("CHIP_") -> makeChip(name, lang)
             }
         }
-
-        canRegister.set(true)
 
         RESOURCE_PACK.addLang(Global.id("en_us"), lang)
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment) RESOURCE_PACK.dump()
 
         RRPCallback.AFTER_VANILLA.register { it.add(RESOURCE_PACK) }
-    }
-
-    @Suppress("ControlFlowWithEmptyBody")
-    fun autoRegisterChips() {
-        // Safety to make sure we arent registering stuff in the middle of resource generation
-        while (!canRegister.get()) {
-        }
-
-        toAutoRegister.forEach {
-            val type = it.name.removePrefix("CHIP_").lowercase()
-            val itemId = Global.id("chip_$type")
-            val item = it.get(Global.ITEMS).assertType<ChipItem>()
-
-            Registry.register(Registry.ITEM, itemId, item)
-
-            Global.PROCESS_ITEM_MAP[item.process.id] = item
-        }
     }
 
     private fun makeCircuit(name: String, lang: JLang) {

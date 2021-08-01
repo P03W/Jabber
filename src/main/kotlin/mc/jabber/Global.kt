@@ -1,14 +1,9 @@
 package mc.jabber
 
+import com.google.common.reflect.ClassPath
+import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
-import mc.jabber.core.chips.duplicate.Duplicate4WayChip
-import mc.jabber.core.chips.pipes.CrossPipeChip
-import mc.jabber.core.chips.pipes.HorizontalPipeChip
-import mc.jabber.core.chips.pipes.VerticalPipeChip
-import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.data.ComputeData
@@ -22,6 +17,8 @@ import mc.jabber.minecraft.client.screen.circuit_table.InscribingTableGui
 import mc.jabber.minecraft.client.screen.circuit_table.InscribingTableScreen
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
+import mc.jabber.util.assertType
+import mc.jabber.util.log
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -42,11 +39,13 @@ import net.minecraft.text.LiteralText
 import net.minecraft.util.Identifier
 import net.minecraft.util.Util
 import net.minecraft.util.registry.Registry
+import org.reflections.Reflections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
 // All constants
+@Suppress("MemberVisibilityCanBePrivate")
 object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
@@ -72,17 +71,31 @@ object Global {
         val CIRCUIT_ITEM_10x10 = CircuitItem(10, 10)
 
         // Chips
-        val CHIP_DUPLICATE_4_WAY = ChipItem(Duplicate4WayChip())
-        val CHIP_ADD_1 = ChipItem(AddChip(1))
+        @OptIn(ExperimentalStdlibApi::class)
+        @Suppress("UnstableApiUsage")
+        val CHIPS = buildMap<String, ChipItem> {
+            val chips = Reflections("mc.jabber.core.chips").getSubTypesOf(ChipProcess::class.java)
 
-        // Pipes
-        val CHIP_CROSS_PIPE = ChipItem(CrossPipeChip())
-        val CHIP_HORIZONTAL_PIPE = ChipItem(HorizontalPipeChip())
-        val CHIP_VERTICAL_PIPE = ChipItem(VerticalPipeChip())
-        val CHIP_QUADRANT_1_PIPE = ChipItem(Quad1PipeChip())
-        val CHIP_QUADRANT_2_PIPE = ChipItem(Quad2PipeChip())
-        val CHIP_QUADRANT_3_PIPE = ChipItem(Quad3PipeChip())
-        val CHIP_QUADRANT_4_PIPE = ChipItem(Quad4PipeChip())
+            val loader = this::class.java.classLoader
+            println(chips)
+            chips.forEach {
+                val clazz = loader.loadClass(it.name)
+                clazz.annotations.map { it::class.java }.log()
+                val construct = clazz.constructors.firstOrNull { constructor -> constructor.parameterCount == 0 }
+                if (construct != null) {
+                    if (clazz.isAnnotationPresent(ChipID::class.java)) {
+                        // Never runs
+                    } else {
+                        throw IllegalStateException("Chip ${it.name} has a 0 parameter constructor but is not annotated with @ChipID")
+                    }
+                } else {
+                    "Failure! ${it.name} only has the following constructors: ${clazz.constructors}"
+                }
+            }
+        }
+
+        // Add
+        val CHIP_ADD_1 = ChipItem(AddChip(1))
 
         // Delay
         val CHIP_DELAY_1 = ChipItem(DelayChip(1))
@@ -102,7 +115,10 @@ object Global {
         })
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
             println(data)
-            MinecraftClient.getInstance().player?.sendSystemMessage(LiteralText("DEBUG: output of $data"), Util.NIL_UUID)
+            MinecraftClient.getInstance().player?.sendSystemMessage(
+                LiteralText("DEBUG: output of $data"),
+                Util.NIL_UUID
+            )
             return@CustomChip data.empty()
         })
 
@@ -110,6 +126,8 @@ object Global {
             fun Item.register(itemID: String) {
                 Registry.register(Registry.ITEM, id(itemID), this)
             }
+
+            CHIPS.forEach { (id, item) -> item.register(id) }
 
             CIRCUIT_ITEM_2x2.register("circuit_2x2")
             CIRCUIT_ITEM_4x3.register("circuit_4x3")
