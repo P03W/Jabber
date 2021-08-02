@@ -1,6 +1,6 @@
 package mc.jabber
 
-import com.google.common.reflect.ClassPath
+import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
@@ -8,6 +8,7 @@ import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.data.ComputeData
 import mc.jabber.core.data.serial.LongBox
+import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
 import mc.jabber.minecraft.block.entity.InscribingTableBE
@@ -18,7 +19,7 @@ import mc.jabber.minecraft.client.screen.circuit_table.InscribingTableScreen
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
-import mc.jabber.util.log
+import mc.jabber.util.hasAnnotation
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -76,20 +77,34 @@ object Global {
         val CHIPS = buildMap<String, ChipItem> {
             val chips = Reflections("mc.jabber.core.chips").getSubTypesOf(ChipProcess::class.java)
 
-            val loader = this::class.java.classLoader
-            println(chips)
+            val loader = this@ITEMS::class.java.classLoader
+
             chips.forEach {
                 val clazz = loader.loadClass(it.name)
-                clazz.annotations.map { it::class.java }.log()
-                val construct = clazz.constructors.firstOrNull { constructor -> constructor.parameterCount == 0 }
-                if (construct != null) {
-                    if (clazz.isAnnotationPresent(ChipID::class.java)) {
-                        // Never runs
+                if (clazz.hasAnnotation(AutoConstructInt::class)) {
+                    val construct = clazz
+                        .constructors
+                        .firstOrNull {
+                                constructor -> constructor.parameterCount == 1 &&
+                                constructor.parameterTypes[0] == Int::class.java
+                        }
+                    val autoConstruct = clazz.getAnnotation(AutoConstructInt::class.java)
+                    if (construct != null) {
+                        autoConstruct.toConstruct.forEach {
+                            put(autoConstruct.id.id + "_$it", ChipItem(construct.newInstance(it).assertType()))
+                        }
                     } else {
-                        throw IllegalStateException("Chip ${it.name} has a 0 parameter constructor but is not annotated with @ChipID")
+                        throw IllegalStateException("Chip ${it.name} does not 1 parameter constructor that takes Int but is annotated with @AutoConstructInt")
                     }
-                } else {
-                    "Failure! ${it.name} only has the following constructors: ${clazz.constructors}"
+                }
+                if (clazz.hasAnnotation(ChipID::class)) {
+                    val construct = clazz.constructors.firstOrNull { constructor -> constructor.parameterCount == 0 }
+                    val chipID = clazz.getAnnotation(ChipID::class.java)
+                    if (construct != null) {
+                        put(chipID.id, ChipItem(construct.newInstance().assertType()))
+                    } else {
+                        throw IllegalStateException("Chip ${it.name} does not 0 parameter constructor but is annotated with @ChipID")
+                    }
                 }
             }
         }
@@ -97,21 +112,9 @@ object Global {
         // Add
         val CHIP_ADD_1 = ChipItem(AddChip(1))
 
-        // Delay
-        val CHIP_DELAY_1 = ChipItem(DelayChip(1))
-        val CHIP_DELAY_2 = ChipItem(DelayChip(2))
-        val CHIP_DELAY_3 = ChipItem(DelayChip(3))
-        val CHIP_DELAY_4 = ChipItem(DelayChip(4))
-        val CHIP_DELAY_5 = ChipItem(DelayChip(5))
-        val CHIP_DELAY_10 = ChipItem(DelayChip(10))
-        val CHIP_DELAY_20 = ChipItem(DelayChip(20))
-
         // Debug
         val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("constant_1"), true) { _, _, _ ->
             return@CustomChip ComputeData(LongBox(1), LongBox(1), LongBox(1), LongBox(1))
-        })
-        val CHIP_DEBUG_VOID = ChipItem(CustomChip(id("void")) { data, _, _ ->
-            return@CustomChip data.empty()
         })
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
             println(data)
@@ -127,13 +130,18 @@ object Global {
                 Registry.register(Registry.ITEM, id(itemID), this)
             }
 
-            CHIPS.forEach { (id, item) -> item.register(id) }
+            CHIPS.forEach { (id, item) ->
+                item.register(id)
+                Resources.makeChip(id, Resources.lang)
+            }
 
             CIRCUIT_ITEM_2x2.register("circuit_2x2")
             CIRCUIT_ITEM_4x3.register("circuit_4x3")
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
             CIRCUIT_ITEM_8x6.register("circuit_8x6")
             CIRCUIT_ITEM_10x10.register("circuit_10x10")
+            CHIP_DEBUG_OUTPUT.register("chip_debug_output")
+            CHIP_DEBUG_CONSTANT_1.register("chip_debug_constant_1")
         }
     }
 

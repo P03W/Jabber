@@ -20,9 +20,9 @@ import kotlin.reflect.full.memberProperties
 @Suppress("unused")
 object Resources : RRPPreGenEntrypoint {
     val RESOURCE_PACK: RuntimeResourcePack = RuntimeResourcePack.create("jabber_runtime")
+    val lang = JLang()
 
     override fun pregen() {
-        val lang = JLang()
 
         Global.ITEMS::class.memberProperties.forEach {
             val name = it.name
@@ -32,11 +32,11 @@ object Resources : RRPPreGenEntrypoint {
             }
         }
 
-        RESOURCE_PACK.addLang(Global.id("en_us"), lang)
-
-        if (FabricLoader.getInstance().isDevelopmentEnvironment) RESOURCE_PACK.dump()
-
-        RRPCallback.AFTER_VANILLA.register { it.add(RESOURCE_PACK) }
+        RRPCallback.AFTER_VANILLA.register {
+            RESOURCE_PACK.addLang(Global.id("en_us"), lang);
+            it.add(RESOURCE_PACK);
+            if (FabricLoader.getInstance().isDevelopmentEnvironment) RESOURCE_PACK.dump()
+        }
     }
 
     private fun makeCircuit(name: String, lang: JLang) {
@@ -59,8 +59,8 @@ object Resources : RRPPreGenEntrypoint {
         lang.item(itemId, "$size Circuit Board")
     }
 
-    private fun makeChip(name: String, lang: JLang) {
-        val type = name.removePrefix("CHIP_").lowercase()
+    fun makeChip(name: String, lang: JLang) {
+        val type = name.lowercase().removePrefix("chip_")
         val itemId = Global.id("chip_$type")
 
         // Model

@@ -1,7 +1,7 @@
 package mc.jabber.core.chips.special
 
 import mc.jabber.Global
-import mc.jabber.core.auto.AutoConstructInts
+import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
@@ -20,7 +20,7 @@ import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
-@AutoConstructInts(ChipID("chip_delay"), [1, 2, 3, 4, 5, 10, 20])
+@AutoConstructInt(ChipID("chip_delay"), [1, 2, 3, 4, 5, 10, 20])
 class DelayChip(val delay: Int) : ChipProcess() {
     override val id: Identifier = Global.id("delay$delay")
     override fun makeInitialStateEntry(): NbtTransformable<DelayState> {

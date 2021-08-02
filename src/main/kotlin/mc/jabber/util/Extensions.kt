@@ -12,6 +12,7 @@ import net.minecraft.nbt.NbtIo
 import org.slf4j.Logger
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import kotlin.reflect.KClass
 
 /**
  * Allows for calling info with any object by converting it to a string
@@ -25,6 +26,20 @@ inline fun Logger.info(obj: Any?) {
  */
 inline fun Any?.log() {
     Global.LOG.info(this)
+}
+
+/**
+ * Allows for calling warn with any object by converting it to a string
+ */
+inline fun Logger.warn(obj: Any?) {
+    warn(obj.toString())
+}
+
+/**
+ * Allows for warning anything by automatically converting to string
+ */
+inline fun Any?.warn() {
+    Global.LOG.warn(this)
 }
 
 /**
@@ -67,3 +82,5 @@ inline fun Inventory.forEach(action: (Int, ItemStack)->Unit) {
         action(i, this.getStack(i))
     }
 }
+
+fun Class<*>.hasAnnotation(annotation: KClass<out Annotation>): Boolean = isAnnotationPresent(annotation.java)

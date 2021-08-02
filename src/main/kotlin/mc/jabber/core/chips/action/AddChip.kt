@@ -9,7 +9,7 @@ import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
 import net.minecraft.util.Identifier
 
-class AddChip(val amount: Long) : ChipProcess() {
+class AddChip(val amount: Int) : ChipProcess() {
     override val id: Identifier = Global.id("add")
     override fun <T : NbtTransformable<*>> receive(
         data: CardinalData<T>,
