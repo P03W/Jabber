@@ -1,6 +1,8 @@
 package mc.jabber.util
 
+import mc.jabber.util.error.CatchFireAndExplode
 import net.minecraft.util.registry.Registry
+import org.apache.logging.log4j.LogManager
 import java.util.*
 
 /**
@@ -16,4 +18,10 @@ fun String.capitalize(): String {
  */
 fun <A, B> Registry<A>.idFlip(other: Registry<B>, instance: B): A? {
     return this.get(other.getId(instance))
+}
+
+@Suppress("FunctionName")
+fun PANIC(): Nothing {
+    LogManager.getLogger("Jabber | Panic").fatal("IMPOSSIBLE CONDITION REACHED?!")
+    throw CatchFireAndExplode()
 }

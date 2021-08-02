@@ -1,7 +1,7 @@
 package data
 
 import mc.jabber.core.data.CircuitDataStorage
-import mc.jabber.core.data.ComputeData
+import mc.jabber.core.data.cardinal.ComputeData
 import mc.jabber.core.math.Vec2I
 import org.junit.jupiter.api.Test
 

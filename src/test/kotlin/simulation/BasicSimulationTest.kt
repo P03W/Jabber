@@ -9,7 +9,7 @@ import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
-import mc.jabber.core.data.ComputeData
+import mc.jabber.core.data.cardinal.ComputeData
 import mc.jabber.core.data.serial.LongBox
 import net.minecraft.util.Identifier
 import org.junit.jupiter.api.Assertions

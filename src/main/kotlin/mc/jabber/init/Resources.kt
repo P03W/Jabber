@@ -23,7 +23,6 @@ object Resources : RRPPreGenEntrypoint {
     val lang = JLang()
 
     override fun pregen() {
-
         Global.ITEMS::class.memberProperties.forEach {
             val name = it.name
             when {

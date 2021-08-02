@@ -5,8 +5,7 @@ import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.special.CustomChip
-import mc.jabber.core.chips.special.DelayChip
-import mc.jabber.core.data.ComputeData
+import mc.jabber.core.data.cardinal.ComputeData
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable

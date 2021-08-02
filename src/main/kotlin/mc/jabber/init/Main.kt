@@ -11,6 +11,7 @@ import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.LongBox
+import mc.jabber.util.PANIC
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.text.LiteralText

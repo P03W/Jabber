@@ -1,5 +1,6 @@
 package mc.jabber.core.data
 
+import mc.jabber.core.data.cardinal.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 

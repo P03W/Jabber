@@ -1,14 +1,13 @@
-package mc.jabber.core.data
+package mc.jabber.core.data.cardinal
 
 import com.google.common.io.ByteStreams
-import com.google.protobuf.ByteString
 import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Cardinal
 import mc.jabber.proto.CardinalDataBuffer
 import mc.jabber.proto.cardinalDataProto
-import mc.jabber.util.asIdableByteArray
+import mc.jabber.util.PANIC
 import mc.jabber.util.assertType
 import mc.jabber.util.toByteString
 import net.minecraft.nbt.NbtIo
@@ -92,8 +91,46 @@ sealed class CardinalData<out T : NbtTransformable<*>>(val up: T?, val down: T?,
                 left as LongBox?,
                 right as LongBox?
             ).assertType()
+            else -> PANIC()
         }
     }
+
+    /**
+     * Makes a new [CardinalData] with the passed values, but replaces all nulls passed with [replacement]
+     *
+     * @param replacement What the null values passed should become
+     */
+    fun ofReplaceNull(
+        up: NbtTransformable<*>?,
+        down: NbtTransformable<*>?,
+        left: NbtTransformable<*>?,
+        right: NbtTransformable<*>?,
+        replacement: NbtTransformable<*>
+    ): CardinalData<T> {
+        return this.of(
+            up ?: replacement,
+            down ?: replacement,
+            left ?: replacement,
+            right ?: replacement
+        ).assertType()
+    }
+
+    /**
+     * Makes a new [CardinalData] but replaces all nulls passed with [replacement] and replaces others with null
+     *
+     * @param replacement What the null values passed should become
+     */
+    fun replaceNullNoRemain(
+        replacement: NbtTransformable<*>
+    ): CardinalData<T> {
+        return this.of(
+            if (up == null) replacement else null,
+            if (down == null) replacement else null,
+            if (left == null) replacement else null,
+            if (right == null) replacement else null
+        ).assertType()
+    }
+
 
     /**
      * Makes an empty form of the data
@@ -120,6 +157,26 @@ sealed class CardinalData<out T : NbtTransformable<*>>(val up: T?, val down: T?,
         method(Cardinal.DOWN, down)
         method(Cardinal.LEFT, left)
         method(Cardinal.RIGHT, right)
+    }
+
+    /**
+     * Returns true if all values match the given predicate
+     */
+    inline fun all(predicate: (Cardinal, T?) -> Boolean): Boolean {
+        forEach { cardinal, t ->
+            if (!predicate(cardinal, t)) return false
+        }
+        return true
+    }
+
+    /**
+     * Returns true if any value matches the given predicate
+     */
+    inline fun any(predicate: (Cardinal, T?) -> Boolean): Boolean {
+        forEach { cardinal, t ->
+            if (predicate(cardinal, t)) return true
+        }
+        return false
     }
 
     override fun toString(): String {
@@ -166,6 +223,3 @@ sealed class CardinalData<out T : NbtTransformable<*>>(val up: T?, val down: T?,
         }
     }
 }
-
-class ComputeData(up: LongBox?, down: LongBox?, left: LongBox?, right: LongBox?) :
-    CardinalData<LongBox>(up, down, left, right) { override val typeByte: Int = 1 }

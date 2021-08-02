@@ -4,7 +4,7 @@ import mc.jabber.Global
 import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
-import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.cardinal.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.data.util.TriSet

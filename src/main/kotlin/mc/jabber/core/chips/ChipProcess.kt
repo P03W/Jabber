@@ -1,7 +1,7 @@
 package mc.jabber.core.chips
 
 import kotlinx.serialization.Serializable
-import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.cardinal.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import net.minecraft.util.Identifier
