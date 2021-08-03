@@ -14,8 +14,7 @@ fun rebuildArbitraryData(bytes: List<Byte>): NbtTransformable<*> {
     val tag = NbtIo.read(ByteStreams.newDataInput(mut.toByteArray()))
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
-        1 -> LongBox(tag.getLong("l"))
-        2 -> DelayChip.DelayState().fromNbt(tag)
+        1 -> DelayChip.DelayState().fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }
@@ -27,8 +26,7 @@ fun rebuildArbitraryData(bytes: ByteString): NbtTransformable<*> {
     val tag = NbtIo.read(ByteStreams.newDataInput(mut.toByteArray()))
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
-        1 -> LongBox(tag.getLong("l"))
-        2 -> DelayChip.DelayState().fromNbt(tag)
+        1 -> DelayChip.DelayState().fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }
@@ -38,8 +36,7 @@ fun rebuildArbitraryData(id: Int, bytes: List<Byte>): NbtTransformable<*> {
     val tag = NbtIo.read(ByteStreams.newDataInput(bytes.toByteArray()))
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
-        1 -> LongBox(tag.getLong("l"))
-        2 -> DelayChip.DelayState().fromNbt(tag)
+        1 -> DelayChip.DelayState().fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }
@@ -49,8 +46,7 @@ fun rebuildArbitraryData(id: Int, bytes: ByteString): NbtTransformable<*> {
     val tag = NbtIo.read(ByteStreams.newDataInput(bytes.toByteArray()))
     return when (id) {
         0 -> throw InvalidDataFormatException("$id is not a valid data format, as that format is reserved for formats that cannot be serialized dependently")
-        1 -> LongBox(tag.getLong("l"))
-        2 -> DelayChip.DelayState().fromNbt(tag)
+        1 -> DelayChip.DelayState().fromNbt(tag)
         else -> throw UnknownDataFormatException("Found an unknown stored data format with ID $id, which is not a known decode-able format")
     }
 }

@@ -1,7 +1,7 @@
 package mc.jabber.core.chips
 
 import kotlinx.serialization.Serializable
-import mc.jabber.core.data.cardinal.CardinalData
+import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import net.minecraft.util.Identifier
@@ -28,11 +28,11 @@ abstract class ChipProcess {
      *
      */
     @Suppress("KDocUnresolvedReference")
-    abstract fun <T : NbtTransformable<*>> receive(
-        data: CardinalData<T>,
+    abstract fun receive(
+        data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>
-    ): CardinalData<T>
+    ): CardinalData
 
     /**
      * Called *once per chip* in board setup, will not be called on deserialization

@@ -19,37 +19,26 @@ public final class CircuitManagerBuffer {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-     * @return The enum numeric value on the wire for type.
-     */
-    int getTypeValue();
-    /**
-     * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-     * @return The type.
-     */
-    mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type getType();
-
-    /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      * @return Whether the board field is set.
      */
     boolean hasBoard();
     /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      * @return The board.
      */
     mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto getBoard();
     /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      */
     mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProtoOrBuilder getBoardOrBuilder();
 
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     int getChipDataCount();
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     boolean containsChipData(
         int key);
@@ -60,30 +49,30 @@ public final class CircuitManagerBuffer {
     java.util.Map<java.lang.Integer, com.google.protobuf.ByteString>
     getChipData();
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     java.util.Map<java.lang.Integer, com.google.protobuf.ByteString>
     getChipDataMap();
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
     com.google.protobuf.ByteString getChipDataOrDefault(
         int key,
         com.google.protobuf.ByteString defaultValue);
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
     com.google.protobuf.ByteString getChipDataOrThrow(
         int key);
 
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     int getStateCount();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     boolean containsState(
         int key);
@@ -94,19 +83,19 @@ public final class CircuitManagerBuffer {
     java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalDataProto>
     getState();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     java.util.Map<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalDataProto>
     getStateMap();
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
 
     mc.jabber.proto.CardinalDataBuffer.CardinalDataProto getStateOrDefault(
         int key,
         mc.jabber.proto.CardinalDataBuffer.CardinalDataProto defaultValue);
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
 
     mc.jabber.proto.CardinalDataBuffer.CardinalDataProto getStateOrThrow(
@@ -125,7 +114,6 @@ public final class CircuitManagerBuffer {
       super(builder);
     }
     private CircuitManagerProto() {
-      type_ = 0;
     }
 
     @java.lang.Override
@@ -159,13 +147,7 @@ public final class CircuitManagerBuffer {
             case 0:
               done = true;
               break;
-            case 8: {
-              int rawValue = input.readEnum();
-
-              type_ = rawValue;
-              break;
-            }
-            case 18: {
+            case 10: {
               mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.Builder subBuilder = null;
               if (board_ != null) {
                 subBuilder = board_.toBuilder();
@@ -178,7 +160,7 @@ public final class CircuitManagerBuffer {
 
               break;
             }
-            case 26: {
+            case 18: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 chipData_ = com.google.protobuf.MapField.newMapField(
                     ChipDataDefaultEntryHolder.defaultEntry);
@@ -191,7 +173,7 @@ public final class CircuitManagerBuffer {
                   chipData__.getKey(), chipData__.getValue());
               break;
             }
-            case 34: {
+            case 26: {
               if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 state_ = com.google.protobuf.MapField.newMapField(
                     StateDefaultEntryHolder.defaultEntry);
@@ -233,9 +215,9 @@ public final class CircuitManagerBuffer {
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 3:
+        case 2:
           return internalGetChipData();
-        case 4:
+        case 3:
           return internalGetState();
         default:
           throw new RuntimeException(
@@ -250,128 +232,10 @@ public final class CircuitManagerBuffer {
               mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.class, mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Builder.class);
     }
 
-    /**
-     * Protobuf enum {@code mc.jabber.proto.CircuitManagerProto.Type}
-     */
-    public enum Type
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>COMPUTE = 0;</code>
-       */
-      COMPUTE(0),
-      UNRECOGNIZED(-1),
-      ;
-
-      /**
-       * <code>COMPUTE = 0;</code>
-       */
-      public static final int COMPUTE_VALUE = 0;
-
-
-      public final int getNumber() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enum value.");
-        }
-        return value;
-      }
-
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static Type valueOf(int value) {
-        return forNumber(value);
-      }
-
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
-      public static Type forNumber(int value) {
-        switch (value) {
-          case 0: return COMPUTE;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<Type>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          Type> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<Type>() {
-              public Type findValueByNumber(int number) {
-                return Type.forNumber(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.getDescriptor().getEnumTypes().get(0);
-      }
-
-      private static final Type[] VALUES = values();
-
-      public static Type valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        if (desc.getIndex() == -1) {
-          return UNRECOGNIZED;
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int value;
-
-      private Type(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:mc.jabber.proto.CircuitManagerProto.Type)
-    }
-
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-     * @return The enum numeric value on the wire for type.
-     */
-    @java.lang.Override public int getTypeValue() {
-      return type_;
-    }
-    /**
-     * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-     * @return The type.
-     */
-    @java.lang.Override public mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type getType() {
-      @SuppressWarnings("deprecation")
-      mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type result = mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.valueOf(type_);
-      return result == null ? mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.UNRECOGNIZED : result;
-    }
-
-    public static final int BOARD_FIELD_NUMBER = 2;
+    public static final int BOARD_FIELD_NUMBER = 1;
     private mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto board_;
     /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      * @return Whether the board field is set.
      */
     @java.lang.Override
@@ -379,7 +243,7 @@ public final class CircuitManagerBuffer {
       return board_ != null;
     }
     /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      * @return The board.
      */
     @java.lang.Override
@@ -387,14 +251,14 @@ public final class CircuitManagerBuffer {
       return board_ == null ? mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.getDefaultInstance() : board_;
     }
     /**
-     * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+     * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
      */
     @java.lang.Override
     public mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProtoOrBuilder getBoardOrBuilder() {
       return getBoard();
     }
 
-    public static final int CHIPDATA_FIELD_NUMBER = 3;
+    public static final int CHIPDATA_FIELD_NUMBER = 2;
     private static final class ChipDataDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.Integer, com.google.protobuf.ByteString> defaultEntry =
@@ -421,7 +285,7 @@ public final class CircuitManagerBuffer {
       return internalGetChipData().getMap().size();
     }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
 
     @java.lang.Override
@@ -439,7 +303,7 @@ public final class CircuitManagerBuffer {
       return getChipDataMap();
     }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
@@ -447,7 +311,7 @@ public final class CircuitManagerBuffer {
       return internalGetChipData().getMap();
     }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
@@ -460,7 +324,7 @@ public final class CircuitManagerBuffer {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+     * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
      */
     @java.lang.Override
 
@@ -475,7 +339,7 @@ public final class CircuitManagerBuffer {
       return map.get(key);
     }
 
-    public static final int STATE_FIELD_NUMBER = 4;
+    public static final int STATE_FIELD_NUMBER = 3;
     private static final class StateDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalDataProto> defaultEntry =
@@ -502,7 +366,7 @@ public final class CircuitManagerBuffer {
       return internalGetState().getMap().size();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
 
     @java.lang.Override
@@ -520,7 +384,7 @@ public final class CircuitManagerBuffer {
       return getStateMap();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     @java.lang.Override
 
@@ -528,7 +392,7 @@ public final class CircuitManagerBuffer {
       return internalGetState().getMap();
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     @java.lang.Override
 
@@ -541,7 +405,7 @@ public final class CircuitManagerBuffer {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+     * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
      */
     @java.lang.Override
 
@@ -570,24 +434,21 @@ public final class CircuitManagerBuffer {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (type_ != mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.COMPUTE.getNumber()) {
-        output.writeEnum(1, type_);
-      }
       if (board_ != null) {
-        output.writeMessage(2, getBoard());
+        output.writeMessage(1, getBoard());
       }
       com.google.protobuf.GeneratedMessageV3
         .serializeIntegerMapTo(
           output,
           internalGetChipData(),
           ChipDataDefaultEntryHolder.defaultEntry,
-          3);
+          2);
       com.google.protobuf.GeneratedMessageV3
         .serializeIntegerMapTo(
           output,
           internalGetState(),
           StateDefaultEntryHolder.defaultEntry,
-          4);
+          3);
       unknownFields.writeTo(output);
     }
 
@@ -597,13 +458,9 @@ public final class CircuitManagerBuffer {
       if (size != -1) return size;
 
       size = 0;
-      if (type_ != mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.COMPUTE.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, type_);
-      }
       if (board_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getBoard());
+          .computeMessageSize(1, getBoard());
       }
       for (java.util.Map.Entry<java.lang.Integer, com.google.protobuf.ByteString> entry
            : internalGetChipData().getMap().entrySet()) {
@@ -613,7 +470,7 @@ public final class CircuitManagerBuffer {
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, chipData__);
+            .computeMessageSize(2, chipData__);
       }
       for (java.util.Map.Entry<java.lang.Integer, mc.jabber.proto.CardinalDataBuffer.CardinalDataProto> entry
            : internalGetState().getMap().entrySet()) {
@@ -623,7 +480,7 @@ public final class CircuitManagerBuffer {
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(4, state__);
+            .computeMessageSize(3, state__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -640,7 +497,6 @@ public final class CircuitManagerBuffer {
       }
       mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto other = (mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto) obj;
 
-      if (type_ != other.type_) return false;
       if (hasBoard() != other.hasBoard()) return false;
       if (hasBoard()) {
         if (!getBoard()
@@ -661,8 +517,6 @@ public final class CircuitManagerBuffer {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + type_;
       if (hasBoard()) {
         hash = (37 * hash) + BOARD_FIELD_NUMBER;
         hash = (53 * hash) + getBoard().hashCode();
@@ -786,9 +640,9 @@ public final class CircuitManagerBuffer {
       protected com.google.protobuf.MapField internalGetMapField(
           int number) {
         switch (number) {
-          case 3:
+          case 2:
             return internalGetChipData();
-          case 4:
+          case 3:
             return internalGetState();
           default:
             throw new RuntimeException(
@@ -799,9 +653,9 @@ public final class CircuitManagerBuffer {
       protected com.google.protobuf.MapField internalGetMutableMapField(
           int number) {
         switch (number) {
-          case 3:
+          case 2:
             return internalGetMutableChipData();
-          case 4:
+          case 3:
             return internalGetMutableState();
           default:
             throw new RuntimeException(
@@ -834,8 +688,6 @@ public final class CircuitManagerBuffer {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        type_ = 0;
-
         if (boardBuilder_ == null) {
           board_ = null;
         } else {
@@ -871,7 +723,6 @@ public final class CircuitManagerBuffer {
       public mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto buildPartial() {
         mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto result = new mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto(this);
         int from_bitField0_ = bitField0_;
-        result.type_ = type_;
         if (boardBuilder_ == null) {
           result.board_ = board_;
         } else {
@@ -929,9 +780,6 @@ public final class CircuitManagerBuffer {
 
       public Builder mergeFrom(mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto other) {
         if (other == mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.getDefaultInstance()) return this;
-        if (other.type_ != 0) {
-          setTypeValue(other.getTypeValue());
-        }
         if (other.hasBoard()) {
           mergeBoard(other.getBoard());
         }
@@ -969,72 +817,18 @@ public final class CircuitManagerBuffer {
       }
       private int bitField0_;
 
-      private int type_ = 0;
-      /**
-       * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-       * @return The enum numeric value on the wire for type.
-       */
-      @java.lang.Override public int getTypeValue() {
-        return type_;
-      }
-      /**
-       * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-       * @param value The enum numeric value on the wire for type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTypeValue(int value) {
-        
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-       * @return The type.
-       */
-      @java.lang.Override
-      public mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type getType() {
-        @SuppressWarnings("deprecation")
-        mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type result = mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.valueOf(type_);
-        return result == null ? mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-       * @param value The type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setType(mc.jabber.proto.CircuitManagerBuffer.CircuitManagerProto.Type value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        type_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.mc.jabber.proto.CircuitManagerProto.Type type = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearType() {
-        
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
       private mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto board_;
       private com.google.protobuf.SingleFieldBuilderV3<
           mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto, mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.Builder, mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProtoOrBuilder> boardBuilder_;
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        * @return Whether the board field is set.
        */
       public boolean hasBoard() {
         return boardBuilder_ != null || board_ != null;
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        * @return The board.
        */
       public mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto getBoard() {
@@ -1045,7 +839,7 @@ public final class CircuitManagerBuffer {
         }
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public Builder setBoard(mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto value) {
         if (boardBuilder_ == null) {
@@ -1061,7 +855,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public Builder setBoard(
           mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.Builder builderForValue) {
@@ -1075,7 +869,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public Builder mergeBoard(mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto value) {
         if (boardBuilder_ == null) {
@@ -1093,7 +887,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public Builder clearBoard() {
         if (boardBuilder_ == null) {
@@ -1107,7 +901,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.Builder getBoardBuilder() {
         
@@ -1115,7 +909,7 @@ public final class CircuitManagerBuffer {
         return getBoardFieldBuilder().getBuilder();
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       public mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProtoOrBuilder getBoardOrBuilder() {
         if (boardBuilder_ != null) {
@@ -1126,7 +920,7 @@ public final class CircuitManagerBuffer {
         }
       }
       /**
-       * <code>.mc.jabber.proto.CircuitBoardProto board = 2;</code>
+       * <code>.mc.jabber.proto.CircuitBoardProto board = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto, mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProto.Builder, mc.jabber.proto.CircuitBoardBuffer.CircuitBoardProtoOrBuilder> 
@@ -1169,7 +963,7 @@ public final class CircuitManagerBuffer {
         return internalGetChipData().getMap().size();
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       @java.lang.Override
@@ -1187,7 +981,7 @@ public final class CircuitManagerBuffer {
         return getChipDataMap();
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
@@ -1195,7 +989,7 @@ public final class CircuitManagerBuffer {
         return internalGetChipData().getMap();
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
@@ -1208,7 +1002,7 @@ public final class CircuitManagerBuffer {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       @java.lang.Override
 
@@ -1229,7 +1023,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       public Builder removeChipData(
@@ -1248,7 +1042,7 @@ public final class CircuitManagerBuffer {
         return internalGetMutableChipData().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
       public Builder putChipData(
           int key,
@@ -1260,7 +1054,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, bytes&gt; chipData = 3;</code>
+       * <code>map&lt;int32, bytes&gt; chipData = 2;</code>
        */
 
       public Builder putAllChipData(
@@ -1297,7 +1091,7 @@ public final class CircuitManagerBuffer {
         return internalGetState().getMap().size();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
 
       @java.lang.Override
@@ -1315,7 +1109,7 @@ public final class CircuitManagerBuffer {
         return getStateMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
       @java.lang.Override
 
@@ -1323,7 +1117,7 @@ public final class CircuitManagerBuffer {
         return internalGetState().getMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
       @java.lang.Override
 
@@ -1336,7 +1130,7 @@ public final class CircuitManagerBuffer {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
       @java.lang.Override
 
@@ -1357,7 +1151,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
 
       public Builder removeState(
@@ -1376,7 +1170,7 @@ public final class CircuitManagerBuffer {
         return internalGetMutableState().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
       public Builder putState(
           int key,
@@ -1388,7 +1182,7 @@ public final class CircuitManagerBuffer {
         return this;
       }
       /**
-       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 4;</code>
+       * <code>map&lt;int32, .mc.jabber.proto.CardinalDataProto&gt; state = 3;</code>
        */
 
       public Builder putAllState(
@@ -1478,17 +1272,15 @@ public final class CircuitManagerBuffer {
       "uffer.proto\022\017mc.jabber.proto\032/mc/jabber/" +
       "proto/protos/cardinalDataBuffer.proto\032/m" +
       "c/jabber/proto/protos/circuitBoardBuffer" +
-      ".proto\"\237\003\n\023CircuitManagerProto\0227\n\004type\030\001" +
-      " \001(\0162).mc.jabber.proto.CircuitManagerPro" +
-      "to.Type\0221\n\005board\030\002 \001(\0132\".mc.jabber.proto" +
-      ".CircuitBoardProto\022D\n\010chipData\030\003 \003(\01322.m" +
-      "c.jabber.proto.CircuitManagerProto.ChipD" +
-      "ataEntry\022>\n\005state\030\004 \003(\0132/.mc.jabber.prot" +
-      "o.CircuitManagerProto.StateEntry\032/\n\rChip" +
-      "DataEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\014:\0028" +
-      "\001\032P\n\nStateEntry\022\013\n\003key\030\001 \001(\005\0221\n\005value\030\002 " +
-      "\001(\0132\".mc.jabber.proto.CardinalDataProto:" +
-      "\0028\001\"\023\n\004Type\022\013\n\007COMPUTE\020\000b\006proto3"
+      ".proto\"\321\002\n\023CircuitManagerProto\0221\n\005board\030" +
+      "\001 \001(\0132\".mc.jabber.proto.CircuitBoardProt" +
+      "o\022D\n\010chipData\030\002 \003(\01322.mc.jabber.proto.Ci" +
+      "rcuitManagerProto.ChipDataEntry\022>\n\005state" +
+      "\030\003 \003(\0132/.mc.jabber.proto.CircuitManagerP" +
+      "roto.StateEntry\032/\n\rChipDataEntry\022\013\n\003key\030" +
+      "\001 \001(\005\022\r\n\005value\030\002 \001(\014:\0028\001\032P\n\nStateEntry\022\013" +
+      "\n\003key\030\001 \001(\005\0221\n\005value\030\002 \001(\0132\".mc.jabber.p" +
+      "roto.CardinalDataProto:\0028\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1501,7 +1293,7 @@ public final class CircuitManagerBuffer {
     internal_static_mc_jabber_proto_CircuitManagerProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mc_jabber_proto_CircuitManagerProto_descriptor,
-        new java.lang.String[] { "Type", "Board", "ChipData", "State", });
+        new java.lang.String[] { "Board", "ChipData", "State", });
     internal_static_mc_jabber_proto_CircuitManagerProto_ChipDataEntry_descriptor =
       internal_static_mc_jabber_proto_CircuitManagerProto_descriptor.getNestedTypes().get(0);
     internal_static_mc_jabber_proto_CircuitManagerProto_ChipDataEntry_fieldAccessorTable = new

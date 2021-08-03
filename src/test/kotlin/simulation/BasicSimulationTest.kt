@@ -8,9 +8,7 @@ import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
-import mc.jabber.core.data.CircuitType
-import mc.jabber.core.data.cardinal.ComputeData
-import mc.jabber.core.data.serial.LongBox
+import mc.jabber.core.data.CardinalData
 import net.minecraft.util.Identifier
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -25,7 +23,7 @@ class BasicSimulationTest {
 
     @Test
     fun testEmptyBoard() {
-        val circuitManager = CircuitManager(CircuitType.COMPUTE, 4, 3)
+        val circuitManager = CircuitManager(4, 3)
         circuitManager.setup()
         repeat(5) {
             circuitManager.simulate()
@@ -34,16 +32,16 @@ class BasicSimulationTest {
 
     @Test
     fun testDataTransfer() {
-        val expected: MutableList<LongBox> = mutableListOf()
+        val expected: MutableList<Long> = mutableListOf()
         repeat(10) {
-            expected.add(LongBox(it.toLong() + 1))
+            expected.add(it.toLong() + 1)
         }
 
-        val queue = mutableListOf<LongBox>()
-        queue.addAll(expected.map { it.copy() })
+        val queue = mutableListOf<Long>()
+        queue.addAll(expected)
 
-        CircuitManager(CircuitType.COMPUTE, 4, 3).also {
-            it.board[0, 0] = CustomChip(Identifier("jabber:a")) { _, _, _ -> ComputeData(null, queue.removeFirstOrNull(), null, null) }
+        CircuitManager(4, 3).also {
+            it.board[0, 0] = CustomChip(Identifier("jabber:a"), true) { _, _, _ -> CardinalData(null, queue.removeFirstOrNull(), null, null) }
             it.board[0, 1] = Quad1PipeChip()
             it.board[1, 1] = Quad2PipeChip()
             it.board[1, 0] = Quad4PipeChip()

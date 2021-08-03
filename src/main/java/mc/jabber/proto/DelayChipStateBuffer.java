@@ -150,10 +150,10 @@ public final class DelayChipStateBuffer {
       int getDirection();
 
       /**
-       * <code>bytes data = 3;</code>
+       * <code>int64 data = 3;</code>
        * @return The data.
        */
-      com.google.protobuf.ByteString getData();
+      long getData();
     }
     /**
      * Protobuf type {@code mc.jabber.proto.DelayChipStateProto.entry}
@@ -168,7 +168,6 @@ public final class DelayChipStateBuffer {
         super(builder);
       }
       private entry() {
-        data_ = com.google.protobuf.ByteString.EMPTY;
       }
 
       @java.lang.Override
@@ -211,9 +210,9 @@ public final class DelayChipStateBuffer {
                 direction_ = input.readUInt32();
                 break;
               }
-              case 26: {
+              case 24: {
 
-                data_ = input.readBytes();
+                data_ = input.readInt64();
                 break;
               }
               default: {
@@ -271,13 +270,13 @@ public final class DelayChipStateBuffer {
       }
 
       public static final int DATA_FIELD_NUMBER = 3;
-      private com.google.protobuf.ByteString data_;
+      private long data_;
       /**
-       * <code>bytes data = 3;</code>
+       * <code>int64 data = 3;</code>
        * @return The data.
        */
       @java.lang.Override
-      public com.google.protobuf.ByteString getData() {
+      public long getData() {
         return data_;
       }
 
@@ -301,8 +300,8 @@ public final class DelayChipStateBuffer {
         if (direction_ != 0) {
           output.writeUInt32(2, direction_);
         }
-        if (!data_.isEmpty()) {
-          output.writeBytes(3, data_);
+        if (data_ != 0L) {
+          output.writeInt64(3, data_);
         }
         unknownFields.writeTo(output);
       }
@@ -321,9 +320,9 @@ public final class DelayChipStateBuffer {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, direction_);
         }
-        if (!data_.isEmpty()) {
+        if (data_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(3, data_);
+            .computeInt64Size(3, data_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -344,8 +343,8 @@ public final class DelayChipStateBuffer {
             != other.getRemainingDelay()) return false;
         if (getDirection()
             != other.getDirection()) return false;
-        if (!getData()
-            .equals(other.getData())) return false;
+        if (getData()
+            != other.getData()) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
@@ -362,7 +361,8 @@ public final class DelayChipStateBuffer {
         hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
         hash = (53 * hash) + getDirection();
         hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getData().hashCode();
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getData());
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -500,7 +500,7 @@ public final class DelayChipStateBuffer {
 
           direction_ = 0;
 
-          data_ = com.google.protobuf.ByteString.EMPTY;
+          data_ = 0L;
 
           return this;
         }
@@ -585,7 +585,7 @@ public final class DelayChipStateBuffer {
           if (other.getDirection() != 0) {
             setDirection(other.getDirection());
           }
-          if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
+          if (other.getData() != 0L) {
             setData(other.getData());
           }
           this.mergeUnknownFields(other.unknownFields);
@@ -679,36 +679,33 @@ public final class DelayChipStateBuffer {
           return this;
         }
 
-        private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+        private long data_ ;
         /**
-         * <code>bytes data = 3;</code>
+         * <code>int64 data = 3;</code>
          * @return The data.
          */
         @java.lang.Override
-        public com.google.protobuf.ByteString getData() {
+        public long getData() {
           return data_;
         }
         /**
-         * <code>bytes data = 3;</code>
+         * <code>int64 data = 3;</code>
          * @param value The data to set.
          * @return This builder for chaining.
          */
-        public Builder setData(com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        public Builder setData(long value) {
+          
           data_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>bytes data = 3;</code>
+         * <code>int64 data = 3;</code>
          * @return This builder for chaining.
          */
         public Builder clearData() {
           
-          data_ = getDefaultInstance().getData();
+          data_ = 0L;
           onChanged();
           return this;
         }
@@ -1463,7 +1460,7 @@ public final class DelayChipStateBuffer {
       "ipStateProto\022;\n\007entries\030\001 \003(\0132*.mc.jabbe" +
       "r.proto.DelayChipStateProto.entry\032@\n\005ent" +
       "ry\022\026\n\016remainingDelay\030\001 \001(\r\022\021\n\tdirection\030" +
-      "\002 \001(\r\022\014\n\004data\030\003 \001(\014b\006proto3"
+      "\002 \001(\r\022\014\n\004data\030\003 \001(\003b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

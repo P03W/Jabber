@@ -2,7 +2,6 @@ package mc.jabber.minecraft.block.entity
 
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
-import mc.jabber.core.data.CircuitType
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.proto.CircuitManagerBuffer
@@ -38,7 +37,6 @@ class SimpleComputerBE(
         }
         val item = new.item.assertType<CircuitItem>()
         circuit = CircuitManager(
-            CircuitType.COMPUTE,
             item.sizeX,
             item.sizeY,
             CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(new.orCreateNbt.getByteArray("c")))

@@ -1,6 +1,5 @@
 package serialization
 
-import mc.jabber.core.data.serial.LongBox
 import mc.jabber.core.data.util.TriSet
 import mc.jabber.core.chips.special.DelayChip
 import mc.jabber.core.math.Cardinal
@@ -10,18 +9,13 @@ import kotlin.random.Random
 class DelayChipSerialTest {
     @Test
     fun testDelayChipSerial() {
-        println("Hello!")
-        println("This is *very* slow on a cold JVM")
-        println("The implementation is actually quite fast normally")
-        println("If you duplicate this test, it'll take barely any time")
-
         val state = DelayChip.DelayState()
 
         val random = Random(21095478)
 
-        val expectedA = TriSet(random.nextInt(), Cardinal.LEFT, LongBox(random.nextLong()))
-        val expectedB = TriSet(random.nextInt(), Cardinal.UP, LongBox(random.nextLong()))
-        val expectedC = TriSet(random.nextInt(), Cardinal.DOWN, LongBox(random.nextLong()))
+        val expectedA = TriSet(random.nextInt(), Cardinal.LEFT, random.nextLong())
+        val expectedB = TriSet(random.nextInt(), Cardinal.UP, random.nextLong())
+        val expectedC = TriSet(random.nextInt(), Cardinal.DOWN, random.nextLong())
 
         state.data.add(expectedA)
         state.data.add(expectedB)

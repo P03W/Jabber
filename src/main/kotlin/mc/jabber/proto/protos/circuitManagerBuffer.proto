@@ -5,12 +5,7 @@ import "mc/jabber/proto/protos/cardinalDataBuffer.proto";
 import "mc/jabber/proto/protos/circuitBoardBuffer.proto";
 
 message CircuitManagerProto {
-  enum Type {
-    COMPUTE = 0;
-  }
-
-  Type type = 1;
-  CircuitBoardProto board = 2;
-  map<int32, bytes> chipData = 3;
-  map<int32, CardinalDataProto> state = 4;
+  CircuitBoardProto board = 1;
+  map<int32, bytes> chipData = 2;
+  map<int32, CardinalDataProto> state = 3;
 }

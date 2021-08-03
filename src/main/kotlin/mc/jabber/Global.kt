@@ -5,8 +5,7 @@ import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.special.CustomChip
-import mc.jabber.core.data.cardinal.ComputeData
-import mc.jabber.core.data.serial.LongBox
+import mc.jabber.core.data.CardinalData
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
@@ -113,7 +112,7 @@ object Global {
 
         // Debug
         val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("constant_1"), true) { _, _, _ ->
-            return@CustomChip ComputeData(LongBox(1), LongBox(1), LongBox(1), LongBox(1))
+            return@CustomChip CardinalData(1, 1, 1, 1)
         })
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
             println(data)
@@ -127,6 +126,9 @@ object Global {
         fun register() {
             fun Item.register(itemID: String) {
                 Registry.register(Registry.ITEM, id(itemID), this)
+                if (this is ChipItem) {
+                    PROCESS_ITEM_MAP[this.process.id] = this
+                }
             }
 
             CHIPS.forEach { (id, item) ->

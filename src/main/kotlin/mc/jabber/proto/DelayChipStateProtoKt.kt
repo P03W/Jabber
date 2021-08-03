@@ -139,9 +139,9 @@ object DelayChipStateProtoKt {
       }
 
       /**
-       * <code>bytes data = 3;</code>
+       * <code>int64 data = 3;</code>
        */
-      var data: com.google.protobuf.ByteString
+      var data: kotlin.Long
         @JvmName("getData")
         get() = _builder.getData()
         @JvmName("setData")
@@ -149,7 +149,7 @@ object DelayChipStateProtoKt {
           _builder.setData(value)
         }
       /**
-       * <code>bytes data = 3;</code>
+       * <code>int64 data = 3;</code>
        */
       fun clearData() {
         _builder.clearData()

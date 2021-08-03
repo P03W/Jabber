@@ -1,17 +1,17 @@
 package mc.jabber.core.circuit
 
-import mc.jabber.core.data.cardinal.CardinalData
+import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
-import mc.jabber.core.data.CircuitType
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.proto.circuitManagerProto
 import mc.jabber.util.asIdableByteArray
+import mc.jabber.util.log
 import mc.jabber.util.toByteString
 
-class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
+class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
 
     var board = _initialBoard
         private set
@@ -31,7 +31,7 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoar
 
     fun simulate() {
         // Generate input
-        val empty = type.templateData.empty()
+        val empty = CardinalData(null, null, null, null)
         board.forEachInput { vec2I, chipProcess ->
             chipProcess.receive(empty, vec2I, chipData).forEach { dir, any ->
                 val offset = vec2I + dir
@@ -44,11 +44,22 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoar
 
         // Simulate each state
         state.forEach { vec2I, data ->
-            board[vec2I]!!.receive(data, vec2I, chipData).forEach { dir, any ->
+            val process = board[vec2I]
+            if (process!!.isInput) return@forEach
+
+            "${process.id} is getting $data".log()
+
+            process.receive(data, vec2I, chipData).forEach { dir, any ->
                 val offset = vec2I + dir
 
                 if (any != null && board.isInBounds(offset) && board[offset] != null) {
-                    stagingMap[offset] = data.empty().with(dir, any)
+                    val cardinalData = stagingMap[offset]
+                    if (cardinalData == null) {
+                        stagingMap[offset] = data.empty().with(dir, any)
+                    } else {
+                        stagingMap[offset] = cardinalData.with(dir, any)
+                    }
+                    "$any is going to $offset from ${process.id}".log()
                 }
             }
         }
@@ -66,7 +77,6 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoar
 
     fun serialize(): CircuitManagerBuffer.CircuitManagerProto {
         return circuitManagerProto {
-            type = this@CircuitManager.type.toProto()
             board = this@CircuitManager.board.serialize()
             chipData.run {
                 this@CircuitManager.chipData.forEach { (vec2i, u) ->
@@ -82,15 +92,14 @@ class CircuitManager(val type: CircuitType, sizeX: Int, sizeY: Int, _initialBoar
     }
 
     override fun toString(): String {
-        return "\nCircuitManager(type=$type)\n$state\n$board"
+        return "\nCircuitManager\n$state\n$board"
     }
 
     companion object {
         fun deserialize(proto: CircuitManagerBuffer.CircuitManagerProto): CircuitManager {
-            val type = CircuitType.fromProto(proto.type)
             val board = CircuitBoard.deserialize(proto.board)
 
-            val manager = CircuitManager(type, board.sizeX, board.sizeY)
+            val manager = CircuitManager(board.sizeX, board.sizeY)
             manager.board = board
 
             proto.chipDataMap.forEach { (pos, u) ->

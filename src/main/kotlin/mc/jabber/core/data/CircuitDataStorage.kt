@@ -1,6 +1,5 @@
 package mc.jabber.core.data
 
-import mc.jabber.core.data.cardinal.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
@@ -11,14 +10,14 @@ import mc.jabber.core.math.Vec2I
  * @param sizeY The Y dimension, only used for initial size allocations
  */
 class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
-    val array: Array<CardinalData<out NbtTransformable<*>>?> = Array(sizeX * sizeY) { null }
+    val array: Array<CardinalData?> = Array(sizeX * sizeY) { null }
 
     /**
      * Iterates over the collection as if it was a map
      *
      * Skips null values, and provides a Vec2I instead of the raw index
      */
-    inline fun forEach(action: (Vec2I, CardinalData<*>) -> Unit) {
+    inline fun forEach(action: (Vec2I, CardinalData) -> Unit) {
         array.forEachIndexed { i, data ->
             if (data != null) {
                 action(indexToVec(i), data)
@@ -31,11 +30,11 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      *
      * [index] in implicitly converted to a raw index through [vecToIndex]
      */
-    operator fun set(index: Vec2I, data: CardinalData<out NbtTransformable<*>>) {
+    operator fun set(index: Vec2I, data: CardinalData) {
         array[vecToIndex(index)] = data
     }
 
-    operator fun get(index: Vec2I): CardinalData<*>? {
+    operator fun get(index: Vec2I): CardinalData? {
         return array[vecToIndex(index)]
     }
 

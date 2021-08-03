@@ -2,9 +2,8 @@ syntax = "proto3";
 package mc.jabber.proto;
 
 message CardinalDataProto {
-  int32 typeByte = 1;
-  optional bytes up = 2;
-  optional bytes down = 3;
-  optional bytes right = 4;
-  optional bytes left = 5;
+  optional int64 up = 1;
+  optional int64 down = 2;
+  optional int64 right = 3;
+  optional int64 left = 4;
 }

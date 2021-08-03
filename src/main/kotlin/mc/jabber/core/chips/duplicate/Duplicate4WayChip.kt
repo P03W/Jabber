@@ -3,7 +3,7 @@ package mc.jabber.core.chips.duplicate
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
-import mc.jabber.core.data.cardinal.CardinalData
+import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import net.minecraft.util.Identifier
@@ -11,11 +11,11 @@ import net.minecraft.util.Identifier
 @ChipID("chip_duplicate_4_way")
 class Duplicate4WayChip : ChipProcess() {
     override val id: Identifier = Global.id("dup4")
-    override fun <T : NbtTransformable<*>> receive(
-        data: CardinalData<T>,
+    override fun receive(
+        data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>
-    ): CardinalData<T> {
+    ): CardinalData {
         val got = data.acquire() ?: return data.ofAll(null)
         return data.ofAll(got.second).with(got.first.mirror(), null)
     }
