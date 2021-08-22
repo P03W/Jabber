@@ -8,7 +8,6 @@ import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.proto.circuitManagerProto
 import mc.jabber.util.asIdableByteArray
-import mc.jabber.util.log
 import mc.jabber.util.toByteString
 
 class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
@@ -16,9 +15,9 @@ class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = Circu
     var board = _initialBoard
         private set
 
-    val chipData: HashMap<Vec2I, NbtTransformable<*>> = hashMapOf()
-    val state = CircuitDataStorage(sizeX, sizeY)
-    val stagingMap = CircuitDataStorage(sizeX, sizeY)
+    private val chipData: HashMap<Vec2I, NbtTransformable<*>> = hashMapOf()
+    private val state = CircuitDataStorage(sizeX, sizeY)
+    private val stagingMap = CircuitDataStorage(sizeX, sizeY)
 
     fun setup() {
         board.forEach { vec2I, process ->
@@ -32,24 +31,15 @@ class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = Circu
     fun simulate() {
         // Generate input
         val empty = CardinalData(null, null, null, null)
-        board.forEachInput { vec2I, chipProcess ->
-            chipProcess.receive(empty, vec2I, chipData).forEach { dir, any ->
-                val offset = vec2I + dir
-
-                if (any != null && board.isInBounds(offset) && board[offset] != null) {
-                    stagingMap[offset] = empty.with(dir, any)
-                }
-            }
+        board.forEachInput { vec2I, _ ->
+            stagingMap[vec2I] = empty
         }
 
         // Simulate each state
         state.forEach { vec2I, data ->
             val process = board[vec2I]
-            if (process!!.isInput) return@forEach
 
-            "${process.id} is getting $data".log()
-
-            process.receive(data, vec2I, chipData).forEach { dir, any ->
+            process!!.receive(data, vec2I, chipData).forEach { dir, any ->
                 val offset = vec2I + dir
 
                 if (any != null && board.isInBounds(offset) && board[offset] != null) {
@@ -59,17 +49,12 @@ class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = Circu
                     } else {
                         stagingMap[offset] = cardinalData.with(dir, any)
                     }
-                    "$any is going to $offset from ${process.id}".log()
                 }
             }
         }
 
-        state.clear()
-
         // Copy the staged data back in
-        stagingMap.forEach { point, data ->
-            state[point] = data
-        }
+        stagingMap.copyTo(state)
 
         // Delete the old data we copied in
         stagingMap.clear()

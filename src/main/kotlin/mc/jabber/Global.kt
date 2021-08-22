@@ -111,8 +111,11 @@ object Global {
         val CHIP_ADD_1 = ChipItem(AddChip(1))
 
         // Debug
-        val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("constant_1"), true) { _, _, _ ->
+        val CHIP_DEBUG_CONSTANT_1 = ChipItem(CustomChip(id("const_1"), true) { _, _, _ ->
             return@CustomChip CardinalData(1, 1, 1, 1)
+        })
+        val CHIP_DEBUG_CONSTANT_0 = ChipItem(CustomChip(id("const_0"), true) { _, _, _ ->
+            return@CustomChip CardinalData(0, 0, 0, 0)
         })
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
             println(data)
@@ -141,8 +144,10 @@ object Global {
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
             CIRCUIT_ITEM_8x6.register("circuit_8x6")
             CIRCUIT_ITEM_10x10.register("circuit_10x10")
+
             CHIP_DEBUG_OUTPUT.register("chip_debug_output")
             CHIP_DEBUG_CONSTANT_1.register("chip_debug_constant_1")
+            CHIP_DEBUG_CONSTANT_0.register("chip_debug_constant_0")
         }
     }
 

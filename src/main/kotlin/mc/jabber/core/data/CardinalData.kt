@@ -41,11 +41,15 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
      * @return A new [CardinalData] of the same type, but with the [direction] replaced with [value]
      */
     fun with(direction: Cardinal, value: Long?): CardinalData {
-        return when (direction) {
-            Cardinal.UP -> CardinalData(value, down, left, right)
-            Cardinal.DOWN -> CardinalData(up, value, left, right)
-            Cardinal.LEFT -> CardinalData(up, down, value, right)
-            Cardinal.RIGHT -> CardinalData(up, down, left, value)
+        @Suppress("CascadeIf")
+        return if (direction == Cardinal.UP) {
+            CardinalData(value, down, left, right)
+        } else if (direction == Cardinal.DOWN) {
+            CardinalData(up, value, left, right)
+        } else if (direction == Cardinal.LEFT) {
+            CardinalData(up, down, value, right)
+        } else {
+            CardinalData(up, down, left, value)
         }
     }
 
@@ -55,47 +59,31 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
      * @return A new [CardinalData] with only the value specified with [direction]
      */
     fun only(direction: Cardinal): CardinalData {
-        return when (direction) {
-            Cardinal.UP -> CardinalData(up, null, null, null)
-            Cardinal.DOWN -> CardinalData(null, down, null, null)
-            Cardinal.LEFT -> CardinalData(null, null, left, null)
-            Cardinal.RIGHT -> CardinalData(null, null, null, right)
+        @Suppress("CascadeIf")
+        return if (direction == Cardinal.UP) {
+            CardinalData(up, null, null, null)
+        } else if (direction == Cardinal.DOWN) {
+            CardinalData(null, down, null, null)
+        } else if (direction == Cardinal.LEFT) {
+            CardinalData(null, null, left, null)
+        } else {
+            CardinalData(null, null, null, right)
         }
     }
 
     /**
-     * Makes a new [CardinalData] with the passed values, but replaces all nulls passed with [replacement]
+     * Makes a new [CardinalData] but replaces all nulls passed with [replacement] and make others null
      *
      * @param replacement What the null values passed should become
      */
-    fun ofReplaceNull(
-        up: Long?,
-        down: Long?,
-        left: Long?,
-        right: Long?,
+    fun replaceNull(
         replacement: Long
     ): CardinalData {
         return CardinalData(
-            up ?: replacement,
-            down ?: replacement,
-            left ?: replacement,
-            right ?: replacement
-        )
-    }
-
-    /**
-     * Makes a new [CardinalData] but replaces all non-nulls passed with [replacement] and leaves others
-     *
-     * @param replacement What the non-null values passed should become
-     */
-    fun replaceNonNull(
-        replacement: Long
-    ): CardinalData {
-        return CardinalData(
-            if (up != null) replacement else null,
-            if (down != null) replacement else null,
-            if (left != null) replacement else null,
-            if (right != null) replacement else null
+            if (down == null) replacement else null,
+            if (up == null) replacement else null,
+            if (right == null) replacement else null,
+            if (left == null) replacement else null
         )
     }
 

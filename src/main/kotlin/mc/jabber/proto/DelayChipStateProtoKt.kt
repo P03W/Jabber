@@ -139,7 +139,7 @@ object DelayChipStateProtoKt {
       }
 
       /**
-       * <code>int64 data = 3;</code>
+       * <code>sint64 data = 3;</code>
        */
       var data: kotlin.Long
         @JvmName("getData")
@@ -149,7 +149,7 @@ object DelayChipStateProtoKt {
           _builder.setData(value)
         }
       /**
-       * <code>int64 data = 3;</code>
+       * <code>sint64 data = 3;</code>
        */
       fun clearData() {
         _builder.clearData()

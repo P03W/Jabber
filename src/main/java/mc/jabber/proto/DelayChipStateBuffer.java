@@ -150,7 +150,7 @@ public final class DelayChipStateBuffer {
       int getDirection();
 
       /**
-       * <code>int64 data = 3;</code>
+       * <code>sint64 data = 3;</code>
        * @return The data.
        */
       long getData();
@@ -212,7 +212,7 @@ public final class DelayChipStateBuffer {
               }
               case 24: {
 
-                data_ = input.readInt64();
+                data_ = input.readSInt64();
                 break;
               }
               default: {
@@ -272,7 +272,7 @@ public final class DelayChipStateBuffer {
       public static final int DATA_FIELD_NUMBER = 3;
       private long data_;
       /**
-       * <code>int64 data = 3;</code>
+       * <code>sint64 data = 3;</code>
        * @return The data.
        */
       @java.lang.Override
@@ -301,7 +301,7 @@ public final class DelayChipStateBuffer {
           output.writeUInt32(2, direction_);
         }
         if (data_ != 0L) {
-          output.writeInt64(3, data_);
+          output.writeSInt64(3, data_);
         }
         unknownFields.writeTo(output);
       }
@@ -322,7 +322,7 @@ public final class DelayChipStateBuffer {
         }
         if (data_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(3, data_);
+            .computeSInt64Size(3, data_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -681,7 +681,7 @@ public final class DelayChipStateBuffer {
 
         private long data_ ;
         /**
-         * <code>int64 data = 3;</code>
+         * <code>sint64 data = 3;</code>
          * @return The data.
          */
         @java.lang.Override
@@ -689,7 +689,7 @@ public final class DelayChipStateBuffer {
           return data_;
         }
         /**
-         * <code>int64 data = 3;</code>
+         * <code>sint64 data = 3;</code>
          * @param value The data to set.
          * @return This builder for chaining.
          */
@@ -700,7 +700,7 @@ public final class DelayChipStateBuffer {
           return this;
         }
         /**
-         * <code>int64 data = 3;</code>
+         * <code>sint64 data = 3;</code>
          * @return This builder for chaining.
          */
         public Builder clearData() {
@@ -1460,7 +1460,7 @@ public final class DelayChipStateBuffer {
       "ipStateProto\022;\n\007entries\030\001 \003(\0132*.mc.jabbe" +
       "r.proto.DelayChipStateProto.entry\032@\n\005ent" +
       "ry\022\026\n\016remainingDelay\030\001 \001(\r\022\021\n\tdirection\030" +
-      "\002 \001(\r\022\014\n\004data\030\003 \001(\003b\006proto3"
+      "\002 \001(\r\022\014\n\004data\030\003 \001(\022b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

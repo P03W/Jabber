@@ -1,8 +1,6 @@
 package mc.jabber.init
 
 import mc.jabber.Global
-import mc.jabber.minecraft.items.ChipItem
-import mc.jabber.util.assertType
 import mc.jabber.util.capitalize
 import net.devtech.arrp.api.RRPCallback
 import net.devtech.arrp.api.RRPPreGenEntrypoint
@@ -11,9 +9,6 @@ import net.devtech.arrp.json.lang.JLang
 import net.devtech.arrp.json.models.JModel
 import net.devtech.arrp.json.models.JTextures
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.util.registry.Registry
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 

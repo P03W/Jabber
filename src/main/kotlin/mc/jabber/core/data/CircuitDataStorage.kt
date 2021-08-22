@@ -1,6 +1,5 @@
 package mc.jabber.core.data
 
-import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
 /**
@@ -10,7 +9,7 @@ import mc.jabber.core.math.Vec2I
  * @param sizeY The Y dimension, only used for initial size allocations
  */
 class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
-    val array: Array<CardinalData?> = Array(sizeX * sizeY) { null }
+    var array: Array<CardinalData?> = Array(sizeX * sizeY) { null }
 
     /**
      * Iterates over the collection as if it was a map
@@ -56,9 +55,16 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      * Clear out any data
      */
     fun clear() {
-        for (i in array.indices) {
+        var i = 0;
+        val max = array.size
+        while (i < max) {
             array[i] = null
+            i++
         }
+    }
+
+    fun copyTo(other: CircuitDataStorage) {
+        other.array = this.array.copyOf()
     }
 
     override fun toString(): String {
