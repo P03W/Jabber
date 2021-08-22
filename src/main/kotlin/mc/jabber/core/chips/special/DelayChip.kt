@@ -19,7 +19,8 @@ import net.minecraft.util.Identifier
 
 @AutoConstructInt(ChipID("chip_delay"), [1, 2, 3, 4, 5, 10, 20])
 class DelayChip(val delay: Int) : ChipProcess() {
-    override val id: Identifier = Global.id("delay$delay")
+    override val id = Global.id("delay$delay")
+
     override fun makeInitialStateEntry(): NbtTransformable<DelayState> {
         return DelayState()
     }

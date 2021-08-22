@@ -72,11 +72,13 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
     }
 
     /**
-     * Makes a new [CardinalData] but replaces all nulls passed with [replacement] and make others null
+     * Makes a new [CardinalData] but replaces all nulls passed with [replacement] and make others null, as well as mirroring
+     *
+     * This is the required series of logic to output a value on all channels not received on
      *
      * @param replacement What the null values passed should become
      */
-    fun replaceNull(
+    fun outputNotReceived(
         replacement: Long
     ): CardinalData {
         return CardinalData(

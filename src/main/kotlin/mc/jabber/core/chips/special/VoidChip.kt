@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
 
 @ChipID("chip_void")
 class VoidChip : ChipProcess() {
-    override val id: Identifier = Global.id("void")
+    override val id = Global.id("void")
 
     override fun receive(
         data: CardinalData,

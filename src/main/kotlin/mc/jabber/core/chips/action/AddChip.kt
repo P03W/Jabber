@@ -9,8 +9,9 @@ import mc.jabber.util.assertType
 import net.minecraft.util.Identifier
 
 class AddChip(val amount: Int) : ChipProcess() {
-    override val id: Identifier = Global.id("add")
+    override val id = Global.id("add")
     override fun receive(
+
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>

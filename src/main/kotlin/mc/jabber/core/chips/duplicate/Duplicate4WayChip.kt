@@ -10,7 +10,8 @@ import net.minecraft.util.Identifier
 
 @ChipID("chip_duplicate_4_way")
 class Duplicate4WayChip : ChipProcess() {
-    override val id: Identifier = Global.id("dup4")
+    override val id = Global.id("dup4")
+
     override fun receive(
         data: CardinalData,
         pos: Vec2I,

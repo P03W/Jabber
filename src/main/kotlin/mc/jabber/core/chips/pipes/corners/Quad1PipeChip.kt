@@ -10,7 +10,8 @@ import net.minecraft.util.Identifier
 
 @ChipID("chip_quad_1_pipe")
 class Quad1PipeChip : ChipProcess() {
-    override val id: Identifier = Global.id("quad1")
+    override val id = Global.id("quad1")
+
     override fun receive(
         data: CardinalData,
         pos: Vec2I,

@@ -6,11 +6,10 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.util.Identifier
 
 @ChipID("chip_logical_or")
 class OrChip : ChipProcess() {
-    override val id: Identifier = Global.id("or")
+    override val id = Global.id("or")
 
     override fun receive(
         data: CardinalData,
@@ -18,9 +17,9 @@ class OrChip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData {
         return if (data.any { _, t -> t != null && t > 0}) {
-            data.replaceNull(1)
+            data.outputNotReceived(1)
         } else {
-            data.replaceNull(0)
+            data.outputNotReceived(0)
         }
     }
 }
