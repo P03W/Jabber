@@ -68,7 +68,7 @@ inline fun <reified T> Any?.assertType(): T {
     return this as T
 }
 
-fun <T> NbtTransformable<T>.asIdableByteArray(): ByteArray {
+fun <T> NbtTransformable<T>.asIdByteArray(): ByteArray {
     val bytes = ByteStreams.newDataOutput()
     bytes.writeByte(type().toInt())
     NbtIo.write(toNbt(), bytes)
@@ -77,7 +77,7 @@ fun <T> NbtTransformable<T>.asIdableByteArray(): ByteArray {
 
 fun ByteArray.toByteString(): ByteString = ByteString.copyFrom(this)
 
-inline fun Inventory.forEach(action: (Int, ItemStack)->Unit) {
+inline fun Inventory.forEach(action: (Int, ItemStack) -> Unit) {
     for (i in 0 until size()) {
         action(i, this.getStack(i))
     }

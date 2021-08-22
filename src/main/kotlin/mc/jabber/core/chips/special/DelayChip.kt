@@ -15,8 +15,12 @@ import mc.jabber.proto.delayChipStateProto
 import mc.jabber.util.assertType
 import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
 
+/**
+ * A chip that takes in any input, and passes it on again after [delay] steps
+ *
+ * @param delay How long each input should be held before passing it on
+ */
 @AutoConstructInt(ChipID("chip_delay"), [1, 2, 3, 4, 5, 10, 20])
 class DelayChip(val delay: Int) : ChipProcess() {
     override val id = Global.id("delay$delay")
@@ -54,6 +58,9 @@ class DelayChip(val delay: Int) : ChipProcess() {
         return out
     }
 
+    /**
+     * Allows us to store the held data, mildly hacky but works
+     */
     class DelayState : NbtTransformable<DelayState> {
         var data = mutableListOf<TriSet<Int, Cardinal, Long>>()
 

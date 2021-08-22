@@ -27,8 +27,8 @@ object Resources : RRPPreGenEntrypoint {
         }
 
         RRPCallback.AFTER_VANILLA.register {
-            RESOURCE_PACK.addLang(Global.id("en_us"), lang);
-            it.add(RESOURCE_PACK);
+            RESOURCE_PACK.addLang(Global.id("en_us"), lang)
+            it.add(RESOURCE_PACK)
             if (FabricLoader.getInstance().isDevelopmentEnvironment) RESOURCE_PACK.dump()
         }
     }

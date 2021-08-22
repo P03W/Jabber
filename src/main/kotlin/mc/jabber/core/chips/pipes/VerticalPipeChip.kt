@@ -6,8 +6,10 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.util.Identifier
 
+/**
+ * Pipes the vertical data
+ */
 @ChipID("chip_vertical_pipe")
 class VerticalPipeChip : ChipProcess() {
     override val id = Global.id("vert")

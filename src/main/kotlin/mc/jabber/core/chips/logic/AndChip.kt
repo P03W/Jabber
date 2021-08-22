@@ -7,6 +7,9 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
+/**
+ * Preforms a logical AND on input, outputs only on not received channels
+ */
 @ChipID("chip_logical_and")
 class AndChip : ChipProcess() {
     override val id = Global.id("and")
@@ -16,7 +19,7 @@ class AndChip : ChipProcess() {
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData {
-        return if (data.all { _, t -> t == null || t > 0}) {
+        return if (data.all { _, t -> t == null || t > 0 }) {
             data.outputNotReceived(1)
         } else {
             data.outputNotReceived(0)

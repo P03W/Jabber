@@ -55,7 +55,7 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      * Clear out any data
      */
     fun clear() {
-        var i = 0;
+        var i = 0
         val max = array.size
         while (i < max) {
             array[i] = null

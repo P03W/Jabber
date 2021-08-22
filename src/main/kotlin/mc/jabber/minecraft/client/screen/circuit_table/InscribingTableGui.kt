@@ -87,7 +87,10 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         if (inputItem !is CircuitItem && lastInputItem is CircuitItem) {
             openDimensions(CircuitItem(0, 0))
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
-        } else if (inputItem is CircuitItem && lastInputItem is CircuitItem && editingInv.getStack(0).nbt != lastKnownInv.getStack(0).nbt) {
+        } else if (inputItem is CircuitItem && lastInputItem is CircuitItem && editingInv.getStack(0).nbt != lastKnownInv.getStack(
+                0
+            ).nbt
+        ) {
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
             openDimensions(editingInv.getStack(0).item.assertType())
             if (editingInv.getStack(0).orCreateNbt.contains("c", NbtType.BYTE_ARRAY)) {
@@ -132,7 +135,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
 
     override fun close(player: PlayerEntity) {
         super.close(player)
-        dropInventory(player, SimpleInventory(1).also { it.setStack(0, editingInv.getStack(0)) } )
+        dropInventory(player, SimpleInventory(1).also { it.setStack(0, editingInv.getStack(0)) })
     }
 
     fun openDimensions(circuit: CircuitItem) {

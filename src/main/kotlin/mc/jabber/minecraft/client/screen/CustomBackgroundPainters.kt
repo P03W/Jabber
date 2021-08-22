@@ -18,7 +18,7 @@ object CustomBackgroundPainters {
 
                 val lo = -0x48000000
                 val bg = 0x4C000000
-                //this will cause a slightly discolored bottom border on vanilla backgrounds but it's necessary for color support, it shouldn't be *too* visible unless you're looking for it
+                //this will cause a slightly discolored bottom border on vanilla backgrounds, but it's necessary for color support, it shouldn't be *too* visible unless you're looking for it
                 val hi = -0x47000001
                 ScreenDrawing.drawBeveledPanel(
                     matrices, x * 18 + left, y * 18 + top, 16 + 2, 16 + 2,

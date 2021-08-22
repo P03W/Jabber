@@ -6,8 +6,10 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.util.Identifier
 
+/**
+ * Takes in an input and outputs on all not received channels
+ */
 @ChipID("chip_duplicate_4_way")
 class Duplicate4WayChip : ChipProcess() {
     override val id = Global.id("dup4")
@@ -18,6 +20,6 @@ class Duplicate4WayChip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData {
         val got = data.acquire() ?: return data.ofAll(null)
-        return data.ofAll(got.second).with(got.first.mirror(), null)
+        return data.outputNotReceived(got.second)
     }
 }

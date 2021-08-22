@@ -7,6 +7,9 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
+/**
+ * Always outputs 1 in all directions
+ */
 @ChipID("chip_constant_1")
 class Constant1Chip : ChipProcess() {
     override val id = Global.id("const1")

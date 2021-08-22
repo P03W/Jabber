@@ -6,8 +6,10 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.util.Identifier
 
+/**
+ * Pipes data from any direction
+ */
 @ChipID("chip_cross_pipe")
 class CrossPipeChip : ChipProcess() {
     override val id = Global.id("cross")

@@ -7,7 +7,7 @@ import mc.jabber.core.data.serial.rebuildArbitraryData
 import mc.jabber.core.math.Vec2I
 import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.proto.circuitManagerProto
-import mc.jabber.util.asIdableByteArray
+import mc.jabber.util.asIdByteArray
 import mc.jabber.util.toByteString
 
 class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
@@ -65,7 +65,7 @@ class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = Circu
             board = this@CircuitManager.board.serialize()
             chipData.run {
                 this@CircuitManager.chipData.forEach { (vec2i, u) ->
-                    put(vec2i.transformInto(this@CircuitManager.board.sizeX), u.asIdableByteArray().toByteString())
+                    put(vec2i.transformInto(this@CircuitManager.board.sizeX), u.asIdByteArray().toByteString())
                 }
             }
             state.run {

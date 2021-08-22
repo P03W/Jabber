@@ -6,8 +6,12 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import net.minecraft.util.Identifier
 
+/**
+ * A chip that always outputs nothing, and will destroy any input
+ *
+ * Not really useful for the current circuit design but hey, maybe at some point, round-robin circuit that destroys every other input?
+ */
 @ChipID("chip_void")
 class VoidChip : ChipProcess() {
     override val id = Global.id("void")

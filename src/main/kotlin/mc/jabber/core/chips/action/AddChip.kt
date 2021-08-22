@@ -1,17 +1,21 @@
 package mc.jabber.core.chips.action
 
 import mc.jabber.Global
+import mc.jabber.core.auto.AutoConstructInt
+import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
-import net.minecraft.util.Identifier
 
+/**
+ * adds to the input and sends it across
+ */
+@AutoConstructInt(ChipID("add"), [1, 2, 3, 4, 5, 10, 20])
 class AddChip(val amount: Int) : ChipProcess() {
     override val id = Global.id("add")
     override fun receive(
-
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>
@@ -20,6 +24,6 @@ class AddChip(val amount: Int) : ChipProcess() {
         val down = data.down?.let { it + amount }
         val left = data.left?.let { it + amount }
         val right = data.right?.let { it + amount }
-        return CardinalData(down, up, right, left).assertType()
+        return CardinalData(down, up, right, left)
     }
 }

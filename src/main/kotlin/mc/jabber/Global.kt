@@ -3,9 +3,7 @@ package mc.jabber
 import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
-import mc.jabber.core.chips.action.AddChip
 import mc.jabber.core.chips.special.CustomChip
-import mc.jabber.core.data.CardinalData
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
@@ -82,14 +80,14 @@ object Global {
                 if (clazz.hasAnnotation(AutoConstructInt::class)) {
                     val construct = clazz
                         .constructors
-                        .firstOrNull {
-                                constructor -> constructor.parameterCount == 1 &&
-                                constructor.parameterTypes[0] == Int::class.java
+                        .firstOrNull { constructor ->
+                            constructor.parameterCount == 1 &&
+                                    constructor.parameterTypes[0] == Int::class.java
                         }
                     val autoConstruct = clazz.getAnnotation(AutoConstructInt::class.java)
                     if (construct != null) {
-                        autoConstruct.toConstruct.forEach {
-                            put(autoConstruct.id.id + "_$it", ChipItem(construct.newInstance(it).assertType()))
+                        autoConstruct.toConstruct.forEach { value ->
+                            put(autoConstruct.id.id + "_$value", ChipItem(construct.newInstance(value).assertType()))
                         }
                     } else {
                         throw IllegalStateException("Chip ${it.name} does not 1 parameter constructor that takes Int but is annotated with @AutoConstructInt")
