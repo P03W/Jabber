@@ -9,6 +9,16 @@ class Vec2IMathTest {
     val vecB = Vec2I(3, -3)
 
     @Test
+    fun testVec2IEquality() {
+        val vecA = Vec2I(123, -456)
+        val vecB = Vec2I(123, -456)
+        val vecC = Vec2I(-0, 35)
+
+        assert(vecA == vecB)
+        assert(vecA != vecC)
+    }
+
+    @Test
     fun testVecComparison() {
         assert(vecB > vecA)
         assert(vecB >= vecA)

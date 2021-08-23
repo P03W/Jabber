@@ -1,4 +1,4 @@
-package data
+package math
 
 import mc.jabber.core.math.Cardinal
 import org.junit.jupiter.api.Test

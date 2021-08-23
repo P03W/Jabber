@@ -13,7 +13,14 @@ import net.minecraft.util.Identifier
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class BasicSimulationTest {
+class SimulationTest {
+    @Test
+    fun testIllegalCircuitSizeY() {
+        Assertions.assertThrows(AssertionError::class.java) {
+            CircuitBoard(1, 0)
+        }
+    }
+
     @Test
     fun testIllegalCircuitSizeX() {
         Assertions.assertThrows(AssertionError::class.java) {
@@ -56,7 +63,8 @@ class BasicSimulationTest {
                 data.empty()
             }
             it.setup()
-            repeat(20) { _ ->
+            // Expected required steps
+            repeat(17) { _ ->
                 it.simulate()
             }
 
