@@ -20,6 +20,15 @@ abstract class ChipProcess {
     abstract val id: Identifier
 
     /**
+     * A [DirBitmask] representing the sides the chip can receive on
+     */
+    abstract val receiveDirections: Int
+    /**
+     * A [DirBitmask] representing the sides the chip can send on
+     */
+    abstract val sendDirections: Int
+
+    /**
      * The main function that makes everything tick
      *
      * [data] is provided raw as a minor optimisation for chips that do not store data,

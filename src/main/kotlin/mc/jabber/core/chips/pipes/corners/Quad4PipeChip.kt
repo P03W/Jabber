@@ -3,6 +3,7 @@ package mc.jabber.core.chips.pipes.corners
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
+import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
@@ -10,6 +11,8 @@ import mc.jabber.core.math.Vec2I
 @ChipID("chip_quad_4_pipe")
 class Quad4PipeChip : ChipProcess() {
     override val id = Global.id("quad4")
+    override val receiveDirections = DirBitmask.UP + DirBitmask.LEFT
+    override val sendDirections = DirBitmask.DOWN + DirBitmask.RIGHT
 
     override fun receive(
         data: CardinalData,

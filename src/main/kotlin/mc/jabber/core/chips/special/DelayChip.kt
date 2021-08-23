@@ -4,6 +4,7 @@ import mc.jabber.Global
 import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
+import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.util.TriSet
@@ -24,6 +25,8 @@ import net.minecraft.nbt.NbtCompound
 @AutoConstructInt(ChipID("chip_delay"), [1, 2, 3, 4, 5, 10, 20])
 class DelayChip(val delay: Int) : ChipProcess() {
     override val id = Global.id("delay$delay")
+    override val receiveDirections = DirBitmask.ALL
+    override val sendDirections = DirBitmask.ALL
 
     override fun makeInitialStateEntry(): NbtTransformable<DelayState> {
         return DelayState()

@@ -3,6 +3,7 @@ package mc.jabber.core.chips.special
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
+import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
@@ -15,6 +16,8 @@ import mc.jabber.core.math.Vec2I
 @ChipID("chip_void")
 class VoidChip : ChipProcess() {
     override val id = Global.id("void")
+    override val receiveDirections = DirBitmask.ALL
+    override val sendDirections = DirBitmask.NONE
 
     override fun receive(
         data: CardinalData,
