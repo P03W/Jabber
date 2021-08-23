@@ -14,6 +14,7 @@ import mc.jabber.core.math.Vec2I
 @ChipID("chip_constant_0")
 class Constant0Chip : ChipProcess() {
     override val id = Global.id("const0")
+    override val isInput = true
     override val receiveDirections = DirBitmask.NONE
     override val sendDirections = DirBitmask.ALL
 

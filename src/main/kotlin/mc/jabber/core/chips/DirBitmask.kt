@@ -17,7 +17,7 @@ class DirBitmask(val mask: Int) {
     }
 
     fun matches(i: DirBitmask): Boolean {
-        return this.mask and +i != 0
+        return this.mask and +i == this.mask
     }
 
     operator fun unaryPlus() = this.mask

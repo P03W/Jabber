@@ -28,6 +28,7 @@ class AddChip(val amount: Int) : ChipProcess() {
         val down = data.down?.let { it + amount }
         val left = data.left?.let { it + amount }
         val right = data.right?.let { it + amount }
-        return CardinalData(down, up, right, left)
+        println("$data, $up, $down, $left, $right")
+        return CardinalData(up, down, left, right)
     }
 }

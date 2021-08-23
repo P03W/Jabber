@@ -5,6 +5,12 @@ import org.junit.jupiter.api.Test
 
 class BitmaskTest {
     @Test
+    fun matchesSelf() {
+        assert(DirBitmask.ALL.matches(DirBitmask.ALL))
+        assert(!DirBitmask.ALL.matches(DirBitmask.LEFT))
+    }
+
+    @Test
     fun testSingle() {
         val mask = +DirBitmask.UP
         assert(DirBitmask.UP.matches(mask))
