@@ -22,11 +22,11 @@ abstract class ChipProcess {
     /**
      * A [DirBitmask] representing the sides the chip can receive on
      */
-    abstract val receiveDirections: Int
+    abstract val receiveDirections: DirBitmask
     /**
      * A [DirBitmask] representing the sides the chip can send on
      */
-    abstract val sendDirections: Int
+    abstract val sendDirections: DirBitmask
 
     /**
      * The main function that makes everything tick

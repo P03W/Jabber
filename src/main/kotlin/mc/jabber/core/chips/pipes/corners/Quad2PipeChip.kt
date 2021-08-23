@@ -11,8 +11,8 @@ import mc.jabber.core.math.Vec2I
 @ChipID("chip_quad_2_pipe")
 class Quad2PipeChip : ChipProcess() {
     override val id = Global.id("quad2")
-    override val receiveDirections = DirBitmask.DOWN + DirBitmask.RIGHT
-    override val sendDirections = DirBitmask.UP + DirBitmask.LEFT
+    override val receiveDirections = DirBitmask.DOWN and DirBitmask.RIGHT
+    override val sendDirections = DirBitmask.UP and DirBitmask.LEFT
 
     override fun receive(
         data: CardinalData,

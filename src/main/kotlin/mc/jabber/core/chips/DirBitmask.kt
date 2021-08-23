@@ -7,26 +7,28 @@ import mc.jabber.core.chips.DirBitmask.Companion.DYNAMIC
  *
  * If [DYNAMIC] is set, the remaining flags should be ignored, and ideally be set to 0 / [NONE] for consistency
  */
-class DirBitmask(private val i: Int) {
-    operator fun plus(other: DirBitmask): Int {
-        return this.i + other.i
-    }
-
-    operator fun Int.plus(bitmask: DirBitmask): Int {
-        return this + bitmask.i
+class DirBitmask(val mask: Int) {
+    infix fun and(other: DirBitmask): DirBitmask {
+        return DirBitmask(this.mask + other.mask)
     }
 
     fun matches(i: Int): Boolean {
-        return this.i and i != 0
+        return this.mask and i == this.mask
     }
 
+    fun matches(i: DirBitmask): Boolean {
+        return this.mask and +i != 0
+    }
+
+    operator fun unaryPlus() = this.mask
+
     companion object {
-        const val NONE    = 0b00000
-        const val UP      = 0b00001
-        const val DOWN    = 0b00010
-        const val LEFT    = 0b00100
-        const val RIGHT   = 0b01000
-        const val ALL     = 0b01111
-        const val DYNAMIC = 0b10000
+        val NONE    = DirBitmask(0b00000)
+        val UP      = DirBitmask(0b00001)
+        val DOWN    = DirBitmask(0b00010)
+        val LEFT    = DirBitmask(0b00100)
+        val RIGHT   = DirBitmask(0b01000)
+        val ALL     = DirBitmask(0b01111)
+        val DYNAMIC = DirBitmask(0b10000)
     }
 }
