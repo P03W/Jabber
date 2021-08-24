@@ -22,7 +22,7 @@ class AndChip : ChipProcess() {
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>
     ): CardinalData {
-        return if (data.all { _, t -> t == null || t > 0 }) {
+        return if (data.all { _, t -> t == null || t != 0L }) {
             data.outputNotReceived(1)
         } else {
             data.outputNotReceived(0)

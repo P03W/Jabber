@@ -13,9 +13,9 @@ import mc.jabber.core.math.Vec2I
  *
  * Not really useful for the current circuit design but hey, maybe at some point, round-robin circuit that destroys every other input?
  */
-@ChipID("chip_void")
-class VoidChip : ChipProcess() {
-    override val id = Global.id("void")
+@ChipID("chip_trash")
+class TrashChip : ChipProcess() {
+    override val id = Global.id("trash")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.NONE
 

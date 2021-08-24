@@ -13,7 +13,7 @@ import mc.jabber.util.assertType
 /**
  * Adds to the input and sends it across
  */
-@AutoConstructInt(ChipID("add"), [1, 2, 3, 4, 5, 10, 20])
+@AutoConstructInt(ChipID("chip_add"), [1, 2, 3, 4, 5, 10, 20])
 class AddChip(val amount: Int) : ChipProcess() {
     override val id = Global.id("add")
     override val receiveDirections = DirBitmask.ALL
@@ -28,7 +28,6 @@ class AddChip(val amount: Int) : ChipProcess() {
         val down = data.down?.let { it + amount }
         val left = data.left?.let { it + amount }
         val right = data.right?.let { it + amount }
-        println("$data, $up, $down, $left, $right")
         return CardinalData(up, down, left, right)
     }
 }
