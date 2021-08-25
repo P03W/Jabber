@@ -1,5 +1,6 @@
 package mc.jabber.init
 
+import com.github.p03w.aegis.getBlockPos
 import com.github.p03w.aegis.register
 import mc.jabber.Global
 import mc.jabber.core.chips.pipes.HorizontalPipeChip
@@ -8,7 +9,9 @@ import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.special.CustomChip
+import mc.jabber.core.asm.CircuitCompiler
 import mc.jabber.core.circuit.CircuitManager
+import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.text.LiteralText
@@ -46,6 +49,26 @@ object Main : ModInitializer {
                             }
                         }
                         context.source.sendFeedback(LiteralText("Finished stress test in $time"), false)
+                    }
+                }
+            }
+
+            d.register("jcompile") {
+                blockPos("location") {
+                    executes {
+                        val pos = it.getBlockPos("location")
+                        val be = it.source.world.getBlockEntity(pos)
+                        if (be is SimpleComputerBE) {
+                            val circuit = be.circuit
+                            if (circuit != null) {
+                                CircuitCompiler.compileCircuit(circuit.board).simulate()
+                                it.source.sendFeedback(LiteralText("Compiled circuit board!"), false)
+                            } else {
+                                it.source.sendError(LiteralText("That computer does not have a circuit!"))
+                            }
+                        } else {
+                            it.source.sendError(LiteralText("That is not a computer! That's a ${be?.let { it::class.simpleName } ?: "normal block (${it.source.world.getBlockState(pos).block.name.string})"}"))
+                        }
                     }
                 }
             }

@@ -69,6 +69,13 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         }
     }
 
+    fun longHashCode(): Long {
+        var result = sizeX.toLong()
+        result = 31 * result + sizeY
+        result = 31 * result + board.contentDeepHashCode()
+        return result
+    }
+
     companion object {
         fun deserialize(proto: CircuitBoardBuffer.CircuitBoardProto): CircuitBoard {
             val sizeX = proto.sizeX

@@ -39,6 +39,14 @@ repositories {
         name = "CottonMC"
         url = uri("https://server.bbkr.space/artifactory/libs-release")
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Sonatype OSS"
+        url = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
     mavenCentral()
 }
 
@@ -56,8 +64,19 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
 
     // Aegis
-    modImplementation "com.github.P03W:Aegis:3.0.0"
-    include "com.github.P03W:Aegis:3.0.0"
+    modImplementation "maven.modrinth:aegis:3.2.5"
+    include ("maven.modrinth:aegis:3.2.5") {
+        artifact {
+            name = 'aegis-runtime'
+            extension = 'jar'
+            type = 'jar'
+            url = "https://api.modrinth.com/maven/maven/modrinth/aegis/3.2.5/aegis-runtime-3.2.5.jar"
+        }
+    }
+
+    // Colonel
+    modImplementation "ca.stellardrift:colonel:0.2.1-SNAPSHOT"
+    include "ca.stellardrift:colonel:0.2.1-SNAPSHOT"
 
     // ARRP
     modImplementation "net.devtech:arrp:0.4.3"
@@ -74,6 +93,10 @@ dependencies {
     // Reflection
     implementation "org.reflections:reflections:0.9.12"
     include "org.reflections:reflections:0.9.12"
+
+    // Koffee
+    implementation "com.github.Jordin:Koffee:-SNAPSHOT"
+    include "com.github.Jordin:Koffee:-SNAPSHOT"
 
     // Test suite
     implementation "org.junit.jupiter:junit-jupiter:5.7.2"

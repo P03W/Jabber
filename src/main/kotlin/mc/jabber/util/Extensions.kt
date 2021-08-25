@@ -9,10 +9,30 @@ import mc.jabber.core.data.serial.NbtTransformable
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtIo
+import net.minecraft.util.registry.Registry
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.tree.ClassNode
 import org.slf4j.Logger
+import java.nio.ByteBuffer
+import java.util.*
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
+
+/**
+ * Implementation of the recommend replacement for kotlin's stdlib capitalize
+ * @return The string but with the first character in title case
+ */
+fun String.capitalize(): String {
+    return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+}
+
+/**
+ * Allows for a simple transform from [other] to [this] through ID
+ */
+fun <A, B> Registry<A>.idFlip(other: Registry<B>, instance: B): A? {
+    return this.get(other.getId(instance))
+}
 
 /**
  * Allows for calling info with any object by converting it to a string
@@ -77,10 +97,19 @@ fun <T> NbtTransformable<T>.asIdByteArray(): ByteArray {
 
 fun ByteArray.toByteString(): ByteString = ByteString.copyFrom(this)
 
+fun ClassNode.byteArray(): ByteArray {
+    val classWriter = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
+    accept(classWriter)
+    val out = classWriter.toByteArray()
+    classWriter.visitEnd()
+    return out
+}
+
 inline fun Inventory.forEach(action: (Int, ItemStack) -> Unit) {
     for (i in 0 until size()) {
         action(i, this.getStack(i))
     }
 }
+
 
 fun Class<*>.hasAnnotation(annotation: KClass<out Annotation>): Boolean = isAnnotationPresent(annotation.java)

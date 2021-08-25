@@ -25,7 +25,8 @@ class SimpleComputerBE(
 ) : BlockEntity(blockEntity, pos, state) {
     var isRebuildingFromNbt = false
     var circuitItem: ItemStack? by observable(null, ::rebuildCircuit)
-    private var circuit: CircuitManager? = null
+    var circuit: CircuitManager? = null
+        private set
 
     @Suppress("UNUSED_PARAMETER")
     fun rebuildCircuit(prop: KProperty<*>, old: ItemStack?, new: ItemStack?) {
@@ -36,11 +37,19 @@ class SimpleComputerBE(
             circuit = null; return
         }
         val item = new.item.assertType<CircuitItem>()
-        circuit = CircuitManager(
-            item.sizeX,
-            item.sizeY,
-            CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(new.orCreateNbt.getByteArray("c")))
-        )
+        val bytes = new.orCreateNbt.getByteArray("c")
+        circuit = if (bytes.isNotEmpty()) {
+            CircuitManager(
+                item.sizeX,
+                item.sizeY,
+                CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(bytes))
+            )
+        } else {
+            CircuitManager(
+                item.sizeX,
+                item.sizeY
+            )
+        }
         circuit!!.setup()
     }
 
