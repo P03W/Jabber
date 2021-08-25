@@ -63,7 +63,7 @@ class ChipTest {
         assert(XorChip().receive(CardinalData(1, 0, null, null), Vec2I.ZERO, hashMapOf()).acquire()?.second == 1L)
         assert(XorChip().receive(CardinalData(0, 0, 1, null), Vec2I.ZERO, hashMapOf()).acquire()?.second == 1L)
         assert(XorChip().receive(CardinalData(1, 0, 1, null), Vec2I.ZERO, hashMapOf()).acquire()?.second == 0L)
-        assert(XorChip().receive(CardinalData(1, 1, 1, null), Vec2I.ZERO, hashMapOf()).acquire()?.second == 1L)
+        assert(XorChip().receive(CardinalData(13, 123, 2244, null), Vec2I.ZERO, hashMapOf()).acquire()?.second == 2226L)
     }
 
     @Test

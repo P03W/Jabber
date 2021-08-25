@@ -11,7 +11,7 @@ import mc.jabber.core.math.Vec2I
 /**
  * Preforms a logical OR on input, outputs only on not received channels
  */
-@ChipID("chip_logical_or")
+@ChipID("chip_or")
 class OrChip : ChipProcess() {
     override val id = Global.id("or")
     override val receiveDirections = DirBitmask.ALL

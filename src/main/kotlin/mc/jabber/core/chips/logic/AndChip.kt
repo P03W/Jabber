@@ -11,7 +11,7 @@ import mc.jabber.core.math.Vec2I
 /**
  * Preforms a logical AND on input, outputs only on not received channels
  */
-@ChipID("chip_logical_and")
+@ChipID("chip_and")
 class AndChip : ChipProcess() {
     override val id = Global.id("and")
     override val receiveDirections = DirBitmask.ALL
