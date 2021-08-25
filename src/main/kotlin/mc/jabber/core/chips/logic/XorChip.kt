@@ -15,11 +15,11 @@ class XorChip : ChipProcess() {
     override val sendDirections = DirBitmask.ALL
 
     override fun receive(data: CardinalData, pos: Vec2I, chipData: HashMap<Vec2I, NbtTransformable<*>>): CardinalData {
-        var count = 0
+        var last = 0L
         data.forEach { _, l ->
-            if (l != null && l != 0L) count++
+            if (l != null) last = last xor l
         }
 
-        return data.outputNotReceived((count % 2).toLong())
+        return data.outputNotReceived(last)
     }
 }
