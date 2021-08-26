@@ -11,7 +11,6 @@ import mc.jabber.util.asIdByteArray
 import mc.jabber.util.toByteString
 
 class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)) {
-
     var board = _initialBoard
         private set
 

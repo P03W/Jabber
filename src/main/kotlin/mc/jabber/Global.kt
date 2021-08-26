@@ -47,6 +47,7 @@ object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
+    @JvmField
     val PROCESS_ITEM_MAP: HashMap<Identifier, ChipItem> = hashMapOf()
 
     //  Makes an ID with the MOD_ID
