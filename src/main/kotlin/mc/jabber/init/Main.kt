@@ -1,6 +1,7 @@
 package mc.jabber.init
 
 import com.github.p03w.aegis.getBlockPos
+import com.github.p03w.aegis.getInt
 import com.github.p03w.aegis.register
 import mc.jabber.Global
 import mc.jabber.core.chips.pipes.HorizontalPipeChip
@@ -10,6 +11,7 @@ import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
 import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.asm.CircuitCompiler
+import mc.jabber.core.asm.CompiledCircuit
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import net.fabricmc.api.ModInitializer
@@ -20,6 +22,8 @@ import kotlin.time.measureTime
 
 @Suppress("unused")
 object Main : ModInitializer {
+    private var compiledCircuit: CompiledCircuit? = null
+
     @OptIn(ExperimentalTime::class)
     override fun onInitialize() {
         Global.BLOCKS.register()
@@ -61,16 +65,28 @@ object Main : ModInitializer {
                         if (be is SimpleComputerBE) {
                             val circuit = be.circuit
                             if (circuit != null) {
-                                CircuitCompiler.compileCircuit(circuit.board).also { compiled ->
-                                    compiled.setup()
-                                    compiled.simulate()
-                                }
-                                it.source.sendFeedback(LiteralText("Compiled circuit board!"), false)
+                                compiledCircuit = CircuitCompiler.compileCircuit(circuit.board)
+                                compiledCircuit!!.setup()
+                                it.source.sendFeedback(LiteralText("Compiled circuit board! Use /jrun to simulate it"), false)
                             } else {
                                 it.source.sendError(LiteralText("That computer does not have a circuit!"))
                             }
                         } else {
                             it.source.sendError(LiteralText("That is not a computer! That's a ${be?.let { it::class.simpleName } ?: "normal block (${it.source.world.getBlockState(pos).block.name.string})"}"))
+                        }
+                    }
+                }
+            }
+
+            d.register("jrun") {
+                integer("times", 0) {
+                    executes {
+                        if (compiledCircuit == null) {
+                            it.source.sendError(LiteralText("No circuit has been compiled!"))
+                            return@executes
+                        }
+                        repeat(it.getInt("times")) {
+                            compiledCircuit!!.simulate()
                         }
                     }
                 }

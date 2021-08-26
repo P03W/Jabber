@@ -12,6 +12,7 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.data.CardinalData
+import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.byteArray
 import org.objectweb.asm.Label
@@ -23,10 +24,12 @@ import java.io.File
  */
 object CircuitCompiler {
     private var className = ""
+    private val locationAccess = mutableSetOf<Vec2I>()
 
     fun compileCircuit(board: CircuitBoard): CompiledCircuit {
         val hash = board.longHashCode().toString().replace("-", "M")
         val name = "JabberCircuit\$$hash"
+        locationAccess.clear()
 
         className = "mc/jabber/core/asm/runtime/$name"
 
@@ -50,6 +53,7 @@ object CircuitCompiler {
                 if (!process.receiveDirections.matches(DirBitmask.NONE)) {
                     places.add(vec2I)
                     field(private, dataName(vec2I), CardinalData::class)
+                    field(private, storageName(vec2I), CardinalData::class)
                 }
             }
 
@@ -149,6 +153,11 @@ object CircuitCompiler {
                             HashMap::class
                         )
                     )
+
+                    unpackProcessConnection(process, Cardinal.UP, vec2I, board)
+                    unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
+                    unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
+                    unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
                 }
                 _return
             }
@@ -168,6 +177,10 @@ object CircuitCompiler {
         return "d${vec2I.x}\$${vec2I.y}"
     }
 
+    private fun storageName(vec2I: Vec2I): String {
+        return "Q${vec2I.x}\$${vec2I.y}"
+    }
+
     //region Get/Put Data and Storage
     private fun MethodAssembly.putData(vec2I: Vec2I) {
         aload_0
@@ -179,10 +192,54 @@ object CircuitCompiler {
         aload_0
         getfield(className, dataName(vec2I), CardinalData::class)
     }
+
+    private fun MethodAssembly.putStorage(vec2I: Vec2I) {
+        aload_0
+        swap
+        putfield(className, storageName(vec2I), CardinalData::class)
+    }
+
+    private fun MethodAssembly.getStorage(vec2I: Vec2I) {
+        aload_0
+        getfield(className, storageName(vec2I), CardinalData::class)
+    }
     //endregion
 
     private fun MethodAssembly.emptyCardinalData() {
         aload_0
         getfield(className, "ec", CardinalData::class)
+    }
+
+    private fun MethodAssembly.unpackProcessConnection(sender: ChipProcess, cardinal: Cardinal, pos: Vec2I, board: CircuitBoard) {
+        dup
+        if (cardinal.mask.matches(sender.sendDirections)) {
+            val offset = pos + cardinal
+            if (board.isInBounds(offset)) {
+                val chip = board[offset]
+                if (chip != null) {
+                    val isFirstWrite = locationAccess.add(offset)
+                    if (cardinal.mirror().mask.matches(chip.receiveDirections)) {
+                        val getOp = when(cardinal) {
+                            Cardinal.UP -> "getUp"
+                            Cardinal.DOWN -> "getDown"
+                            Cardinal.LEFT -> "getLeft"
+                            Cardinal.RIGHT -> "getRight"
+                        }
+
+                        if (isFirstWrite) {
+                            putStorage(offset)
+                        } else {
+                            getStorage(offset)
+                            swap
+                            invokevirtual(CardinalData::class, getOp, "()Ljava/lang/Long;")
+                            getstatic(Cardinal::class, cardinal.name, Cardinal::class)
+                            swap
+                            invokevirtual(CardinalData::class, "with", "(Lmc/jabber/core/math/Cardinal;Ljava/lang/Long;)Lmc/jabber/core/data/CardinalData;")
+                            putStorage(offset)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

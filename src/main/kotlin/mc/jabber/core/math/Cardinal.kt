@@ -1,13 +1,15 @@
 package mc.jabber.core.math
 
+import mc.jabber.core.chips.DirBitmask
+
 /**
  * Simple 4 value cardinal direction enum
  */
-enum class Cardinal(val vec: Vec2I) {
-    UP(Vec2I(0, -1)),
-    DOWN(Vec2I(0, 1)),
-    LEFT(Vec2I(-1, 0)),
-    RIGHT(Vec2I(1, 0));
+enum class Cardinal(val vec: Vec2I, val mask: DirBitmask) {
+    UP(Vec2I(0, -1), DirBitmask.UP),
+    DOWN(Vec2I(0, 1), DirBitmask.DOWN),
+    LEFT(Vec2I(-1, 0), DirBitmask.LEFT),
+    RIGHT(Vec2I(1, 0), DirBitmask.RIGHT);
 
     /**
      * Flips the direction
