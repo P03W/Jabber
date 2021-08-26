@@ -96,10 +96,12 @@ object CircuitCompiler {
                 putfield(self, "s", HashMap::class)
                 //endregion
 
-                // Populate data with empties
+                // Populate data and storage with empties
                 places.forEach {
                     emptyCardinalData()
                     putData(it)
+                    emptyCardinalData()
+                    putStorage(it)
                 }
                 // Populate processes with instances
                 processes.forEach {
@@ -159,6 +161,11 @@ object CircuitCompiler {
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
                 }
+
+                places.forEach {
+                    getStorage(it)
+                    putData(it)
+                }
                 _return
             }
         }
@@ -210,6 +217,9 @@ object CircuitCompiler {
         getfield(className, "ec", CardinalData::class)
     }
 
+    /**
+     * Should already be a [CardinalData] on the top of the stack
+     */
     private fun MethodAssembly.unpackProcessConnection(sender: ChipProcess, cardinal: Cardinal, pos: Vec2I, board: CircuitBoard) {
         dup
         if (cardinal.mask.matches(sender.sendDirections)) {
