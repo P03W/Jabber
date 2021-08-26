@@ -24,7 +24,7 @@ object CircuitCompiler {
         val hash = board.hashCode().toString()
         val name = "JabberCircuit\$$hash"
 
-        className = "mc/jabber/core/asm/$name"
+        className = "mc/jabber/core/asm/runtime/$name"
 
         val compiled = assembleClass(public + final, className, 60, interfaces = listOf(CompiledCircuit::class)) {
             val processes = mutableSetOf<ChipProcess>()
