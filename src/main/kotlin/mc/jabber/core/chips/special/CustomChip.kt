@@ -20,11 +20,10 @@ import net.minecraft.util.Identifier
 class CustomChip(
     override val id: Identifier,
     override val isInput: Boolean = false,
+    override val receiveDirections: DirBitmask = DirBitmask.ALL,
+    override val sendDirections: DirBitmask = DirBitmask.ALL,
     private val method: (CardinalData, Vec2I, HashMap<Vec2I, NbtTransformable<*>>) -> CardinalData,
 ) : ChipProcess() {
-    override val receiveDirections = DirBitmask.ALL
-    override val sendDirections = DirBitmask.ALL
-
     override fun receive(
         data: CardinalData,
         pos: Vec2I,

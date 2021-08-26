@@ -4,15 +4,8 @@ import com.github.p03w.aegis.getBlockPos
 import com.github.p03w.aegis.getInt
 import com.github.p03w.aegis.register
 import mc.jabber.Global
-import mc.jabber.core.chips.pipes.HorizontalPipeChip
-import mc.jabber.core.chips.pipes.corners.Quad1PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad2PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad3PipeChip
-import mc.jabber.core.chips.pipes.corners.Quad4PipeChip
-import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.asm.CircuitCompiler
 import mc.jabber.core.asm.CompiledCircuit
-import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
@@ -38,7 +31,15 @@ object Main : ModInitializer {
                 literal("stress") {
                     executes(debug = true) { context ->
                         val time = measureTime {
-                            CircuitManager(4, 3).also {
+                            if (compiledCircuit != null) {
+                                repeat(1_000_000) {
+                                    compiledCircuit!!.simulate()
+                                }
+                            } else {
+                                context.source.sendError(LiteralText("No circuit compiled!"))
+                            }
+
+                            /*CircuitManager(4, 3).also {
                                 it.board[0, 0] = CustomChip(Global.id("stress"), true) { data, _, _ -> data.ofAll(1) }
                                 it.board[0, 1] = Quad1PipeChip()
                                 it.board[1, 1] = Quad2PipeChip()
@@ -51,42 +52,52 @@ object Main : ModInitializer {
                                     it.simulate()
                                 }
                             }
+                             */
                         }
                         context.source.sendFeedback(LiteralText("Finished stress test in $time"), false)
                     }
                 }
-            }
-
-            d.register("jcompile") {
-                blockPos("location") {
-                    executes {
-                        val pos = it.getBlockPos("location")
-                        val be = it.source.world.getBlockEntity(pos)
-                        if (be is SimpleComputerBE) {
-                            val circuit = be.circuit
-                            if (circuit != null) {
-                                compiledCircuit = CircuitCompiler.compileCircuit(circuit.board)
-                                compiledCircuit!!.setup()
-                                it.source.sendFeedback(LiteralText("Compiled circuit board! Use /jrun to simulate it"), false)
+                literal("compile") {
+                    blockPos("location") {
+                        executes {
+                            val pos = it.getBlockPos("location")
+                            val be = it.source.world.getBlockEntity(pos)
+                            if (be is SimpleComputerBE) {
+                                val circuit = be.circuit
+                                if (circuit != null) {
+                                    compiledCircuit = CircuitCompiler.compileCircuit(circuit.board)
+                                    compiledCircuit!!.setup()
+                                    it.source.sendFeedback(
+                                        LiteralText("Compiled circuit board! Use /jabber run to simulate it"),
+                                        false
+                                    )
+                                } else {
+                                    it.source.sendError(LiteralText("That computer does not have a circuit!"))
+                                }
                             } else {
-                                it.source.sendError(LiteralText("That computer does not have a circuit!"))
+                                it.source.sendError(
+                                    LiteralText(
+                                        "That is not a computer! That's a ${
+                                            be?.let { it::class.simpleName } ?: "normal block (${
+                                                it.source.world.getBlockState(
+                                                    pos
+                                                ).block.name.string
+                                            })"
+                                        }"))
                             }
-                        } else {
-                            it.source.sendError(LiteralText("That is not a computer! That's a ${be?.let { it::class.simpleName } ?: "normal block (${it.source.world.getBlockState(pos).block.name.string})"}"))
                         }
                     }
                 }
-            }
-
-            d.register("jrun") {
-                integer("times", 0) {
-                    executes {
-                        if (compiledCircuit == null) {
-                            it.source.sendError(LiteralText("No circuit has been compiled!"))
-                            return@executes
-                        }
-                        repeat(it.getInt("times")) {
-                            compiledCircuit!!.simulate()
+                literal("run") {
+                    integer("times", 0) {
+                        executes {
+                            if (compiledCircuit == null) {
+                                it.source.sendError(LiteralText("No circuit has been compiled!"))
+                                return@executes
+                            }
+                            repeat(it.getInt("times")) {
+                                compiledCircuit!!.simulate()
+                            }
                         }
                     }
                 }

@@ -1,11 +1,7 @@
 package mc.jabber.core.chips
 
-import mc.jabber.core.chips.DirBitmask.Companion.DYNAMIC
-
 /**
  * A bitmask of values used for chips
- *
- * If [DYNAMIC] is set, the remaining flags should be ignored, and ideally be set to 0 / [NONE] for consistency
  */
 data class DirBitmask(val mask: Int) {
     infix fun and(other: DirBitmask): DirBitmask {
@@ -23,12 +19,11 @@ data class DirBitmask(val mask: Int) {
     operator fun unaryPlus() = this.mask
 
     companion object {
-        val NONE    = DirBitmask(0b00000)
-        val UP      = DirBitmask(0b00001)
-        val DOWN    = DirBitmask(0b00010)
-        val LEFT    = DirBitmask(0b00100)
-        val RIGHT   = DirBitmask(0b01000)
-        val ALL     = DirBitmask(0b01111)
-        val DYNAMIC = DirBitmask(0b10000)
+        val NONE    = DirBitmask(0b0000)
+        val UP      = DirBitmask(0b0001)
+        val DOWN    = DirBitmask(0b0010)
+        val LEFT    = DirBitmask(0b0100)
+        val RIGHT   = DirBitmask(0b1000)
+        val ALL     = DirBitmask(0b1111)
     }
 }

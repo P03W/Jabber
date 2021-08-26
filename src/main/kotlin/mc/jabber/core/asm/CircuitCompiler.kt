@@ -220,22 +220,27 @@ object CircuitCompiler {
     /**
      * Should already be a [CardinalData] on the top of the stack
      */
-    private fun MethodAssembly.unpackProcessConnection(sender: ChipProcess, cardinal: Cardinal, pos: Vec2I, board: CircuitBoard) {
-        dup
+    private fun MethodAssembly.unpackProcessConnection(
+        sender: ChipProcess,
+        cardinal: Cardinal,
+        pos: Vec2I,
+        board: CircuitBoard
+    ) {
         if (cardinal.mask.matches(sender.sendDirections)) {
             val offset = pos + cardinal
             if (board.isInBounds(offset)) {
                 val chip = board[offset]
                 if (chip != null) {
-                    val isFirstWrite = locationAccess.add(offset)
                     if (cardinal.mirror().mask.matches(chip.receiveDirections)) {
-                        val getOp = when(cardinal) {
+                        val isFirstWrite = locationAccess.add(offset)
+                        val getOp = when (cardinal) {
                             Cardinal.UP -> "getUp"
                             Cardinal.DOWN -> "getDown"
                             Cardinal.LEFT -> "getLeft"
                             Cardinal.RIGHT -> "getRight"
                         }
 
+                        dup
                         if (isFirstWrite) {
                             putStorage(offset)
                         } else {
@@ -244,7 +249,11 @@ object CircuitCompiler {
                             invokevirtual(CardinalData::class, getOp, "()Ljava/lang/Long;")
                             getstatic(Cardinal::class, cardinal.name, Cardinal::class)
                             swap
-                            invokevirtual(CardinalData::class, "with", "(Lmc/jabber/core/math/Cardinal;Ljava/lang/Long;)Lmc/jabber/core/data/CardinalData;")
+                            invokevirtual(
+                                CardinalData::class,
+                                "with",
+                                "(Lmc/jabber/core/math/Cardinal;Ljava/lang/Long;)Lmc/jabber/core/data/CardinalData;"
+                            )
                             putStorage(offset)
                         }
                     }

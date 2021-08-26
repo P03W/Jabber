@@ -3,6 +3,7 @@ package mc.jabber
 import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
+import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
@@ -109,7 +110,7 @@ object Global {
         }
 
         // Debug
-        val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output")) { data, _, _ ->
+        val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output"), sendDirections = DirBitmask.NONE) { data, _, _ ->
             println(data)
             MinecraftClient.getInstance().player?.sendSystemMessage(
                 LiteralText("DEBUG: output of $data"),
