@@ -56,4 +56,26 @@ abstract class ChipProcess {
     open fun makeInitialStateEntry(): NbtTransformable<*>? {
         return null
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ChipProcess
+
+        if (isInput != other.isInput) return false
+        if (id != other.id) return false
+        if (receiveDirections != other.receiveDirections) return false
+        if (sendDirections != other.sendDirections) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = isInput.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + receiveDirections.hashCode()
+        result = 31 * result + sendDirections.hashCode()
+        return result
+    }
 }

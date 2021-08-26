@@ -3,18 +3,18 @@ package mc.jabber.core.asm
 import codes.som.anthony.koffee.MethodAssembly
 import codes.som.anthony.koffee.assembleClass
 import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.anthony.koffee.labels.KoffeeLabel
 import codes.som.anthony.koffee.modifiers.final
 import codes.som.anthony.koffee.modifiers.public
 import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.init
-import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.math.Vec2I
-import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.util.byteArray
-import net.minecraft.util.Identifier
+import org.objectweb.asm.Label
+import org.objectweb.asm.tree.LabelNode
 import java.io.File
 
 /**
@@ -24,7 +24,7 @@ object CircuitCompiler {
     var className = ""
 
     fun compileCircuit(board: CircuitBoard): CompiledCircuit {
-        val hash = board.hashCode().toString()
+        val hash = board.longHashCode().toString().replace("-", "M")
         val name = "JabberCircuit\$$hash"
 
         className = "mc/jabber/core/asm/runtime/$name"
@@ -74,7 +74,7 @@ object CircuitCompiler {
                         java.lang.Long::class
                     )
                 )
-                putfield(className, "ec", CardinalData::class)
+                putfield(self, "ec", CardinalData::class)
                 //endregion
 
                 //region Hashmap/chip storage
@@ -82,14 +82,14 @@ object CircuitCompiler {
                 new(HashMap::class)
                 dup
                 invokespecial(HashMap::class, "<init>", returnType = void, parameterTypes = arrayOf())
-                putfield(className, "s", HashMap::class)
+                putfield(self, "s", HashMap::class)
                 //endregion
 
                 // Populate data with empties
                 places.forEach {
                     aload_0
                     aconst_null
-                    putfield(className, "d\$${it.x}\$${it.y}", CardinalData::class)
+                    putfield(self, "d\$${it.x}\$${it.y}", CardinalData::class)
                 }
                 // Populate processes with instances
                 processes.forEach {
@@ -102,10 +102,20 @@ object CircuitCompiler {
 
             method(public + final, "setup", returnType = void) {
                 // Generate the initial state
-                board.forEach { vec2I, process ->
+                board.forEach { vec2i, process ->
                     aload_0
-                    getfield(className, "p\$${process.id.path}", ChipProcess::class)
+                    getfield(self, "p\$${process.id.path}", ChipProcess::class)
                     invokevirtual(ChipProcess::class, "makeInitialStateEntry", "()Lmc/jabber/core/data/serial/NbtTransformable;")
+                    dup
+                    val conditional = LabelNode(Label())
+                    ifnonnull(conditional)
+                    aload_0
+                    getfield(self, "s", HashMap::class)
+                    swap
+                    makeVec2I(vec2i)
+                    swap
+                    invokevirtual(HashMap::class, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
+                    +KoffeeLabel(this, conditional)
                 }
                 _return
             }
@@ -114,11 +124,11 @@ object CircuitCompiler {
                 // Generate input
                 board.forEachInput { vec2I, process ->
                     aload_0
-                    getfield(className, "p\$${process.id.path}", ChipProcess::class)
+                    getfield(self, "p\$${process.id.path}", ChipProcess::class)
                     emptyCardinalData()
                     makeVec2I(vec2I)
                     aload_0
-                    getfield(className, "s", HashMap::class)
+                    getfield(self, "s", HashMap::class)
                     invokevirtual(
                         ChipProcess::class,
                         "receive",
@@ -142,36 +152,6 @@ object CircuitCompiler {
 
         val loaded = JabberClassLoader.defineClass(compiled).constructors[0].newInstance()
         return loaded as CompiledCircuit
-    }
-
-    private fun MethodAssembly.makeVec2I(vec2I: Vec2I) {
-        new(Vec2I::class)
-        dup
-        ldc(vec2I.x)
-        ldc(vec2I.y)
-        invokespecial(
-            Vec2I::class,
-            "<init>",
-            returnType = void,
-            parameterTypes = arrayOf(int, int)
-        )
-    }
-
-    private fun MethodAssembly.lookupChipProcess(process: ChipProcess) {
-        getstatic(Global::class, "PROCESS_ITEM_MAP", HashMap::class)
-        new(Identifier::class)
-        dup
-        ldc(process.id.toString())
-        invokespecial(
-            Identifier::class,
-            "<init>",
-            returnType = void,
-            parameterTypes = arrayOf(String::class)
-        )
-        invokevirtual(HashMap::class, "get", "(Ljava/lang/Object;)Ljava/lang/Object;")
-        checkcast(ChipItem::class)
-        invokevirtual(ChipItem::class, "getProcess", "()Lmc/jabber/core/chips/ChipProcess;")
-        checkcast(ChipProcess::class)
     }
 
     private fun MethodAssembly.emptyCardinalData() {

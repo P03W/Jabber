@@ -10,6 +10,7 @@ import java.lang.invoke.MethodHandles
  */
 object JabberClassLoader {
     private val lookup: MethodHandles.Lookup
+    private val defined = hashMapOf<String, Class<*>>()
 
     init {
         val myLookup = MethodHandles.lookup()
@@ -17,6 +18,6 @@ object JabberClassLoader {
     }
 
     fun defineClass(node: ClassNode): Class<*> {
-        return lookup.defineClass(node.byteArray())
+        return defined.getOrPut(node.name) { lookup.defineClass(node.byteArray()) }
     }
 }

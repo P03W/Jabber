@@ -61,7 +61,10 @@ object Main : ModInitializer {
                         if (be is SimpleComputerBE) {
                             val circuit = be.circuit
                             if (circuit != null) {
-                                CircuitCompiler.compileCircuit(circuit.board).simulate()
+                                CircuitCompiler.compileCircuit(circuit.board).also { compiled ->
+                                    compiled.setup()
+                                    compiled.simulate()
+                                }
                                 it.source.sendFeedback(LiteralText("Compiled circuit board!"), false)
                             } else {
                                 it.source.sendError(LiteralText("That computer does not have a circuit!"))
