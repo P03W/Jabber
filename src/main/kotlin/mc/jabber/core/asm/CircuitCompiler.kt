@@ -17,6 +17,9 @@ import mc.jabber.util.byteArray
 import net.minecraft.util.Identifier
 import java.io.File
 
+/**
+ * Compiles a circuit board into a runtime class for preformance
+ */
 object CircuitCompiler {
     var className = ""
 
@@ -92,14 +95,16 @@ object CircuitCompiler {
                     lookupChipProcess(it)
                     putfield(className, "p\$${it.id.path}", ChipProcess::class)
                 }
+                _return
+            }
 
+            method(public + final, "setup", returnType = void) {
                 // Generate the initial state
                 board.forEach { vec2I, process ->
                     aload_0
                     getfield(className, "p\$${process.id.path}", ChipProcess::class)
                     invokevirtual(ChipProcess::class, "makeInitialStateEntry", "()Lmc/jabber/core/data/serial/NbtTransformable;")
                 }
-                _return
             }
 
             method(public + final, "simulate", returnType = void) {
