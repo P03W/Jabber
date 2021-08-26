@@ -31,6 +31,7 @@ object CircuitCompiler {
 
         val compiled = assembleClass(public + final, className, 60, interfaces = listOf(CompiledCircuit::class)) {
             val processes = mutableSetOf<ChipProcess>()
+            val inputPlaces = mutableListOf<Vec2I>()
             val places = mutableListOf<Vec2I>()
 
             // Always present data
@@ -41,14 +42,17 @@ object CircuitCompiler {
 
             // Processes
             board.forEach { vec2I, process ->
+                // For storing instances for fast lookup
+                processes.add(process)
+
                 // Don't create a data field for chips that don't take input, we'll throw it out
                 if (!process.receiveDirections.matches(DirBitmask.NONE)) {
                     places.add(vec2I)
                     field(private, "d\$${vec2I.x}\$${vec2I.y}", CardinalData::class)
+                } else if (process.isInput) {
+                    places.add(vec2I)
+                    field(private, "d\$${vec2I.x}\$${vec2I.y}", CardinalData::class)
                 }
-
-                // For storing instances for fast lookup
-                processes.add(process)
             }
 
             // Make sure to iterate on the set to prevent duplicates
@@ -76,7 +80,6 @@ object CircuitCompiler {
                 )
                 putfield(self, "ec", CardinalData::class)
                 //endregion
-
                 //region Hashmap/chip storage
                 aload_0
                 new(HashMap::class)
@@ -88,7 +91,7 @@ object CircuitCompiler {
                 // Populate data with empties
                 places.forEach {
                     aload_0
-                    aconst_null
+                    emptyCardinalData()
                     putfield(self, "d\$${it.x}\$${it.y}", CardinalData::class)
                 }
                 // Populate processes with instances
@@ -121,24 +124,44 @@ object CircuitCompiler {
             }
 
             method(public + final, "simulate", returnType = void) {
-                // Generate input
-                board.forEachInput { vec2I, process ->
-                    aload_0
-                    getfield(self, "p\$${process.id.path}", ChipProcess::class)
-                    emptyCardinalData()
-                    makeVec2I(vec2I)
-                    aload_0
-                    getfield(self, "s", HashMap::class)
-                    invokevirtual(
-                        ChipProcess::class,
-                        "receive",
-                        returnType = CardinalData::class,
-                        parameterTypes = arrayOf(
-                            CardinalData::class,
-                            Vec2I::class,
-                            HashMap::class
+                // Step through
+                board.forEach { vec2I, process ->
+                    if (process.isInput) {
+                        aload_0
+                        getfield(self, "p\$${process.id.path}", ChipProcess::class)
+                        emptyCardinalData()
+                        makeVec2I(vec2I)
+                        aload_0
+                        getfield(self, "s", HashMap::class)
+                        invokevirtual(
+                            ChipProcess::class,
+                            "receive",
+                            returnType = CardinalData::class,
+                            parameterTypes = arrayOf(
+                                CardinalData::class,
+                                Vec2I::class,
+                                HashMap::class
+                            )
                         )
-                    )
+                    } else {
+                        aload_0
+                        getfield(self, "p\$${process.id.path}", ChipProcess::class)
+                        aload_0
+                        getfield(self, "d\$${vec2I.x}\$${vec2I.y}", CardinalData::class)
+                        makeVec2I(vec2I)
+                        aload_0
+                        getfield(self, "s", HashMap::class)
+                        invokevirtual(
+                            ChipProcess::class,
+                            "receive",
+                            returnType = CardinalData::class,
+                            parameterTypes = arrayOf(
+                                CardinalData::class,
+                                Vec2I::class,
+                                HashMap::class
+                            )
+                        )
+                    }
                 }
                 _return
             }
