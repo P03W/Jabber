@@ -7,7 +7,7 @@ import mc.jabber.core.chips.DirBitmask.Companion.DYNAMIC
  *
  * If [DYNAMIC] is set, the remaining flags should be ignored, and ideally be set to 0 / [NONE] for consistency
  */
-class DirBitmask(val mask: Int) {
+data class DirBitmask(val mask: Int) {
     infix fun and(other: DirBitmask): DirBitmask {
         return DirBitmask(this.mask + other.mask)
     }
