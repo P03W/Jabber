@@ -1,5 +1,6 @@
 package mc.jabber.core.asm
 
+import mc.jabber.core.asm.runtime.LookupTarget
 import mc.jabber.util.byteArray
 import org.objectweb.asm.tree.ClassNode
 import java.lang.invoke.MethodHandles
@@ -12,7 +13,7 @@ object JabberClassLoader {
 
     init {
         val myLookup = MethodHandles.lookup()
-        lookup = MethodHandles.privateLookupIn(LookupTarget::class.java, lookup);
+        lookup = MethodHandles.privateLookupIn(LookupTarget::class.java, myLookup)
     }
 
     fun defineClass(node: ClassNode): Class<*> {

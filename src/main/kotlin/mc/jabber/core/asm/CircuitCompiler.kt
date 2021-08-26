@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier
 import java.io.File
 
 /**
- * Compiles a circuit board into a runtime class for preformance
+ * Compiles a circuit board into a runtime class for performance
  */
 object CircuitCompiler {
     var className = ""
@@ -35,7 +35,9 @@ object CircuitCompiler {
 
             // Always present data
             field(private, "ec", CardinalData::class)
-            field(private, "s", HashMap::class)
+            field(private, "s", HashMap::class,
+                signature = "Ljava/util/HashMap<Lmc/jabber/core/math/Vec2I;Lmc/jabber/core/data/serial/NbtTransformable;>;"
+            )
 
             // Processes
             board.forEach { vec2I, process ->
@@ -86,7 +88,7 @@ object CircuitCompiler {
                 // Populate data with empties
                 places.forEach {
                     aload_0
-                    emptyCardinalData()
+                    aconst_null
                     putfield(className, "d\$${it.x}\$${it.y}", CardinalData::class)
                 }
                 // Populate processes with instances
@@ -105,6 +107,7 @@ object CircuitCompiler {
                     getfield(className, "p\$${process.id.path}", ChipProcess::class)
                     invokevirtual(ChipProcess::class, "makeInitialStateEntry", "()Lmc/jabber/core/data/serial/NbtTransformable;")
                 }
+                _return
             }
 
             method(public + final, "simulate", returnType = void) {
