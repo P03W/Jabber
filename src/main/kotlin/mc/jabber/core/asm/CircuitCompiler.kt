@@ -231,7 +231,7 @@ object CircuitCompiler {
             if (board.isInBounds(offset)) {
                 val chip = board[offset]
                 if (chip != null) {
-                    if (cardinal.mirror().mask.matches(chip.receiveDirections)) {
+                    if (cardinal.mask.matches(chip.receiveDirections)) {
                         val isFirstWrite = locationAccess.add(offset)
                         val getOp = when (cardinal) {
                             Cardinal.UP -> "getUp"
