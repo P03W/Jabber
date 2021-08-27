@@ -146,10 +146,10 @@ object CircuitCompiler {
                         getfield(self, processName(process), ChipProcess::class)
                         emptyCardinalData()
                     } else {
-                        getData(vec2I)
-                        ifnull(exit)
                         aload_0
                         getfield(self, processName(process), ChipProcess::class)
+                        getData(vec2I)
+                        ifnull(exit)
                         getData(vec2I)
                     }
 
@@ -175,7 +175,6 @@ object CircuitCompiler {
                     unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
-                    pop
                     +KoffeeLabel(this, exit)
                 }
 
