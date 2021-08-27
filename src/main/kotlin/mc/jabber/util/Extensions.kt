@@ -13,7 +13,6 @@ import net.minecraft.util.registry.Registry
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
 import org.slf4j.Logger
-import java.nio.ByteBuffer
 import java.util.*
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract

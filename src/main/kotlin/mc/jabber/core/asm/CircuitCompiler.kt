@@ -141,9 +141,6 @@ object CircuitCompiler {
                 board.forEach { vec2I, process ->
                     val exit = LabelNode(Label())
 
-                    aload_0
-                    getfield(self, processName(process), ChipProcess::class)
-
                     if (process.isInput) {
                         aload_0
                         getfield(self, processName(process), ChipProcess::class)
@@ -151,6 +148,8 @@ object CircuitCompiler {
                     } else {
                         getData(vec2I)
                         ifnull(exit)
+                        aload_0
+                        getfield(self, processName(process), ChipProcess::class)
                         getData(vec2I)
                     }
 
@@ -176,8 +175,7 @@ object CircuitCompiler {
                     unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
-
-                    +KoffeeLabel(this, exit)
+                    pop
                     +KoffeeLabel(this, exit)
                 }
 
