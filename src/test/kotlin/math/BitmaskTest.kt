@@ -19,10 +19,9 @@ class BitmaskTest {
 
     @Test
     fun testMany() {
-        val mask = +(DirBitmask.UP and DirBitmask.DOWN and DirBitmask.DYNAMIC)
+        val mask = +(DirBitmask.UP and DirBitmask.DOWN)
         assert(DirBitmask.UP.matches(mask))
         assert(DirBitmask.DOWN.matches(mask))
-        assert(DirBitmask.DYNAMIC.matches(mask))
         assert(!DirBitmask.ALL.matches(mask))
     }
 
@@ -32,6 +31,5 @@ class BitmaskTest {
         assert(DirBitmask.UP.matches(mask))
         assert(DirBitmask.DOWN.matches(mask))
         assert(DirBitmask.ALL.matches(mask))
-        assert(!DirBitmask.DYNAMIC.matches(mask))
     }
 }

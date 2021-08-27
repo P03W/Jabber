@@ -59,7 +59,7 @@ object CircuitCompiler {
 
             // Make sure to iterate on the set to prevent duplicates
             processes.forEach {
-                field(private, "p\$${it.id.path}", ChipProcess::class)
+                field(private, processName(it), ChipProcess::class)
             }
 
             // Implement version
@@ -98,16 +98,16 @@ object CircuitCompiler {
 
                 // Populate data and storage with empties
                 places.forEach {
-                    emptyCardinalData()
+                    if (board[it]?.isInput == true) emptyCardinalData() else aconst_null
                     putData(it)
-                    emptyCardinalData()
+                    aconst_null
                     putStorage(it)
                 }
                 // Populate processes with instances
                 processes.forEach {
                     aload_0
                     lookupChipProcess(it)
-                    putfield(className, "p\$${it.id.path}", ChipProcess::class)
+                    putfield(className, processName(it), ChipProcess::class)
                 }
                 _return
             }
@@ -116,7 +116,7 @@ object CircuitCompiler {
                 // Generate the initial state
                 board.forEach { vec2i, process ->
                     aload_0
-                    getfield(self, "p\$${process.id.path}", ChipProcess::class)
+                    getfield(self, processName(process), ChipProcess::class)
                     invokevirtual(
                         ChipProcess::class,
                         "makeInitialStateEntry",
@@ -139,9 +139,21 @@ object CircuitCompiler {
             method(public + final, "simulate", returnType = void) {
                 // Step through
                 board.forEach { vec2I, process ->
+                    val exit = LabelNode(Label())
+
                     aload_0
-                    getfield(self, "p\$${process.id.path}", ChipProcess::class)
-                    if (process.isInput) emptyCardinalData() else getData(vec2I)
+                    getfield(self, processName(process), ChipProcess::class)
+
+                    if (process.isInput) {
+                        aload_0
+                        getfield(self, processName(process), ChipProcess::class)
+                        emptyCardinalData()
+                    } else {
+                        getData(vec2I)
+                        ifnull(exit)
+                        getData(vec2I)
+                    }
+
                     makeVec2I(vec2I)
                     aload_0
                     getfield(self, "s", HashMap::class)
@@ -156,10 +168,17 @@ object CircuitCompiler {
                         )
                     )
 
+                    if (!DirBitmask.NONE.matches(process.sendDirections)) {
+                        dup
+                        ifnull(exit)
+                    }
                     unpackProcessConnection(process, Cardinal.UP, vec2I, board)
                     unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
+
+                    +KoffeeLabel(this, exit)
+                    +KoffeeLabel(this, exit)
                 }
 
                 places.forEach {
@@ -180,12 +199,16 @@ object CircuitCompiler {
         return loaded as CompiledCircuit
     }
 
+    private fun processName(process: ChipProcess): String {
+        return "Chip\$${process.id.path}"
+    }
+
     private fun dataName(vec2I: Vec2I): String {
-        return "d${vec2I.x}\$${vec2I.y}"
+        return "Data${vec2I.x}\$${vec2I.y}"
     }
 
     private fun storageName(vec2I: Vec2I): String {
-        return "Q${vec2I.x}\$${vec2I.y}"
+        return "Queue${vec2I.x}\$${vec2I.y}"
     }
 
     //region Get/Put Data and Storage
@@ -242,6 +265,8 @@ object CircuitCompiler {
 
                         dup
                         if (isFirstWrite) {
+                            getstatic(Cardinal::class, cardinal.name, Cardinal::class)
+                            invokevirtual(CardinalData::class, "only", "(Lmc/jabber/core/math/Cardinal;)Lmc/jabber/core/data/CardinalData;")
                             putStorage(offset)
                         } else {
                             getStorage(offset)
@@ -249,10 +274,10 @@ object CircuitCompiler {
                             invokevirtual(CardinalData::class, getOp, "()Ljava/lang/Long;")
                             getstatic(Cardinal::class, cardinal.name, Cardinal::class)
                             swap
-                            invokevirtual(
+                            invokestatic(
                                 CardinalData::class,
                                 "with",
-                                "(Lmc/jabber/core/math/Cardinal;Ljava/lang/Long;)Lmc/jabber/core/data/CardinalData;"
+                                "(Lmc/jabber/core/data/CardinalData;Lmc/jabber/core/math/Cardinal;Ljava/lang/Long;)Lmc/jabber/core/data/CardinalData;"
                             )
                             putStorage(offset)
                         }

@@ -166,5 +166,10 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
 
             return CardinalData(up, down, left, right)
         }
+
+        @JvmStatic
+        fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {
+            return data?.with(cardinal, long) ?: CardinalData(null, null, null, null).with(cardinal, long)
+        }
     }
 }

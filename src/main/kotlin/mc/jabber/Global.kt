@@ -111,7 +111,6 @@ object Global {
 
         // Debug
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output"), sendDirections = DirBitmask.NONE) { data, _, _ ->
-            println(data)
             MinecraftClient.getInstance().player?.sendSystemMessage(
                 LiteralText("DEBUG: output of $data"),
                 Util.NIL_UUID
