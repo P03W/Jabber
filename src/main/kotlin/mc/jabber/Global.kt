@@ -1,8 +1,8 @@
 package mc.jabber
 
+import com.google.common.reflect.ClassPath
 import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
-import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.init.Resources
@@ -37,7 +37,6 @@ import net.minecraft.text.LiteralText
 import net.minecraft.util.Identifier
 import net.minecraft.util.Util
 import net.minecraft.util.registry.Registry
-import org.reflections.Reflections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -75,9 +74,9 @@ object Global {
         @OptIn(ExperimentalStdlibApi::class)
         @Suppress("UnstableApiUsage")
         val CHIPS = buildMap<String, ChipItem> {
-            val chips = Reflections("mc.jabber.core.chips").getSubTypesOf(ChipProcess::class.java)
-
             val loader = this@ITEMS::class.java.classLoader
+            val chips = ClassPath.from(loader)
+                .topLevelClasses.filter { it.packageName.startsWith("mc.jabber.core.chips") }
 
             chips.sortedBy { it.name }.forEach {
                 val clazz = loader.loadClass(it.name)
