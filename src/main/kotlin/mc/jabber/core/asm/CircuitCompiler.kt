@@ -96,14 +96,15 @@ object CircuitCompiler {
                 putfield(self, "s", HashMap::class)
                 //endregion
 
-                // Populate data and storage with empties
+                // Populate data and storage with empties if input, null otherwise
                 places.forEach {
                     if (board[it]?.isInput == true) emptyCardinalData() else aconst_null
                     putData(it)
                     aconst_null
                     putStorage(it)
                 }
-                // Populate processes with instances
+
+                // Populate process fields with instances
                 processes.forEach {
                     aload_0
                     lookupChipProcess(it)
@@ -182,6 +183,7 @@ object CircuitCompiler {
                     getStorage(it)
                     putData(it)
                 }
+                
                 _return
             }
         }
@@ -238,6 +240,8 @@ object CircuitCompiler {
     }
 
     /**
+     * Generates the simulation code for a chip in a single direction by getting the chip in that direction, seeing if the send/receive lines up, and finally adding the bytecode to copy that data
+     *
      * Should already be a [CardinalData] on the top of the stack
      */
     private fun MethodAssembly.unpackProcessConnection(

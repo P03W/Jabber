@@ -8,6 +8,9 @@ import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.ChipItem
 import net.minecraft.util.Identifier
 
+/**
+ * Makes a new vec2i and leaves it on the stack
+ */
 fun MethodAssembly.makeVec2I(vec2I: Vec2I) {
     new(Vec2I::class)
     dup
@@ -21,6 +24,11 @@ fun MethodAssembly.makeVec2I(vec2I: Vec2I) {
     )
 }
 
+/**
+ * Takes the id from the chip process, and adds code to pull that chip process by the ID at runtime
+ *
+ * Process is left on the stack
+ */
 fun MethodAssembly.lookupChipProcess(process: ChipProcess) {
     getstatic(Global::class, "PROCESS_ITEM_MAP", HashMap::class)
     new(Identifier::class)
