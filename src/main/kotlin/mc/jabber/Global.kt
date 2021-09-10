@@ -47,8 +47,6 @@ object Global {
     val LOG: Logger = LoggerFactory.getLogger("Jabber")
     const val MOD_ID = "jabber"
 
-    const val EXPECTED_CACHE_VERSION = 0
-
     @JvmField
     val PROCESS_ITEM_MAP: HashMap<Identifier, ChipItem> = hashMapOf()
 

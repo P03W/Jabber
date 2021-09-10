@@ -62,12 +62,6 @@ object CircuitCompiler {
                 field(private, processName(it), ChipProcess::class)
             }
 
-            // Implement version
-            method(public + final, "getVersion", int) {
-                ldc(Global.EXPECTED_CACHE_VERSION)
-                ireturn
-            }
-
             init(public) {
                 // Always present
                 //region Empty CardinalData
