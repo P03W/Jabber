@@ -62,6 +62,11 @@ object CircuitCompiler {
                 field(private, processName(it), ChipProcess::class)
             }
 
+            method(public + final, "getChipStorage", returnType = HashMap::class) {
+                aload_0
+                getfield(self, "s", HashMap::class)
+            }
+
             init(public) {
                 // Always present
                 //region Empty CardinalData
