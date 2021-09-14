@@ -43,10 +43,6 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
-    maven {
-        name = "Sonatype OSS"
-        url = "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
     mavenCentral()
 }
 
@@ -75,8 +71,8 @@ dependencies {
     }
 
     // Colonel
-    modImplementation "ca.stellardrift:colonel:0.2.1-SNAPSHOT"
-    include "ca.stellardrift:colonel:0.2.1-SNAPSHOT"
+    modImplementation 'ca.stellardrift:colonel:0.2.1'
+    include "ca.stellardrift:colonel:0.2.1"
 
     // ARRP
     modImplementation "net.devtech:arrp:0.4.3"

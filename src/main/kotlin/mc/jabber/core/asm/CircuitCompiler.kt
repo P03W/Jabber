@@ -7,7 +7,6 @@ import codes.som.anthony.koffee.labels.KoffeeLabel
 import codes.som.anthony.koffee.modifiers.final
 import codes.som.anthony.koffee.modifiers.public
 import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.init
-import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
@@ -182,7 +181,7 @@ object CircuitCompiler {
                     getStorage(it)
                     putData(it)
                 }
-                
+
                 _return
             }
         }

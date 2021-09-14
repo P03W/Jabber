@@ -1,5 +1,7 @@
 package mc.jabber.core.circuit
 
+import mc.jabber.core.asm.CircuitCompiler
+import mc.jabber.core.asm.CompiledCircuit
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.serial.NbtTransformable
@@ -18,16 +20,24 @@ class CircuitManager(sizeX: Int, sizeY: Int, _initialBoard: CircuitBoard = Circu
     private val state = CircuitDataStorage(sizeX, sizeY)
     private val stagingMap = CircuitDataStorage(sizeX, sizeY)
 
+    private lateinit var compiledCircuit: CompiledCircuit
+
     fun setup() {
-        board.forEach { vec2I, process ->
+        compiledCircuit = CircuitCompiler.compileCircuit(board)
+        compiledCircuit.setup()
+
+        /*board.forEach { vec2I, process ->
             val initialData = process.makeInitialStateEntry()
             if (initialData != null) {
                 chipData[vec2I] = initialData
             }
-        }
+        }*/
     }
 
     fun simulate() {
+        compiledCircuit.simulate()
+        return
+
         // Generate input
         val empty = CardinalData(null, null, null, null)
         board.forEachInput { vec2I, _ ->

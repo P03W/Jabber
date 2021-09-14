@@ -61,6 +61,7 @@ class SimpleComputerBE(
         if (nbt.contains("d")) {
             val rebuild = CircuitManagerBuffer.CircuitManagerProto.parseFrom(nbt.getByteArray("d"))
             circuit = CircuitManager.deserialize(rebuild)
+            circuit?.setup()
         }
         isRebuildingFromNbt = false
     }
