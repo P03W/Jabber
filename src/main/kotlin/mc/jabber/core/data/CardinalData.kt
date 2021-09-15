@@ -1,6 +1,7 @@
 package mc.jabber.core.data
 
 import mc.jabber.core.math.Cardinal
+import net.minecraft.nbt.NbtCompound
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -133,6 +134,16 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
             if (predicate(cardinal, t)) return true
         }
         return false
+    }
+
+    fun toNbt(): NbtCompound {
+        return NbtCompound().apply {
+            forEach { cardinal, l ->
+                if (l != null) {
+                    putLong(cardinal.ordinal.toString(), l)
+                }
+            }
+        }
     }
 
     override fun toString(): String {

@@ -12,7 +12,9 @@ import mc.jabber.core.data.util.TriSet
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
+import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 
 /**
  * A chip that takes in any input, and passes it on again after [delay] steps
@@ -70,11 +72,26 @@ class DelayChip(val delay: Int) : ChipProcess() {
         }
 
         override fun toNbt(): NbtCompound {
-            TODO("Not yet implemented")
+            return NbtCompound().apply {
+                put("e", NbtList().apply {
+                    data.forEach { entry ->
+                        add(NbtCompound().apply {
+                            putInt("r", entry.first)
+                            putByte("c", entry.second.ordinal.toByte())
+                            putLong("d", entry.third)
+                        })
+                    }
+                })
+            }
         }
 
         override fun fromNbt(nbt: NbtCompound): DelayState {
-            TODO("Not yet implemented")
+            val newData = mutableListOf<TriSet<Int, Cardinal, Long>>()
+            nbt.getList("e", NbtType.COMPOUND).forEach {
+                val compound = it as NbtCompound
+                newData.add(TriSet(compound.getInt("r"), Cardinal.values()[compound.getByte("c").toInt()], compound.getLong("d")))
+            }
+            return DelayState().apply { data = newData }
         }
     }
 }

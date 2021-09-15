@@ -11,6 +11,7 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
@@ -70,6 +71,35 @@ object CircuitCompiler {
             method(public + final, "getChipStorage", returnType = HashMap::class) {
                 aload_0
                 getfield(self, "s", HashMap::class)
+                areturn
+            }
+
+            method(public + final, "getChipState", returnType = CircuitDataStorage::class) {
+                new(CircuitDataStorage::class)
+                dup
+                ldc(board.sizeX)
+                ldc(board.sizeY)
+                invokespecial(
+                    CircuitDataStorage::class,
+                    "<init>",
+                    returnType = void,
+                    parameterTypes = arrayOf(
+                        int,
+                        int
+                    )
+                )
+
+                board.forEach { vec2i, process ->
+                    val conditional = LabelNode(Label())
+                    ifnull(conditional)
+                    aload_0
+                    getfield(self, "s", HashMap::class)
+                    swap
+                    makeVec2I(vec2i)
+                    swap
+                    invokevirtual(HashMap::class, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
+                    +KoffeeLabel(this, conditional)
+                }
                 areturn
             }
 

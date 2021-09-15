@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -56,6 +57,14 @@ class SimpleComputerBE(
             )
         }
         circuit!!.setup()
+    }
+
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        super.writeNbt(nbt)
+
+        circuit?.writeNbt(nbt)
+
+        return nbt
     }
 
     companion object {
