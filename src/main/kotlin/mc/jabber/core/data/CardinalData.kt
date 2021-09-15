@@ -1,8 +1,6 @@
 package mc.jabber.core.data
 
 import mc.jabber.core.math.Cardinal
-import mc.jabber.proto.CardinalDataBuffer
-import mc.jabber.proto.cardinalDataProto
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -139,37 +137,5 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
 
     override fun toString(): String {
         return this::class.simpleName + "(up=$up, down=$down, left=$left, right=$right)"
-    }
-
-    @Suppress("UnstableApiUsage")
-    fun serialize(): CardinalDataBuffer.CardinalDataProto {
-        return cardinalDataProto {
-            forEach { cardinal, u ->
-                if (u != null) {
-                    when (cardinal) {
-                        Cardinal.UP -> up = u
-                        Cardinal.DOWN -> down = u
-                        Cardinal.LEFT -> left = u
-                        Cardinal.RIGHT -> right = u
-                    }
-                }
-            }
-        }
-    }
-
-    companion object {
-        fun deserialize(proto: CardinalDataBuffer.CardinalDataProto): CardinalData {
-            val up = if (proto.hasUp()) proto.up else null
-            val down = if (proto.hasDown()) proto.down else null
-            val left = if (proto.hasLeft()) proto.left else null
-            val right = if (proto.hasRight()) proto.right else null
-
-            return CardinalData(up, down, left, right)
-        }
-
-        @JvmStatic
-        fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {
-            return data?.with(cardinal, long) ?: CardinalData(null, null, null, null).with(cardinal, long)
-        }
     }
 }

@@ -11,12 +11,15 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.byteArray
 import org.objectweb.asm.Label
 import org.objectweb.asm.tree.LabelNode
 import java.io.File
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
 /**
  * Compiles a circuit board into a runtime class for performance
@@ -25,7 +28,10 @@ object CircuitCompiler {
     private var className = ""
     private val locationAccess = mutableSetOf<Vec2I>()
 
+    @OptIn(ExperimentalTime::class)
     fun compileCircuit(board: CircuitBoard): CompiledCircuit {
+        val startTime = System.nanoTime()
+
         val hash = board.longHashCode().toString().replace("-", "M")
         val name = "JabberCircuit\$$hash"
         locationAccess.clear()
@@ -64,6 +70,7 @@ object CircuitCompiler {
             method(public + final, "getChipStorage", returnType = HashMap::class) {
                 aload_0
                 getfield(self, "s", HashMap::class)
+                areturn
             }
 
             init(public) {
@@ -135,7 +142,7 @@ object CircuitCompiler {
                 _return
             }
 
-            method(public + final, "simulate", returnType = void) {
+            method(public + final, "simulate", parameterTypes = arrayOf(ExecutionContext::class), returnType = void) {
                 // Step through
                 board.forEach { vec2I, process ->
                     val exit = LabelNode(Label())
@@ -155,6 +162,7 @@ object CircuitCompiler {
                     makeVec2I(vec2I)
                     aload_0
                     getfield(self, "s", HashMap::class)
+                    aload_1
                     invokevirtual(
                         ChipProcess::class,
                         "receive",
@@ -162,7 +170,8 @@ object CircuitCompiler {
                         parameterTypes = arrayOf(
                             CardinalData::class,
                             Vec2I::class,
-                            HashMap::class
+                            HashMap::class,
+                            ExecutionContext::class
                         )
                     )
 
@@ -185,6 +194,9 @@ object CircuitCompiler {
                 _return
             }
         }
+
+        val endTime = System.nanoTime()
+        println("Compiled circuit $name in ${Duration.nanoseconds(endTime-startTime)}")
 
         val dir = File("jabber/debug/")
         dir.mkdirs()

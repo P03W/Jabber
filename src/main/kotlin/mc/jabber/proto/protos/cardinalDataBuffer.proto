@@ -1,9 +1,0 @@
-syntax = "proto3";
-package mc.jabber.proto;
-
-message CardinalDataProto {
-  optional int64 up = 1;
-  optional int64 down = 2;
-  optional int64 right = 3;
-  optional int64 left = 4;
-}

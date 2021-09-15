@@ -3,6 +3,7 @@ package mc.jabber.core.chips.special
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
@@ -27,7 +28,8 @@ class CustomChip(
     override fun receive(
         data: CardinalData,
         pos: Vec2I,
-        chipData: HashMap<Vec2I, NbtTransformable<*>>
+        chipData: HashMap<Vec2I, NbtTransformable<*>>,
+        context: ExecutionContext?
     ): CardinalData {
         return method(data, pos, chipData).assertType()
     }

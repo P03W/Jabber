@@ -6,15 +6,12 @@ import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
+import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.data.util.TriSet
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
-import mc.jabber.proto.DelayChipStateBuffer
-import mc.jabber.proto.DelayChipStateProtoKt.entry
-import mc.jabber.proto.delayChipStateProto
 import mc.jabber.util.assertType
-import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
 
 /**
@@ -35,7 +32,8 @@ class DelayChip(val delay: Int) : ChipProcess() {
     override fun receive(
         data: CardinalData,
         pos: Vec2I,
-        chipData: HashMap<Vec2I, NbtTransformable<*>>
+        chipData: HashMap<Vec2I, NbtTransformable<*>>,
+        context: ExecutionContext?
     ): CardinalData {
         // Grab the queue
         val queue = chipData[pos].assertType<DelayState>()
@@ -72,29 +70,11 @@ class DelayChip(val delay: Int) : ChipProcess() {
         }
 
         override fun toNbt(): NbtCompound {
-            val out = NbtCompound()
-            val data = NbtByteArray(delayChipStateProto {
-                data.forEach {
-                    entries += entry {
-                        remainingDelay = it.first
-                        direction = it.second.ordinal
-                        data = it.third
-                    }
-                }
-            }.toByteArray())
-            out.put("d", data)
-            return out
+            TODO("Not yet implemented")
         }
 
         override fun fromNbt(nbt: NbtCompound): DelayState {
-            val newData = mutableListOf<TriSet<Int, Cardinal, Long>>()
-
-            val proto = DelayChipStateBuffer.DelayChipStateProto.parseFrom(nbt.getByteArray("d"))
-            proto.entriesList.forEach {
-                newData += TriSet(it.remainingDelay, Cardinal.values()[it.direction], it.data)
-            }
-
-            return DelayState().also { it.data = newData }
+            TODO("Not yet implemented")
         }
     }
 }

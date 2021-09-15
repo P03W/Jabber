@@ -20,6 +20,7 @@ group = project.maven_group
 
 test {
     useJUnitPlatform()
+
 }
 
 minecraft {

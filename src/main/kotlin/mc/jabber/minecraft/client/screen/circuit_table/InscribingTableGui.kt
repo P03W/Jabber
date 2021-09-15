@@ -108,29 +108,11 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
     }
 
     fun serializeTo(inv: Inventory, stack: ItemStack) {
-        val circuitItem = stack.item.assertType<CircuitItem>()
-        val board = CircuitBoard(circuitItem.sizeX, circuitItem.sizeY)
 
-        inv.forEach { i, itemStack ->
-            if (i == 0 || itemStack.item !is ChipItem) return@forEach
-            board[Vec2I.transformOut(i - 1, 10)] = itemStack.item.assertType<ChipItem>().process
-        }
-
-        stack.orCreateNbt.putByteArray("c", board.serialize().toByteArray())
     }
 
     fun deserializeTo(inv: Inventory, stack: ItemStack) {
-        val board =
-            CircuitBoard.deserialize(
-                CircuitBoardBuffer.CircuitBoardProto.parseFrom(
-                    stack.orCreateNbt.getByteArray("c")
-                )
-            )
 
-        board.forEach { vec2I, process ->
-            val index = vec2I.transformInto(10) + 1
-            inv.setStack(index, ItemStack(Global.PROCESS_ITEM_MAP[process.id]))
-        }
     }
 
     override fun close(player: PlayerEntity) {

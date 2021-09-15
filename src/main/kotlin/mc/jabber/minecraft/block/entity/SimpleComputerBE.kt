@@ -2,15 +2,13 @@ package mc.jabber.minecraft.block.entity
 
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
+import mc.jabber.core.data.ExecutionContext
 import mc.jabber.minecraft.items.CircuitItem
-import mc.jabber.proto.CircuitBoardBuffer
-import mc.jabber.proto.CircuitManagerBuffer
 import mc.jabber.util.assertType
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -36,47 +34,28 @@ class SimpleComputerBE(
         if (new == null) {
             circuit = null; return
         }
+
+        if (world !is ServerWorld) return
+
+        val context = ExecutionContext(world.assertType(), pos, null)
+
         val item = new.item.assertType<CircuitItem>()
         val bytes = new.orCreateNbt.getByteArray("c")
         circuit = if (bytes.isNotEmpty()) {
             CircuitManager(
+                context,
                 item.sizeX,
                 item.sizeY,
-                CircuitBoard.deserialize(CircuitBoardBuffer.CircuitBoardProto.parseFrom(bytes))
+                CircuitBoard(1, 1)
             )
         } else {
             CircuitManager(
+                context,
                 item.sizeX,
                 item.sizeY
             )
         }
         circuit!!.setup()
-    }
-
-    override fun readNbt(nbt: NbtCompound) {
-        isRebuildingFromNbt = true
-        if (nbt.contains("c")) {
-            circuitItem = ItemStack.fromNbt(nbt.getCompound("c"))
-        }
-        if (nbt.contains("d")) {
-            val rebuild = CircuitManagerBuffer.CircuitManagerProto.parseFrom(nbt.getByteArray("d"))
-            circuit = CircuitManager.deserialize(rebuild)
-            circuit?.setup()
-        }
-        isRebuildingFromNbt = false
-    }
-
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        super.writeNbt(nbt)
-        if (circuitItem != null && circuit != null) {
-            nbt.put("c", circuitItem!!.writeNbt(NbtCompound()))
-            nbt.putByteArray("d", circuit!!.serialize().toByteArray())
-        }
-        return nbt
-    }
-
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        return writeNbt(NbtCompound())
     }
 
     companion object {

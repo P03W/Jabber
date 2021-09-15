@@ -1,10 +1,7 @@
 package mc.jabber.core.circuit
 
-import mc.jabber.Global
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
-import mc.jabber.proto.CircuitBoardBuffer
-import mc.jabber.proto.circuitBoardProto
 
 data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
     init {
@@ -59,34 +56,10 @@ data class CircuitBoard(val sizeX: Int, val sizeY: Int) {
         }
     }
 
-    fun serialize(): CircuitBoardBuffer.CircuitBoardProto {
-        return circuitBoardProto {
-            sizeX = this@CircuitBoard.sizeX
-            sizeY = this@CircuitBoard.sizeY
-            forEach { vec2I, process ->
-                entries[vec2I.transformInto(sizeX)] = process.id.path
-            }
-        }
-    }
-
     fun longHashCode(): Long {
         var result = sizeX.toLong()
         result = 31 * result + sizeY
         result = 31 * result + board.contentDeepHashCode()
         return result
-    }
-
-    companion object {
-        fun deserialize(proto: CircuitBoardBuffer.CircuitBoardProto): CircuitBoard {
-            val sizeX = proto.sizeX
-            val sizeY = proto.sizeY
-            val board = CircuitBoard(sizeX, sizeY)
-
-            proto.entriesMap.forEach { (index, data) ->
-                board[Vec2I.transformOut(index, sizeX)] = Global.PROCESS_ITEM_MAP[Global.id(data)]?.process
-            }
-
-            return board
-        }
     }
 }
