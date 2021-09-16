@@ -6,6 +6,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.util.warn
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -45,9 +46,7 @@ class CircuitManager(
 
         nbt.put("e", NbtList().apply {
             board.forEach { vec2I, chipProcess ->
-                add(NbtCompound().apply {
-                    putString("${vec2I.x}*${vec2I.y}", chipProcess.id.path)
-                })
+                add(NbtString.of("${vec2I.x}*${vec2I.y}|${chipProcess.id.path}"))
             }
         })
 

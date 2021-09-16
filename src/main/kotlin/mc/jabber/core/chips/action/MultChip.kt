@@ -15,7 +15,7 @@ import mc.jabber.core.math.Vec2I
  */
 @AutoConstructInt(ChipID("chip_mult"), [-1, 1, 2, 3, 4, 5, 10, 20])
 class MultChip(val amount: Int) : ChipProcess() {
-    override val id = Global.id("mult")
+    override val id = Global.id("mult$amount")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL
 

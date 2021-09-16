@@ -12,7 +12,6 @@ import mc.jabber.minecraft.client.screen.SimpleSingleItemInv
 import mc.jabber.minecraft.client.screen.util.SlotFilters
 import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
-import mc.jabber.proto.CircuitBoardBuffer
 import mc.jabber.util.assertType
 import mc.jabber.util.forEach
 import mc.jabber.util.peers
@@ -23,16 +22,19 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
+import net.minecraft.util.Identifier
 
 class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Global.GUI.INSCRIBING_TABLE_GUI, i, inv) {
-    val editingInv = SimpleSingleItemInv(10 * 10 + 1)
-    val lastKnownInv = SimpleSingleItemInv(10 * 10 + 1)
+    private val editingInv = SimpleSingleItemInv(10 * 10 + 1)
+    private val lastKnownInv = SimpleSingleItemInv(10 * 10 + 1)
 
-    val inputItem: Item get() = editingInv.getStack(0).item
-    val lastInputItem: Item get() = lastKnownInv.getStack(0).item
+    private val inputItem: Item get() = editingInv.getStack(0).item
+    private val lastInputItem: Item get() = lastKnownInv.getStack(0).item
 
-    val root = WGridPanel()
-    val chipInputs = WItemSlot(editingInv, 1, 10, 10, false).apply {
+    private val root = WGridPanel()
+    private val chipInputs = WItemSlot(editingInv, 1, 10, 10, false).apply {
         filter = SlotFilters.ChipOnly
     }
 
@@ -76,7 +78,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         if (inputItem is CircuitItem) {
             if (lastInputItem !is CircuitItem) {
                 openDimensions(editingInv.getStack(0).item.assertType())
-                if (editingInv.getStack(0).orCreateNbt.contains("c", NbtType.BYTE_ARRAY)) {
+                if (editingInv.getStack(0).orCreateNbt.contains("c", NbtType.LIST)) {
                     deserializeTo(editingInv, editingInv.getStack(0))
                 }
             }
@@ -107,12 +109,32 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         super.onContentChanged(inventory)
     }
 
-    fun serializeTo(inv: Inventory, stack: ItemStack) {
+    private fun serializeTo(inv: Inventory, stack: ItemStack) {
+        val circuitItem = stack.item.assertType<CircuitItem>()
+        val board = CircuitBoard(circuitItem.sizeX, circuitItem.sizeY)
 
+        inv.forEach { i, itemStack ->
+            if (i == 0 || itemStack.item !is ChipItem) return@forEach
+            board[Vec2I.transformOut(i - 1, 10)] = itemStack.item.assertType<ChipItem>().process
+        }
+
+        stack.orCreateNbt.put("c", NbtList().apply {
+            board.forEach { vec2I, chipProcess ->
+                add(NbtString.of("${vec2I.x}*${vec2I.y}|${chipProcess.id.path}"))
+            }}
+        )
     }
 
-    fun deserializeTo(inv: Inventory, stack: ItemStack) {
+    private fun deserializeTo(inv: Inventory, stack: ItemStack) {
+        val board = stack.orCreateNbt.getList("c", NbtType.STRING)
 
+        board.forEach { entry ->
+            val values = entry.assertType<NbtString>().asString().split("|")
+            val (x, y) = values[0].split("*").map { int -> int.toInt() }
+            val index = Vec2I(x, y).transformInto(10) + 1
+
+            inv.setStack(index, ItemStack(Global.PROCESS_ITEM_MAP[Identifier("jabber:${values[1]}")]))
+        }
     }
 
     override fun close(player: PlayerEntity) {
@@ -120,7 +142,7 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         dropInventory(player, SimpleInventory(1).also { it.setStack(0, editingInv.getStack(0)) })
     }
 
-    fun openDimensions(circuit: CircuitItem) {
+    private fun openDimensions(circuit: CircuitItem) {
         val peers = chipInputs.peers
 
         peers.forEach {
