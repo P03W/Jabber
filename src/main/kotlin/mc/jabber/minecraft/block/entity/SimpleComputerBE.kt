@@ -80,6 +80,12 @@ class SimpleComputerBE(
         return nbt
     }
 
+    override fun readNbt(nbt: NbtCompound) {
+        super.readNbt(nbt)
+
+        circuit = CircuitManager.readNbt(nbt)
+    }
+
     companion object {
         @Suppress("UNUSED_PARAMETER")
         fun tick(world: World, blockPos: BlockPos, state: BlockState, be: SimpleComputerBE) {

@@ -152,6 +152,17 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
     }
 
     companion object {
+        fun readNbt(nbtCompound: NbtCompound): CardinalData {
+            var working = CardinalData(null, null, null, null)
+
+            nbtCompound.keys.forEach {
+                val dir = Cardinal.values()[it.toInt()]
+                working = working.with(dir, nbtCompound.getLong(it))
+            }
+
+            return working
+        }
+
         @JvmStatic
         fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {
             return data?.with(cardinal, long) ?: run {println("HOLY COW ITS NULL"); CardinalData(null, null, null, null).with(cardinal, long)}

@@ -18,5 +18,5 @@ interface CompiledCircuit {
     fun getChipState(): CircuitDataStorage
 
     // De-serialization
-    fun constructFrom(chipStorage: HashMap<Vec2I, NbtTransformable<*>>, chipState: CircuitDataStorage)
+    fun stateFrom(chipStorage: Map<Vec2I, NbtTransformable<*>>, chipState: CircuitDataStorage)
 }
