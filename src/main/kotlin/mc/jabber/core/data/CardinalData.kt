@@ -1,6 +1,7 @@
 package mc.jabber.core.data
 
 import mc.jabber.core.math.Cardinal
+import mc.jabber.proto.CardinalDataBuffer
 import net.minecraft.nbt.NbtCompound
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -148,5 +149,12 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
 
     override fun toString(): String {
         return this::class.simpleName + "(up=$up, down=$down, left=$left, right=$right)"
+    }
+
+    companion object {
+        @JvmStatic
+        fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {
+            return data?.with(cardinal, long) ?: run {println("HOLY COW ITS NULL"); CardinalData(null, null, null, null).with(cardinal, long)}
+        }
     }
 }

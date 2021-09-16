@@ -88,18 +88,19 @@ object CircuitCompiler {
                         int
                     )
                 )
+                astore_1
 
-                board.forEach { vec2i, process ->
-                    val conditional = LabelNode(Label())
-                    ifnull(conditional)
-                    aload_0
-                    getfield(self, "s", HashMap::class)
-                    swap
+                places.forEach { vec2i ->
+                    aload_1
                     makeVec2I(vec2i)
-                    swap
-                    invokevirtual(HashMap::class, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
-                    +KoffeeLabel(this, conditional)
+                    getData(vec2i)
+                    invokevirtual(
+                        CircuitDataStorage::class,
+                        "set",
+                        "(Lmc/jabber/core/math/Vec2I;Lmc/jabber/core/data/CardinalData;)V"
+                    )
                 }
+                aload_1
                 areturn
             }
 

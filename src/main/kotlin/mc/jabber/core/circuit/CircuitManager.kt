@@ -41,8 +41,8 @@ class CircuitManager(
     }
 
     fun writeNbt(nbt: NbtCompound): NbtCompound {
-        nbt.putInt("x", board.sizeX)
-        nbt.putInt("y", board.sizeY)
+        nbt.putInt("bX", board.sizeX)
+        nbt.putInt("bY", board.sizeY)
 
         nbt.put("e", NbtList().apply {
             board.forEach { vec2I, chipProcess ->

@@ -62,7 +62,7 @@ dependencies {
 
     // Aegis
     modImplementation "maven.modrinth:aegis:3.2.5"
-    include ("maven.modrinth:aegis:3.2.5") {
+    include("maven.modrinth:aegis:3.2.5") {
         artifact {
             name = 'aegis-runtime'
             extension = 'jar'
@@ -133,9 +133,6 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = "16"
         freeCompilerArgs += [
-                "-Xno-call-assertions",
-                "-Xno-receiver-assertions",
-                "-Xno-param-assertions",
                 "-Xopt-in=kotlin.RequiresOptIn"
         ]
     }

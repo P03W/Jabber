@@ -29,7 +29,7 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
      *
      * [index] in implicitly converted to a raw index through [vecToIndex]
      */
-    operator fun set(index: Vec2I, data: CardinalData) {
+    operator fun set(index: Vec2I, data: CardinalData?) {
         array[vecToIndex(index)] = data
     }
 

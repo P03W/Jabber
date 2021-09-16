@@ -2,6 +2,7 @@ package mc.jabber.minecraft.items
 
 import mc.jabber.Global
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -21,7 +22,7 @@ class CircuitItem(val sizeX: Int, val sizeY: Int) :
         tooltip: MutableList<Text>,
         context: TooltipContext
     ) {
-        val size = "${stack.orCreateNbt.getByteArray("c")?.size?.toString() ?: "0"} Bytes"
+        val size = "${stack.orCreateNbt.getList("c", NbtType.STRING)?.size?.toString() ?: "0"} Chips"
         tooltip.add(LiteralText(size).formatted(Formatting.GRAY))
     }
 }
