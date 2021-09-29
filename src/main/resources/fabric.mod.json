@@ -5,12 +5,11 @@
   "name": "Jabber",
   "description": "",
   "authors": [
-    ""
+    "P03W / TheoreticallyUseful"
   ],
   "contact": {
-    "homepage": "",
-    "sources": "",
-    "issues": ""
+    "sources": "https://github.com/P03W/Jabber",
+    "issues": "https://github.com/P03W/Jabber/issues"
   },
   "license": "Mozilla",
   "icon": "assets/jabber/icon.png",
