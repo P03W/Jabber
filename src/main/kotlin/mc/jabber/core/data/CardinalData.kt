@@ -1,7 +1,6 @@
 package mc.jabber.core.data
 
 import mc.jabber.core.math.Cardinal
-import mc.jabber.proto.CardinalDataBuffer
 import net.minecraft.nbt.NbtCompound
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind

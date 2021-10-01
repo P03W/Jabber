@@ -3,7 +3,6 @@
 package mc.jabber.util
 
 import com.google.common.io.ByteStreams
-import com.google.protobuf.ByteString
 import mc.jabber.Global
 import mc.jabber.core.data.serial.NbtTransformable
 import net.minecraft.inventory.Inventory
@@ -93,8 +92,6 @@ fun <T> NbtTransformable<T>.asIdByteArray(): ByteArray {
     NbtIo.write(toNbt(), bytes)
     return bytes.toByteArray()
 }
-
-fun ByteArray.toByteString(): ByteString = ByteString.copyFrom(this)
 
 fun ClassNode.byteArray(): ByteArray {
     val classWriter = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
