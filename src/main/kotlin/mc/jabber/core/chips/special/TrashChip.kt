@@ -26,6 +26,6 @@ class TrashChip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
         context: ExecutionContext?
     ): CardinalData {
-        return data.empty()
+        return CardinalData.empty()
     }
 }

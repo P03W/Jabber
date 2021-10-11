@@ -5,6 +5,7 @@ import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.chips.special.CustomChip
+import mc.jabber.core.data.CardinalData
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
@@ -112,7 +113,7 @@ object Global {
                 LiteralText("DEBUG: output of $data"),
                 Util.NIL_UUID
             )
-            return@CustomChip data.empty()
+            return@CustomChip CardinalData.empty()
         })
 
         fun register() {

@@ -45,6 +45,8 @@ class CircuitManager(
 
     fun simulate() {
         if (didSetup) {
+            if (context?.entity != null) context!!.blockPos = context!!.entity!!.blockPos
+
             compiledCircuit.simulate(context)
         } else {
             "Tried to simulate a board that has not been setup!".warn()

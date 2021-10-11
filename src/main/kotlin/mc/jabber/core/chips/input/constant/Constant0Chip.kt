@@ -1,4 +1,4 @@
-package mc.jabber.core.chips.constant
+package mc.jabber.core.chips.input.constant
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
@@ -10,11 +10,11 @@ import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
 /**
- * Always outputs 1 in all directions
+ * Always outputs 0 in all directions
  */
-@ChipID("chip_constant_1")
-class Constant1Chip : ChipProcess() {
-    override val id = Global.id("const1")
+@ChipID("chip_constant_0")
+class Constant0Chip : ChipProcess() {
+    override val id = Global.id("const0")
     override val isInput = true
     override val receiveDirections = DirBitmask.NONE
     override val sendDirections = DirBitmask.ALL
@@ -25,6 +25,6 @@ class Constant1Chip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
         context: ExecutionContext?
     ): CardinalData {
-        return CardinalData(1, 1, 1, 1)
+        return CardinalData(0, 0, 0, 0)
     }
 }

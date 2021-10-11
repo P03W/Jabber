@@ -88,19 +88,6 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
         )
     }
 
-
-    /**
-     * Makes an empty form of the data
-     */
-    fun empty() = ofAll(null)
-
-    /**
-     * Creates a new [CardinalData] where all values are [value]
-     */
-    fun ofAll(value: Long?): CardinalData {
-        return CardinalData(value, value, value, value)
-    }
-
     /**
      * Iterates all values provided, so your method will be called 4 times
      */
@@ -161,6 +148,18 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
 
             return working
         }
+
+        /**
+         * Creates a new [CardinalData] where all values are [value]
+         */
+        fun ofAll(value: Long?): CardinalData {
+            return CardinalData(value, value, value, value)
+        }
+
+        /**
+         * Makes an empty form of the data
+         */
+        fun empty() = ofAll(null)
 
         @JvmStatic
         fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {

@@ -48,7 +48,7 @@ class DelayChip(val delay: Int) : ChipProcess() {
         }
 
         // Build the output
-        var out = data.ofAll(null)
+        var out = CardinalData.ofAll(null)
         queue.data.forEach {
             it.first--
             if (it.first <= 0) {

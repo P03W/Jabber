@@ -38,6 +38,7 @@ abstract class ChipProcess {
      * @param data The data received on this simulation step
      * @param pos The position of this chip on the board
      * @param chipData Any data that chips have declared it wants to be stored, produced initially by [makeInitialStateEntry]
+     * @param context The execution context, null if not worldly
      *
      * @return The data this chip outputs for this step
      *

@@ -24,7 +24,7 @@ class Duplicate4WayChip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
         context: ExecutionContext?
     ): CardinalData {
-        val got = data.acquire() ?: return data.ofAll(null)
+        val got = data.acquire() ?: return CardinalData.ofAll(null)
         return data.outputNotReceived(got.second)
     }
 }
