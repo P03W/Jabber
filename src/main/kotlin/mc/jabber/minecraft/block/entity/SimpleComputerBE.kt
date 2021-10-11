@@ -83,7 +83,9 @@ class SimpleComputerBE(
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
 
-        circuit = CircuitManager.readNbt(nbt)
+        if (nbt.contains("bX") && nbt.contains("bY") && nbt.contains("e") && nbt.contains("so") && nbt.contains("st")) {
+            circuit = CircuitManager.readNbt(nbt)
+        }
     }
 
     companion object {

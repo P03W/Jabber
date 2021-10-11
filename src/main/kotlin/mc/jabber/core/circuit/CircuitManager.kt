@@ -83,7 +83,7 @@ class CircuitManager(
         @OptIn(ExperimentalStdlibApi::class)
         fun readNbt(nbt: NbtCompound): CircuitManager {
             val sizeX = nbt.getInt("bX")
-            val sizeY = nbt.getInt("by")
+            val sizeY = nbt.getInt("bY")
 
             val board = CircuitBoard(sizeX, sizeY)
 
@@ -105,7 +105,7 @@ class CircuitManager(
             }
 
             val state = CircuitDataStorage(sizeX, sizeY)
-            val stateNbt = nbt.get("so").assertType<NbtCompound>()
+            val stateNbt = nbt.get("st").assertType<NbtCompound>()
             stateNbt.keys.forEach { vecString ->
                 val (x, y) = vecString.split("*").map { int -> int.toInt() }
                 val vec = Vec2I(x, y)

@@ -16,6 +16,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.byteArray
+import mc.jabber.util.warn
 import org.objectweb.asm.Label
 import org.objectweb.asm.tree.LabelNode
 import java.io.File
@@ -65,16 +66,19 @@ object CircuitCompiler {
 
             // Make sure to iterate on the set to prevent duplicates
             processes.forEach {
+                // Define a field to keep the processes in
                 field(private, processName(it), ChipProcess::class)
             }
 
             method(public + final, "getChipStorage", returnType = HashMap::class) {
+                // Get the field and return it
                 aload_0
                 getfield(self, "s", HashMap::class)
                 areturn
             }
 
             method(public + final, "getChipState", returnType = CircuitDataStorage::class) {
+                // Init a data storage of the size of the chip
                 new(CircuitDataStorage::class)
                 dup
                 ldc(board.sizeX)
@@ -90,7 +94,9 @@ object CircuitCompiler {
                 )
                 astore_1
 
+                // For every data location
                 places.forEach { vec2i ->
+                    // Load it, make a vec2i pointing to it, and store it
                     aload_1
                     makeVec2I(vec2i)
                     getData(vec2i)
@@ -140,7 +146,7 @@ object CircuitCompiler {
                     putStorage(it)
                 }
 
-                // Populate process fields with instances
+                // Populate process fields with instances using runtime lookup
                 processes.forEach {
                     aload_0
                     lookupChipProcess(it)
@@ -160,6 +166,7 @@ object CircuitCompiler {
                         "()Lmc/jabber/core/data/serial/NbtTransformable;"
                     )
                     dup
+                    // Store it if we didn't get null
                     val conditional = LabelNode(Label())
                     ifnull(conditional)
                     aload_0
@@ -222,6 +229,11 @@ object CircuitCompiler {
                     putData(it)
                 }
 
+                _return
+            }
+
+            method(public + final, "stateFrom", parameterTypes = arrayOf(Map::class, CircuitDataStorage::class), returnType = void) {
+                "\nSTATE FROM IS NOT YET IMPLEMENTED\n".warn()
                 _return
             }
         }
