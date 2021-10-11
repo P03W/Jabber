@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
-@Mixin(WItemSlot.class)
+@Mixin(value = WItemSlot.class, remap = false)
 public interface WItemSlotPeerAccessor {
     @Accessor
     List<ValidatedSlot> getPeers();

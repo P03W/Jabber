@@ -61,13 +61,13 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
 
     // Aegis
-    modImplementation "maven.modrinth:aegis:3.2.5"
-    include("maven.modrinth:aegis:3.2.5") {
+    modImplementation "maven.modrinth:aegis:3.2.7"
+    include("maven.modrinth:aegis:3.2.7") {
         artifact {
             name = 'aegis-runtime'
             extension = 'jar'
             type = 'jar'
-            url = "https://api.modrinth.com/maven/maven/modrinth/aegis/3.2.5/aegis-runtime-3.2.5.jar"
+            url = "https://api.modrinth.com/maven/maven/modrinth/aegis/3.2.5/aegis-runtime-3.2.7.jar"
         }
     }
 
@@ -88,7 +88,7 @@ dependencies {
     include "com.github.Jordin:Koffee:-SNAPSHOT"
 
     // Test suite
-    implementation "org.junit.jupiter:junit-jupiter:5.7.2"
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
 
 processResources {
