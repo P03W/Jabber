@@ -13,7 +13,6 @@ import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.ExecutionContext
-import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Cardinal
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.byteArray
@@ -230,35 +229,10 @@ object CircuitCompiler {
                 _return
             }
 
-            method(public + final, "stateFrom", parameterTypes = arrayOf(Map::class, CircuitDataStorage::class), returnType = void) {
-                aload_1
-                invokeinterface(Map::class, "keySet", "()Ljava/util/Set;")
-                invokeinterface(Set::class, "iterator", "()Ljava/util/Iterator;")
-                astore(4)
-
-                +L["unpackMapIter"]
-                aload(4)
-                invokeinterface(Iterator::class, "hasNext", "()Z")
-                ifeq(L["escapeUnpack"])
-
+            method(public + final, "stateFrom", parameterTypes = arrayOf(HashMap::class, CircuitDataStorage::class), returnType = void) {
                 aload_0
-                getfield(self, "s", HashMap::class)
-
-                aload(4)
-                invokeinterface(Iterator::class, "next", "()Ljava/lang/Object;")
-                checkcast(Vec2I::class)
-                dup
-
                 aload_1
-                swap
-                invokeinterface(Map::class, "get", "(Ljava/lang/Object;)Ljava/lang/Object;")
-                checkcast(NbtTransformable::class)
-
-                invokevirtual(HashMap::class, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
-                pop
-
-                goto(L["unpackMapIter"])
-                +L["escapeUnpack"]
+                putfield(self, "s", HashMap::class)
                 _return
             }
         }

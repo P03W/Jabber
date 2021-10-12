@@ -94,7 +94,7 @@ class CircuitManager(
                 board[x, y] = Global.PROCESS_ITEM_MAP[Identifier("jabber:${values[1]}")]?.process
             }
 
-            val storage = buildMap<Vec2I, NbtTransformable<*>> {
+            val storage = HashMap<Vec2I, NbtTransformable<*>>().apply {
                 val storeNbt = nbt.get("so").assertType<NbtCompound>()
                 storeNbt.keys.forEach { vecString ->
                     val (x, y) = vecString.split("*").map { int -> int.toInt() }
