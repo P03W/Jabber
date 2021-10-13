@@ -182,15 +182,16 @@ object CircuitCompiler {
             method(public + final, "simulate", parameterTypes = arrayOf(ExecutionContext::class), returnType = void) {
                 // Step through
                 board.forEach { vec2I, process ->
+                    val exit = LabelNode(Label())
+
+                    aload_0
+                    getfield(self, processName(process), ChipProcess::class)
+
                     if (process.isInput) {
-                        aload_0
-                        getfield(self, processName(process), ChipProcess::class)
                         emptyCardinalData()
                     } else {
-                        aload_0
-                        getfield(self, processName(process), ChipProcess::class)
                         getData(vec2I)
-                        ifnull(L["exit"])
+                        ifnull(exit)
                         getData(vec2I)
                     }
 
@@ -212,13 +213,13 @@ object CircuitCompiler {
 
                     if (!DirBitmask.NONE.matches(process.sendDirections)) {
                         dup
-                        ifnull(L["exit"])
+                        ifnull(exit)
                     }
                     unpackProcessConnection(process, Cardinal.UP, vec2I, board)
                     unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
-                    +L["exit"]
+                    +KoffeeLabel(this, exit)
                 }
 
                 places.forEach {
