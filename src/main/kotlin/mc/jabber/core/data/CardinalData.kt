@@ -163,7 +163,7 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
 
         @JvmStatic
         fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {
-            return data?.with(cardinal, long) ?: run {println("HOLY COW ITS NULL"); CardinalData(null, null, null, null).with(cardinal, long)}
+            return data?.with(cardinal, long) ?: CardinalData(null, null, null, null).with(cardinal, long)
         }
     }
 }

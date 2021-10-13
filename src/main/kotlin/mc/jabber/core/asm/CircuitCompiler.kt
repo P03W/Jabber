@@ -184,14 +184,15 @@ object CircuitCompiler {
                 board.forEach { vec2I, process ->
                     val exit = LabelNode(Label())
 
-                    aload_0
-                    getfield(self, processName(process), ChipProcess::class)
-
                     if (process.isInput) {
+                        aload_0
+                        getfield(self, processName(process), ChipProcess::class)
                         emptyCardinalData()
                     } else {
                         getData(vec2I)
                         ifnull(exit)
+                        aload_0
+                        getfield(self, processName(process), ChipProcess::class)
                         getData(vec2I)
                     }
 
@@ -211,14 +212,12 @@ object CircuitCompiler {
                         )
                     )
 
-                    if (!DirBitmask.NONE.matches(process.sendDirections)) {
-                        dup
-                        ifnull(exit)
-                    }
                     unpackProcessConnection(process, Cardinal.UP, vec2I, board)
                     unpackProcessConnection(process, Cardinal.DOWN, vec2I, board)
                     unpackProcessConnection(process, Cardinal.LEFT, vec2I, board)
                     unpackProcessConnection(process, Cardinal.RIGHT, vec2I, board)
+
+                    pop
                     +KoffeeLabel(this, exit)
                 }
 
