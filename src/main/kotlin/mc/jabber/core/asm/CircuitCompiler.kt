@@ -230,9 +230,23 @@ object CircuitCompiler {
             }
 
             method(public + final, "stateFrom", parameterTypes = arrayOf(HashMap::class, CircuitDataStorage::class), returnType = void) {
+                // Save the map
                 aload_0
                 aload_1
                 putfield(self, "s", HashMap::class)
+
+                // Extract the data from the storage
+                places.forEach { vec2i ->
+                    // Load it, make a vec2i pointing to it, get it, and store it
+                    aload_2
+                    makeVec2I(vec2i)
+                    invokevirtual(
+                        CircuitDataStorage::class,
+                        "get",
+                        "(Lmc/jabber/core/math/Vec2I;)Lmc/jabber/core/data/CardinalData;"
+                    )
+                    putData(vec2i)
+                }
                 _return
             }
         }

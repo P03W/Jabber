@@ -51,22 +51,6 @@ class CircuitDataStorage(private val sizeX: Int, sizeY: Int) {
         return vec2I.transformInto(sizeX)
     }
 
-    /**
-     * Clear out any data
-     */
-    fun clear() {
-        var i = 0
-        val max = array.size
-        while (i < max) {
-            array[i] = null
-            i++
-        }
-    }
-
-    fun copyTo(other: CircuitDataStorage) {
-        other.array = this.array.copyOf()
-    }
-
     override fun toString(): String {
         return array.toList().toString()
     }
