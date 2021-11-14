@@ -21,7 +21,7 @@ class NotChip : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
         context: ExecutionContext?
     ): CardinalData {
-        return CardinalData(data.down?.not(), data.up?.not(), data.right?.not(), data.left?.not())
+        return CardinalData(data.up?.not(), data.down?.not(), data.left?.not(), data.right?.not())
     }
 
     private fun Long.not(): Long = if (this == 0L) 1 else 0
