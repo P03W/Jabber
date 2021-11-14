@@ -75,7 +75,12 @@ class SimpleComputerBE(
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         super.writeNbt(nbt)
 
-        circuit?.writeNbt(nbt)
+        circuit?.writeNbt(NbtCompound())?.also {
+            nbt.put("circuit", it)
+        }
+        circuitItem?.writeNbt(NbtCompound())?.also {
+            nbt.put("item", it)
+        }
 
         return nbt
     }
@@ -83,8 +88,23 @@ class SimpleComputerBE(
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
 
-        if (nbt.contains("bX") && nbt.contains("bY") && nbt.contains("e") && nbt.contains("so") && nbt.contains("st")) {
-            circuit = CircuitManager.readNbt(nbt)
+        val circuitNbt = nbt.get("circuit") as NbtCompound?
+        if (
+            circuitNbt != null &&
+            circuitNbt.contains("bX") &&
+            circuitNbt.contains("bY") &&
+            circuitNbt.contains("e") &&
+            circuitNbt.contains("so") &&
+            circuitNbt.contains("st")
+        ) {
+            circuit = CircuitManager.readNbt(circuitNbt)
+        }
+
+        val itemNbt = nbt.get("item") as NbtCompound?
+        if (itemNbt != null) {
+            isRebuildingFromNbt = true
+            circuitItem = ItemStack.fromNbt(itemNbt)
+            isRebuildingFromNbt = false
         }
     }
 
