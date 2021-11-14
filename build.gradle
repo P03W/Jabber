@@ -60,21 +60,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
 
-    // Aegis
-    modImplementation "maven.modrinth:aegis:3.2.7"
-    include("maven.modrinth:aegis:3.2.7") {
-        artifact {
-            name = 'aegis-runtime'
-            extension = 'jar'
-            type = 'jar'
-            url = "https://api.modrinth.com/maven/maven/modrinth/aegis/3.2.5/aegis-runtime-3.2.7.jar"
-        }
-    }
-
-    // Colonel
-    modImplementation 'ca.stellardrift:colonel:0.2.1'
-    include "ca.stellardrift:colonel:0.2.1"
-
     // ARRP
     modImplementation "net.devtech:arrp:0.4.3"
     include "net.devtech:arrp:0.4.3"
