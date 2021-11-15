@@ -49,8 +49,9 @@ class CircuitManager(
 
             compiledCircuit.simulate(context)
         } else {
-            "Tried to simulate a board that has not been setup!".warn()
+            "Tried to simulate a board that has not been setup! Forcing setup in an attempt to recover".warn()
             Throwable().stackTrace.toList().warn()
+            setup()
         }
     }
 

@@ -4,6 +4,7 @@ package mc.jabber.util
 
 import com.google.common.io.ByteStreams
 import mc.jabber.Global
+import mc.jabber.core.asm.KnotClassWriter
 import mc.jabber.core.data.serial.NbtTransformable
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
@@ -94,7 +95,7 @@ fun <T> NbtTransformable<T>.asIdByteArray(): ByteArray {
 }
 
 fun ClassNode.byteArray(): ByteArray {
-    val classWriter = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
+    val classWriter = KnotClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
     accept(classWriter)
     val out = classWriter.toByteArray()
     classWriter.visitEnd()
