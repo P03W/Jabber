@@ -9,7 +9,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
-@ChipID("chip_nand")
+@ChipID("chip_nand", "NAND")
 class NandChip : ChipProcess() {
     override val id = Global.id("nand")
     override val receiveDirections = DirBitmask.ALL

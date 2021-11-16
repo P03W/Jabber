@@ -9,11 +9,13 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
-@ChipID("chip_xor")
+@ChipID("chip_xor", "XOR")
 class XorChip : ChipProcess() {
     override val id = Global.id("xor")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL
+
+    override val lore: Array<String> = arrayOf("Cascading XOR operations")
 
     override fun receive(
         data: CardinalData,

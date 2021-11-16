@@ -9,7 +9,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
-@ChipID("chip_not")
+@ChipID("chip_not", "NOT")
 class NotChip : ChipProcess() {
     override val id = Global.id("not")
     override val receiveDirections = DirBitmask.ALL

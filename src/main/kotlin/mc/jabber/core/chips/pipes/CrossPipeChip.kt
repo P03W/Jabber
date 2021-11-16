@@ -12,7 +12,7 @@ import mc.jabber.core.math.Vec2I
 /**
  * Pipes data from any direction
  */
-@ChipID("chip_cross_pipe")
+@ChipID("chip_cross_pipe", "Cross Over Pipe")
 class CrossPipeChip : ChipProcess() {
     override val id = Global.id("cross")
     override val receiveDirections = DirBitmask.ALL

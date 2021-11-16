@@ -126,7 +126,14 @@ object Global {
 
             CHIPS.forEach { (id, item) ->
                 item.register(id)
-                Resources.makeChip(id, Resources.lang)
+
+                val clazz = item.process::class.java
+                if (clazz.hasAnnotation(ChipID::class)) {
+                    val chipID = clazz.getAnnotation(ChipID::class.java).name
+                    Resources.makeChip(id, Resources.lang, chipID.ifEmpty { null })
+                } else {
+                    Resources.makeChip(id, Resources.lang)
+                }
             }
 
             CIRCUIT_ITEM_2x2.register("circuit_2x2")

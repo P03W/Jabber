@@ -15,6 +15,8 @@ abstract class ChipProcess {
      */
     open val isInput = false
 
+    open val lore: Array<String> = emptyArray()
+
     /**
      * The [Identifier] for serialization, should ideally be as small as possible
      */

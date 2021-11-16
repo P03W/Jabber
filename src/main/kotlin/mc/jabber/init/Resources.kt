@@ -53,7 +53,7 @@ object Resources : RRPPreGenEntrypoint {
         lang.item(itemId, "$size Circuit Board")
     }
 
-    fun makeChip(name: String, lang: JLang) {
+    fun makeChip(name: String, lang: JLang, displayName: String? = null) {
         val type = name.lowercase().removePrefix("chip_")
         val itemId = Global.id("chip_$type")
 
@@ -70,9 +70,9 @@ object Resources : RRPPreGenEntrypoint {
         )
 
         // Lang
-        val displayName = if (type.contains('_')) {
+        val outputName = displayName ?: if (type.contains('_')) {
             type.split("_").joinToString(" ") { it.capitalize() }
         } else type.capitalize()
-        lang.item(itemId, "$displayName Chip")
+        lang.item(itemId, "$outputName Chip")
     }
 }
