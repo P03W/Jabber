@@ -5,7 +5,7 @@
 //file:noinspection SpellCheckingInspection
 plugins {
     id "fabric-loom" version "$loom_version"
-    id 'io.github.juuxel.loom-quiltflower' version '1.2.1'
+    id("io.github.juuxel.loom-quiltflower-mini") version "1.1.0"
     id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
     id 'java'
@@ -58,11 +58,14 @@ dependencies {
 
     // Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31'
 
     // ARRP
     modImplementation "net.devtech:arrp:0.4.3"
     include "net.devtech:arrp:0.4.3"
+
+    // LibrarianLib
+    //modImplementation 'com.teamwizardry.librarianlib:librarianlib:5.0.0-alpha.10'
 
     // LibGui
     modImplementation "io.github.cottonmc:LibGui:4.1.4+1.17.1"
@@ -79,7 +82,7 @@ dependencies {
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("src/main/resources/fabric.mod.json") {
+    filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
 }

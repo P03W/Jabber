@@ -41,6 +41,7 @@
     "fabricloader": ">=0.7.1",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.10",
-    "minecraft": ">=1.17-"
+    "minecraft": ">=1.17-",
+    "librarianlib": ">=5.0.0-alpha.10"
   }
 }
