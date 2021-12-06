@@ -1,4 +1,4 @@
-package mc.jabber.core.chips.special
+package mc.jabber.core.chips.input.conditional
 
 import mc.jabber.Global
 import mc.jabber.core.auto.AutoConstructInt
@@ -12,13 +12,11 @@ import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
 
-/**
- * Drops the first X inputs, then acts as a cross
- */
-@AutoConstructInt(ChipID("chip_drop"), [1, 2, 3, 4, 5])
-class DropChip(val count: Int) : ChipProcess() {
-    override val id = Global.id("drop")
-    override val receiveDirections = DirBitmask.ALL
+@AutoConstructInt(ChipID("chip_input_once"), [1, 2, 3, 4, 5])
+class InputOnceChip(val value: Int) : ChipProcess() {
+    override val isInput = true
+    override val id = Global.id("in1")
+    override val receiveDirections = DirBitmask.NONE
     override val sendDirections = DirBitmask.ALL
 
     override fun receive(
@@ -27,17 +25,17 @@ class DropChip(val count: Int) : ChipProcess() {
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
         context: ExecutionContext?
     ): CardinalData {
-        val intStore = chipData[pos].assertType<SimpleIntStore>()
+        val hasSent = chipData[pos].assertType<SimpleIntStore>()
 
-        if (intStore.value > 0) {
-            intStore.value--
+        if (hasSent.value == 0) {
+            hasSent.value = 1
+            return CardinalData.ofAll(value.toLong())
+        } else {
             return CardinalData.empty()
         }
-
-        return CardinalData(data.down, data.up, data.right, data.left)
     }
 
     override fun makeInitialStateEntry(): NbtTransformable<*> {
-        return SimpleIntStore(count)
+        return SimpleIntStore(0)
     }
 }

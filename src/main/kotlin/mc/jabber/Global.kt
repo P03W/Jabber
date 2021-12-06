@@ -110,7 +110,7 @@ object Global {
         // Debug
         val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output"), sendDirections = DirBitmask.NONE) { data, _, _ ->
             MinecraftClient.getInstance().player?.sendSystemMessage(
-                LiteralText("DEBUG: output of $data"),
+                LiteralText("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}"),
                 Util.NIL_UUID
             )
             return@CustomChip CardinalData.empty()

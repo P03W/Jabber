@@ -65,7 +65,7 @@ dependencies {
     include "net.devtech:arrp:0.4.3"
 
     // LibrarianLib
-    //modImplementation 'com.teamwizardry.librarianlib:librarianlib:5.0.0-alpha.10'
+    modImplementation 'com.teamwizardry.librarianlib:librarianlib:5.0.0-alpha.10'
 
     // LibGui
     modImplementation "io.github.cottonmc:LibGui:4.1.4+1.17.1"
