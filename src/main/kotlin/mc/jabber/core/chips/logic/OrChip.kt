@@ -22,7 +22,8 @@ class OrChip : ChipProcess() {
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
-        context: ExecutionContext?
+        context: ExecutionContext?,
+        memory: LongArray
     ): CardinalData {
         return if (data.any { _, t -> t != null && t != 0L }) {
             data.outputNotReceived(1)

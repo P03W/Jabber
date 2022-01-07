@@ -35,22 +35,23 @@ abstract class ChipProcess {
      * The main function that makes everything tick
      *
      * [data] is provided raw as a minor optimisation for chips that do not store data,
-     * this specific chip's data can be found with `chipData[pos]`, use [assertType] to quickly qualify the type of the data
+     * this specific chip's data can be found with `chipData[pos]`, use assertType to quickly qualify the type of the data
      *
      * @param data The data received on this simulation step
      * @param pos The position of this chip on the board
      * @param chipData Any data that chips have declared it wants to be stored, produced initially by [makeInitialStateEntry]
      * @param context The execution context, null if not worldly
+     * @param memory The memory of the chip, will be 32 sized
      *
      * @return The data this chip outputs for this step
      *
      */
-    @Suppress("KDocUnresolvedReference")
     abstract fun receive(
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
-        context: ExecutionContext?
+        context: ExecutionContext?,
+        memory: LongArray = LongArray(32)
     ): CardinalData
 
     /**

@@ -49,6 +49,7 @@ object CircuitCompiler {
                 private, "s", HashMap::class,
                 signature = "Ljava/util/HashMap<Lmc/jabber/core/math/Vec2I;Lmc/jabber/core/data/serial/NbtTransformable;>;"
             )
+            field(private, "mem", LongArray::class)
 
             // Processes
             board.forEach { vec2I, process ->
@@ -129,12 +130,20 @@ object CircuitCompiler {
                 )
                 putfield(self, "ec", CardinalData::class)
                 //endregion
+
                 //region Hashmap/chip storage
                 aload_0
                 new(HashMap::class)
                 dup
                 invokespecial(HashMap::class, "<init>", returnType = void, parameterTypes = arrayOf())
                 putfield(self, "s", HashMap::class)
+                //endregion
+
+                //region Memory
+                aload_0
+                bipush(32)
+                newarray(long)
+                putfield(self, "mem", LongArray::class)
                 //endregion
 
                 // Populate data and storage with empties if input, null otherwise
@@ -200,6 +209,8 @@ object CircuitCompiler {
                     aload_0
                     getfield(self, "s", HashMap::class)
                     aload_1
+                    aload_0
+                    getfield(self, "mem", LongArray::class)
                     invokevirtual(
                         ChipProcess::class,
                         "receive",
@@ -208,7 +219,8 @@ object CircuitCompiler {
                             CardinalData::class,
                             Vec2I::class,
                             HashMap::class,
-                            ExecutionContext::class
+                            ExecutionContext::class,
+                            LongArray::class
                         )
                     )
 

@@ -72,7 +72,7 @@ class SimpleComputerBE(
         circuit!!.setup()
     }
 
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
 
         circuit?.writeNbt(NbtCompound())?.also {
@@ -81,8 +81,6 @@ class SimpleComputerBE(
         circuitItem?.writeNbt(NbtCompound())?.also {
             nbt.put("item", it)
         }
-
-        return nbt
     }
 
     override fun readNbt(nbt: NbtCompound) {

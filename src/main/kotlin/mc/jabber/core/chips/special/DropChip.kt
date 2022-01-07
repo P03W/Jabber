@@ -25,7 +25,8 @@ class DropChip(val count: Int) : ChipProcess() {
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
-        context: ExecutionContext?
+        context: ExecutionContext?,
+        memory: LongArray
     ): CardinalData {
         val intStore = chipData[pos].assertType<SimpleIntStore>()
 

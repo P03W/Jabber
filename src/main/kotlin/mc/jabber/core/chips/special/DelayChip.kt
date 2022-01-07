@@ -35,7 +35,8 @@ class DelayChip(val delay: Int) : ChipProcess() {
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
-        context: ExecutionContext?
+        context: ExecutionContext?,
+        memory: LongArray
     ): CardinalData {
         // Grab the queue
         val queue = chipData[pos].assertType<DelayState>()

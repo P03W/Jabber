@@ -33,6 +33,7 @@ class CircuitManager(
 
     private lateinit var compiledCircuit: CompiledCircuit
 
+    // Can only be set to true, trying to set it to false vetoes it
     var didSetup by Delegates.vetoable(false) { _: KProperty<*>, _: Boolean, new: Boolean ->
         return@vetoable new
     }
@@ -50,7 +51,8 @@ class CircuitManager(
             compiledCircuit.simulate(context)
         } else {
             "Tried to simulate a board that has not been setup! Forcing setup in an attempt to recover".warn()
-            Throwable().stackTrace.toList().warn()
+            "Call origins:".warn()
+            StackWalker.getInstance().forEach { it.toStackTraceElement().warn() }
             setup()
         }
     }
@@ -81,7 +83,6 @@ class CircuitManager(
     }
 
     companion object {
-        @OptIn(ExperimentalStdlibApi::class)
         fun readNbt(nbt: NbtCompound): CircuitManager {
             val sizeX = nbt.getInt("bX")
             val sizeY = nbt.getInt("bY")

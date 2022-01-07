@@ -19,7 +19,8 @@ class Quad4PipeChip : ChipProcess() {
         data: CardinalData,
         pos: Vec2I,
         chipData: HashMap<Vec2I, NbtTransformable<*>>,
-        context: ExecutionContext?
+        context: ExecutionContext?,
+        memory: LongArray
     ): CardinalData {
         return CardinalData(null, data.left, null, data.up)
     }
