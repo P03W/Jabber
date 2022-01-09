@@ -2,6 +2,7 @@ package mc.jabber.core.chips.input.worldly
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -10,7 +11,7 @@ import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 
 @ChipID("chip_dist_to_ground")
-class DistToGroundChip : ChipProcess() {
+class DistToGroundChip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("d2g")
     override val isInput = true
     override val receiveDirections = DirBitmask.NONE

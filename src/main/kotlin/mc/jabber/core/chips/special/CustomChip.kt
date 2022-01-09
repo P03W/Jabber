@@ -1,5 +1,6 @@
 package mc.jabber.core.chips.special
 
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -23,8 +24,9 @@ class CustomChip(
     override val isInput: Boolean = false,
     override val receiveDirections: DirBitmask = DirBitmask.ALL,
     override val sendDirections: DirBitmask = DirBitmask.ALL,
-    private val method: (CardinalData, Vec2I, HashMap<Vec2I, NbtTransformable<*>>) -> CardinalData,
-) : ChipProcess() {
+    buildParams: ChipParams,
+    private val method: (CardinalData, Vec2I, HashMap<Vec2I, NbtTransformable<*>>) -> CardinalData
+) : ChipProcess(buildParams) {
     override fun receive(
         data: CardinalData,
         pos: Vec2I,

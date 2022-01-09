@@ -26,7 +26,8 @@ class CircuitManager(
     var context: ExecutionContext?,
     sizeX: Int,
     sizeY: Int,
-    _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY)
+    _initialBoard: CircuitBoard = CircuitBoard(sizeX, sizeY),
+    val memory: LongArray = LongArray(32)
 ) {
     var board = _initialBoard
         private set
@@ -48,7 +49,7 @@ class CircuitManager(
         if (didSetup) {
             if (context?.entity != null) context!!.blockPos = context!!.entity!!.blockPos
 
-            compiledCircuit.simulate(context)
+            compiledCircuit.simulate(context, memory)
         } else {
             "Tried to simulate a board that has not been setup! Forcing setup in an attempt to recover".warn()
             "Call origins:".warn()
@@ -78,6 +79,8 @@ class CircuitManager(
                 put("${vec2I.x}*${vec2I.y}", cardinalData.toNbt())
             }
         })
+
+        nbt.putLongArray("mem", memory)
 
         return nbt
     }
@@ -115,7 +118,9 @@ class CircuitManager(
                 state[vec] = CardinalData.readNbt(stateNbt.get(vecString).assertType())
             }
 
-            val manager = CircuitManager(null, sizeX, sizeY, board)
+            val memory = nbt.getLongArray("mem")
+
+            val manager = CircuitManager(null, sizeX, sizeY, board, memory)
 
             manager.setup()
 

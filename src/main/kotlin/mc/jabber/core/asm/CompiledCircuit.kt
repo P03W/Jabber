@@ -11,7 +11,7 @@ import mc.jabber.core.math.Vec2I
 interface CompiledCircuit {
     // Simulation / management
     fun setup()
-    fun simulate(context: ExecutionContext?)
+    fun simulate(context: ExecutionContext?, memory: LongArray)
 
     // Serializtion
     fun getChipStorage(): HashMap<Vec2I, NbtTransformable<*>>

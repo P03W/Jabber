@@ -1,8 +1,8 @@
 package mc.jabber
 
 import com.google.common.reflect.ClassPath
-import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.chips.special.CustomChip
 import mc.jabber.core.data.CardinalData
@@ -70,45 +70,35 @@ object Global {
         val CIRCUIT_ITEM_10x10 = CircuitItem(10, 10)
 
         // Chips
-        @OptIn(ExperimentalStdlibApi::class)
         @Suppress("UnstableApiUsage")
-        val CHIPS = buildMap<String, ChipItem> {
+        val CHIPS = buildMap {
+            // Get all chips from the package
             val loader = this@ITEMS::class.java.classLoader
             val chips = ClassPath.from(loader)
                 .topLevelClasses.filter { it.packageName.startsWith("mc.jabber.core.chips") }
 
+            // Sort by name (so it's consistent in the inv)
             chips.sortedBy { it.name }.forEach {
+                // Load the chip
                 val clazz = loader.loadClass(it.name)
-                if (clazz.hasAnnotation(AutoConstructInt::class)) {
-                    val construct = clazz
-                        .constructors
-                        .firstOrNull { constructor ->
-                            constructor.parameterCount == 1 &&
-                                    constructor.parameterTypes[0] == Int::class.java
-                        }
-                    val autoConstruct = clazz.getAnnotation(AutoConstructInt::class.java)
+                // Get the annotation
+                val chipID = clazz.getAnnotation(ChipID::class.java)
+                if (chipID != null) {
+                    // Get the constructor
+                    val construct = clazz.constructors.firstOrNull { constructor -> constructor.parameterCount == 1 }
+                    // Build it or throw
                     if (construct != null) {
-                        autoConstruct.toConstruct.forEach { value ->
-                            put(autoConstruct.id.id + "_$value", ChipItem(construct.newInstance(value).assertType()))
-                        }
+                        put(chipID.id, ChipItem(construct.newInstance(ChipParams {}).assertType()))
                     } else {
-                        throw IllegalStateException("Chip ${it.name} does not 1 parameter constructor that takes Int but is annotated with @AutoConstructInt")
-                    }
-                }
-                if (clazz.hasAnnotation(ChipID::class)) {
-                    val construct = clazz.constructors.firstOrNull { constructor -> constructor.parameterCount == 0 }
-                    val chipID = clazz.getAnnotation(ChipID::class.java)
-                    if (construct != null) {
-                        put(chipID.id, ChipItem(construct.newInstance().assertType()))
-                    } else {
-                        throw IllegalStateException("Chip ${it.name} does not 0 parameter constructor but is annotated with @ChipID")
+                        throw IllegalStateException("Chip ${it.name} does not 1 parameter constructor but is annotated with @ChipID")
                     }
                 }
             }
         }
 
         // Debug
-        val CHIP_DEBUG_OUTPUT = ChipItem(CustomChip(id("debug_output"), sendDirections = DirBitmask.NONE) { data, _, _ ->
+        val CHIP_DEBUG_OUTPUT = ChipItem(
+            CustomChip(id("debug_output"), false, DirBitmask.NONE, DirBitmask.ALL, ChipParams {}) { data, _, _ ->
             MinecraftClient.getInstance().player?.sendSystemMessage(
                 LiteralText("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}"),
                 Util.NIL_UUID

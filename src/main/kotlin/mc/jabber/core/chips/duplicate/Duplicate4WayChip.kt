@@ -2,6 +2,7 @@ package mc.jabber.core.chips.duplicate
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -13,7 +14,7 @@ import mc.jabber.core.math.Vec2I
  * Takes in an input and outputs on all not received channels
  */
 @ChipID("chip_duplicate_4_way")
-class Duplicate4WayChip : ChipProcess() {
+class Duplicate4WayChip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("dup4")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL

@@ -2,6 +2,7 @@ package mc.jabber.core.chips.input.constant
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -13,7 +14,7 @@ import mc.jabber.core.math.Vec2I
  * Always outputs 0 in all directions
  */
 @ChipID("chip_constant_0")
-class Constant0Chip : ChipProcess() {
+class Constant0Chip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("const0")
     override val isInput = true
     override val receiveDirections = DirBitmask.NONE

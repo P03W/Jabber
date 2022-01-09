@@ -3,18 +3,18 @@ package mc.jabber.core.chips.storage
 import mc.jabber.core.data.serial.NbtTransformable
 import net.minecraft.nbt.NbtCompound
 
-data class SimpleIntStore(var value: Int) : NbtTransformable<SimpleIntStore> {
+data class SimpleLongStore(var value: Long) : NbtTransformable<SimpleLongStore> {
     override fun type(): Byte {
         return 2
     }
 
     override fun toNbt(): NbtCompound {
         return NbtCompound().apply {
-            putInt("v", value)
+            putLong("v", value)
         }
     }
 
-    override fun fromNbt(nbt: NbtCompound): SimpleIntStore {
-        return SimpleIntStore(nbt.getInt("v"))
+    override fun fromNbt(nbt: NbtCompound): SimpleLongStore {
+        return SimpleLongStore(nbt.getLong("v"))
     }
 }

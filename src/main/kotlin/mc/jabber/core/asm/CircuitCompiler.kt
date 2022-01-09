@@ -20,6 +20,7 @@ import org.objectweb.asm.Label
 import org.objectweb.asm.tree.LabelNode
 import java.io.File
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.nanoseconds
 import kotlin.time.ExperimentalTime
 
 /**
@@ -49,7 +50,6 @@ object CircuitCompiler {
                 private, "s", HashMap::class,
                 signature = "Ljava/util/HashMap<Lmc/jabber/core/math/Vec2I;Lmc/jabber/core/data/serial/NbtTransformable;>;"
             )
-            field(private, "mem", LongArray::class)
 
             // Processes
             board.forEach { vec2I, process ->
@@ -139,13 +139,6 @@ object CircuitCompiler {
                 putfield(self, "s", HashMap::class)
                 //endregion
 
-                //region Memory
-                aload_0
-                bipush(32)
-                newarray(long)
-                putfield(self, "mem", LongArray::class)
-                //endregion
-
                 // Populate data and storage with empties if input, null otherwise
                 places.forEach {
                     if (board[it]?.isInput == true) emptyCardinalData() else aconst_null
@@ -209,8 +202,7 @@ object CircuitCompiler {
                     aload_0
                     getfield(self, "s", HashMap::class)
                     aload_1
-                    aload_0
-                    getfield(self, "mem", LongArray::class)
+                    aload_2
                     invokevirtual(
                         ChipProcess::class,
                         "receive",
@@ -264,7 +256,7 @@ object CircuitCompiler {
         }
 
         val endTime = System.nanoTime()
-        println("Compiled circuit $name in ${Duration.nanoseconds(endTime-startTime)}")
+        println("Compiled circuit $name in ${(endTime-startTime).nanoseconds}")
 
         val dir = File("jabber/debug/")
         dir.mkdirs()

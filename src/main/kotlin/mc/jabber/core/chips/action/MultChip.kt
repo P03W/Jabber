@@ -1,8 +1,8 @@
 package mc.jabber.core.chips.action
 
 import mc.jabber.Global
-import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -13,11 +13,19 @@ import mc.jabber.core.math.Vec2I
 /**
  * Multiplies the input and sends it across
  */
-@AutoConstructInt(ChipID("chip_mult"), [-1, 1, 2, 3, 4, 5, 10, 20])
-class MultChip(val amount: Int) : ChipProcess() {
-    override val id = Global.id("mult$amount")
+@ChipID("chip_mult", "Multiply")
+class MultChip(buildParams: ChipParams) : ChipProcess(buildParams) {
+    override val id = Global.id("mult")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL
+
+    override val params = ChipParams(buildParams) {
+        registerLong("amount")
+    }
+
+    val amount = params.getLong("amount")
+
+    override val lore: Array<String> = arrayOf("Multiplies inputs by $amount ")
 
     override fun receive(
         data: CardinalData,

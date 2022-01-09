@@ -2,6 +2,7 @@ package mc.jabber.core.chips.pipes
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -13,7 +14,7 @@ import mc.jabber.core.math.Vec2I
  * Pipes data from any direction
  */
 @ChipID("chip_cross_pipe", "Cross Over Pipe")
-class CrossPipeChip : ChipProcess() {
+class CrossPipeChip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("cross")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL

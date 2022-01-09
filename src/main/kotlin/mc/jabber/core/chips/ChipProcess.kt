@@ -9,12 +9,16 @@ import net.minecraft.util.Identifier
 /**
  * An abstract process that represents a chip process
  */
-abstract class ChipProcess {
+@Suppress("UNUSED_PARAMETER")
+abstract class ChipProcess(buildParams: ChipParams) {
     /**
      * If this process should be run to generate state (will cause [receive] to be called with an empty data an extra time at start of step)
      */
     open val isInput = false
 
+    /**
+     * The lore of this process for the item
+     */
     open val lore: Array<String> = emptyArray()
 
     /**
@@ -30,6 +34,8 @@ abstract class ChipProcess {
      * A [DirBitmask] representing the sides the chip can send on
      */
     abstract val sendDirections: DirBitmask
+
+    open val params: ChipParams = ChipParams { }
 
     /**
      * The main function that makes everything tick

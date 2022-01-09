@@ -1,11 +1,11 @@
 package mc.jabber.core.chips.special
 
 import mc.jabber.Global
-import mc.jabber.core.auto.AutoConstructInt
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
-import mc.jabber.core.chips.storage.SimpleIntStore
+import mc.jabber.core.chips.storage.SimpleLongStore
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
@@ -15,11 +15,19 @@ import mc.jabber.util.assertType
 /**
  * Drops the first X inputs, then acts as a cross
  */
-@AutoConstructInt(ChipID("chip_drop"), [1, 2, 3, 4, 5])
-class DropChip(val count: Int) : ChipProcess() {
+@ChipID("chip_drop")
+class DropChip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("drop")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.ALL
+
+    override val params = ChipParams(buildParams) {
+        registerLong("count")
+    }
+
+    val count = params.getLong("count")
+
+    override val lore: Array<String> = arrayOf("Drops the first $count inputs")
 
     override fun receive(
         data: CardinalData,
@@ -28,7 +36,7 @@ class DropChip(val count: Int) : ChipProcess() {
         context: ExecutionContext?,
         memory: LongArray
     ): CardinalData {
-        val intStore = chipData[pos].assertType<SimpleIntStore>()
+        val intStore = chipData[pos].assertType<SimpleLongStore>()
 
         if (intStore.value > 0) {
             intStore.value--
@@ -39,6 +47,6 @@ class DropChip(val count: Int) : ChipProcess() {
     }
 
     override fun makeInitialStateEntry(): NbtTransformable<*> {
-        return SimpleIntStore(count)
+        return SimpleLongStore(count)
     }
 }

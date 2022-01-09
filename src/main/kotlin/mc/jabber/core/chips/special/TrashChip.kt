@@ -2,6 +2,7 @@ package mc.jabber.core.chips.special
 
 import mc.jabber.Global
 import mc.jabber.core.auto.ChipID
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.data.CardinalData
@@ -15,7 +16,7 @@ import mc.jabber.core.math.Vec2I
  * Not really useful for the current circuit design but hey, maybe at some point, round-robin circuit that destroys every other input?
  */
 @ChipID("chip_trash")
-class TrashChip : ChipProcess() {
+class TrashChip(buildParams: ChipParams) : ChipProcess(buildParams) {
     override val id = Global.id("trash")
     override val receiveDirections = DirBitmask.ALL
     override val sendDirections = DirBitmask.NONE

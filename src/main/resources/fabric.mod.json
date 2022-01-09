@@ -38,9 +38,9 @@
     "jabber.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.1",
+    "fabricloader": "*",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.10",
-    "minecraft": ">=1.17-"
+    "minecraft": ">=1.18-"
   }
 }
