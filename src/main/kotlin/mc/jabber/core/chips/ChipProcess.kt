@@ -4,6 +4,7 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
+import mc.jabber.util.assertType
 import net.minecraft.util.Identifier
 
 /**
@@ -67,6 +68,10 @@ abstract class ChipProcess(buildParams: ChipParams) {
      */
     open fun makeInitialStateEntry(): NbtTransformable<*>? {
         return null
+    }
+
+    fun copy(buildParams: ChipParams?): ChipProcess {
+        return this.javaClass.constructors[0].newInstance(buildParams).assertType();
     }
 
     override fun equals(other: Any?): Boolean {
