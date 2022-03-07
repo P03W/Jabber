@@ -13,7 +13,6 @@ import mc.jabber.util.asIdByteArray
 import mc.jabber.util.assertType
 import mc.jabber.util.warn
 import net.fabricmc.fabric.api.util.NbtType
-import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtByteArray
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -58,7 +57,9 @@ class CircuitManager(
         }
     }
 
-    fun writeNbt(nbt: NbtCompound): NbtCompound {
+    fun writeNbt(): NbtCompound {
+        val nbt = NbtCompound()
+
         nbt.putInt("bX", board.sizeX)
         nbt.putInt("bY", board.sizeY)
 

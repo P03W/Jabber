@@ -4,7 +4,6 @@ import mc.jabber.Global
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.ExecutionContext
-import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
 import net.fabricmc.fabric.api.util.NbtType
@@ -75,7 +74,7 @@ class SimpleComputerBE(
     override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
 
-        circuit?.writeNbt(NbtCompound())?.also {
+        circuit?.writeNbt()?.also {
             nbt.put("circuit", it)
         }
         circuitItem?.writeNbt(NbtCompound())?.also {

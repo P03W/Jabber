@@ -70,8 +70,11 @@ abstract class ChipProcess(buildParams: ChipParams) {
         return null
     }
 
+    /**
+     * Dynamically construct a new instance
+     */
     fun copy(buildParams: ChipParams?): ChipProcess {
-        return this.javaClass.constructors[0].newInstance(buildParams).assertType();
+        return this.javaClass.constructors[0].newInstance(buildParams).assertType()
     }
 
     override fun equals(other: Any?): Boolean {

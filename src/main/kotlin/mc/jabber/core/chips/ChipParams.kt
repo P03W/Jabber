@@ -6,26 +6,21 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtInt
 import net.minecraft.nbt.NbtLong
 
-class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit) {
+class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit = {}) {
     val longParams = Object2LongArrayMap<String>()
     val enumParams = mutableMapOf<String, Enum<*>>()
 
     init {
-        builder()
+        builder(this)
 
         if (orig != null) {
-            orig.longParams.forEach { (name, value) ->
-                longParams.computeIfPresent(name) { _, _ -> value}
-            }
-
-            orig.enumParams.forEach { (name, value) ->
-                enumParams.computeIfPresent(name) {_, _ -> value}
-            }
+            orig.longParams.overwriteExisting(longParams)
+            orig.enumParams.overwriteExisting(enumParams)
         }
     }
 
-    fun registerLong(name: String) {
-        longParams[name] = 0
+    fun registerLong(name: String, value: Long = 0) {
+        longParams[name] = value
     }
     fun getLong(name: String): Long {
         return longParams.getLong(name)
@@ -59,6 +54,12 @@ class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit) {
                     }
                 }
             }
+        }
+    }
+
+    private inline fun <reified V> MutableMap<String, V>.overwriteExisting(other: MutableMap<String, V>) {
+        this.forEach { (name, value) ->
+            other.computeIfPresent(name) {_, _ -> value}
         }
     }
 }
