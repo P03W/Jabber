@@ -5,6 +5,7 @@ import io.github.cottonmc.cotton.gui.widget.WGridPanel
 import io.github.cottonmc.cotton.gui.widget.WItemSlot
 import io.github.cottonmc.cotton.gui.widget.data.Insets
 import mc.jabber.Global
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.client.screen.CustomBackgroundPainters
@@ -22,6 +23,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.util.Identifier
@@ -120,7 +122,11 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
 
         stack.orCreateNbt.put("c", NbtList().apply {
             board.forEach { vec2I, chipProcess ->
-                add(NbtString.of("${vec2I.x}*${vec2I.y}|${chipProcess.id.path}"))
+                add(NbtCompound().apply {
+                    putInt("loc", vec2I.transformInto(10))
+                    putString("id", chipProcess.id.path)
+                    put("data", chipProcess.params.writeToNbt())
+                })
             }}
         )
     }
@@ -129,11 +135,15 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         val board = stack.orCreateNbt.getList("c", NbtType.STRING)
 
         board.forEach { entry ->
-            val values = entry.assertType<NbtString>().asString().split("|")
-            val (x, y) = values[0].split("*").map { int -> int.toInt() }
-            val index = Vec2I(x, y).transformInto(10) + 1
+            entry.assertType<NbtCompound>()
+            val index = entry.getInt("loc") + 1
+            val id = entry.getString("id")
+            val params = ChipParams.fromNbt(entry.getCompound("data"))
 
-            inv.setStack(index, ItemStack(Global.PROCESS_ITEM_MAP[Identifier("jabber:${values[1]}")]))
+            inv.setStack(index, ItemStack(
+                Global.PROCESS_ITEM_MAP[Identifier("jabber:$id")])
+                .also { it.assertType<ChipItem>().process.copy(params) }
+            )
         }
     }
 

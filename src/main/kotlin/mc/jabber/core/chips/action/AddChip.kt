@@ -25,7 +25,7 @@ class AddChip(buildParams: ChipParams) : ChipProcess(buildParams) {
 
     val amount = params.getLong("amount")
 
-    override val lore: Array<String> = arrayOf("Adds $amount to the inputs")
+    override val lore: Array<String> = arrayOf("Adds %amount% to the inputs")
 
     override fun receive(
         data: CardinalData,

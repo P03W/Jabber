@@ -12,5 +12,7 @@ object Main : ModInitializer {
         Global.ITEMS.register()
 
         Global.GUI.registerBoth()
+
+        Command.register()
     }
 }

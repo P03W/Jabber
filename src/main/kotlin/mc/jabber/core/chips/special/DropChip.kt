@@ -27,7 +27,7 @@ class DropChip(buildParams: ChipParams) : ChipProcess(buildParams) {
 
     val count = params.getLong("count")
 
-    override val lore: Array<String> = arrayOf("Drops the first $count inputs")
+    override val lore: Array<String> = arrayOf("Drops the first %count% inputs")
 
     override fun receive(
         data: CardinalData,

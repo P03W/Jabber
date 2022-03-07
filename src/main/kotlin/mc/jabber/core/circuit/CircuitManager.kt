@@ -3,6 +3,7 @@ package mc.jabber.core.circuit
 import mc.jabber.Global
 import mc.jabber.core.asm.CircuitCompiler
 import mc.jabber.core.asm.CompiledCircuit
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.CircuitDataStorage
 import mc.jabber.core.data.ExecutionContext
@@ -65,7 +66,11 @@ class CircuitManager(
 
         nbt.put("e", NbtList().apply {
             board.forEach { vec2I, chipProcess ->
-                add(NbtString.of("${vec2I.x}*${vec2I.y}|${chipProcess.id.path}"))
+                add(NbtCompound().apply {
+                    putInt("loc", vec2I.transformInto(board.sizeX))
+                    putString("id", chipProcess.id.path)
+                    put("data", chipProcess.params.writeToNbt())
+                })
             }
         })
 
@@ -93,11 +98,13 @@ class CircuitManager(
 
             val board = CircuitBoard(sizeX, sizeY)
 
-            nbt.getList("e", NbtType.STRING).forEach { entry ->
-                val values = entry.assertType<NbtString>().asString().split("|")
-                val (x, y) = values[0].split("*").map { int -> int.toInt() }
+            nbt.getList("e", NbtType.COMPOUND).forEach { entry ->
+                entry.assertType<NbtCompound>()
+                val loc = Vec2I.transformOut(entry.getInt("loc"), sizeX)
+                val id = entry.getString("id")
+                val params = ChipParams.fromNbt(entry.getCompound("data"))
 
-                board[x, y] = Global.PROCESS_ITEM_MAP[Identifier("jabber:${values[1]}")]?.process
+                board[loc.x, loc.y] = Global.PROCESS_ITEM_MAP[Identifier("jabber:$id")]?.process?.copy(params)
             }
 
             val storage = HashMap<Vec2I, NbtTransformable<*>>().apply {

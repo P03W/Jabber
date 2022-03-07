@@ -5,6 +5,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
 /**

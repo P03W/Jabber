@@ -37,7 +37,7 @@ class DelayChip(buildParams: ChipParams) : ChipProcess(buildParams) {
 
     val delay = params.getLong("delay")
 
-    override val lore: Array<String> = arrayOf("Delays for $delay cycles")
+    override val lore: Array<String> = arrayOf("Delays for %delay% cycles")
 
     override fun receive(
         data: CardinalData,

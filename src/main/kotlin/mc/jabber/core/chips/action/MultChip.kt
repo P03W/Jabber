@@ -25,7 +25,7 @@ class MultChip(buildParams: ChipParams) : ChipProcess(buildParams) {
 
     val amount = params.getLong("amount")
 
-    override val lore: Array<String> = arrayOf("Multiplies inputs by $amount ")
+    override val lore: Array<String> = arrayOf("Multiplies inputs by %amount%")
 
     override fun receive(
         data: CardinalData,

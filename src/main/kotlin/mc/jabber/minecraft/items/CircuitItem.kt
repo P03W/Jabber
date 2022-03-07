@@ -22,7 +22,7 @@ class CircuitItem(val sizeX: Int, val sizeY: Int) :
         tooltip: MutableList<Text>,
         context: TooltipContext
     ) {
-        val size = "${stack.orCreateNbt.getList("c", NbtType.STRING)?.size?.toString() ?: "0"} Chips"
+        val size = "${stack.orCreateNbt.getList("c", NbtType.COMPOUND)?.size?.toString() ?: "0"} Chips"
         tooltip.add(LiteralText(size).formatted(Formatting.GRAY))
     }
 }

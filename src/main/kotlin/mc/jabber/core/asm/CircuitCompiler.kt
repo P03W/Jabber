@@ -181,7 +181,7 @@ object CircuitCompiler {
                 _return
             }
 
-            method(public + final, "simulate", parameterTypes = arrayOf(ExecutionContext::class), returnType = void) {
+            method(public + final, "simulate", parameterTypes = arrayOf(ExecutionContext::class, LongArray::class), returnType = void) {
                 // Step through
                 board.forEach { vec2I, process ->
                     val exit = LabelNode(Label())
