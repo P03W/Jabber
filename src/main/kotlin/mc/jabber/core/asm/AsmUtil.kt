@@ -3,6 +3,7 @@ package mc.jabber.core.asm
 import codes.som.anthony.koffee.MethodAssembly
 import codes.som.anthony.koffee.insns.jvm.*
 import mc.jabber.Global
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.ChipItem
@@ -24,8 +25,27 @@ fun MethodAssembly.makeVec2I(vec2I: Vec2I) {
     )
 }
 
+fun MethodAssembly.makeChipParams(params: ChipParams) {
+    new(ChipParams::class)
+    dup
+    aconst_null
+    aconst_null
+    invokespecial(
+        ChipParams::class,
+        "<init>",
+        returnType = void,
+        parameterTypes = arrayOf(ChipParams::class, Function1::class)
+    )
+    params.longParams.forEach { (name, value) ->
+        dup
+        ldc(name)
+        ldc(value)
+        invokevirtual(ChipParams::class, "registerLong", "(Ljava/lang/String;J)V")
+    }
+}
+
 /**
- * Takes the id from the chip process, and adds code to pull that chip process by the ID at runtime
+ * Takes the id from the chip process, and adds code to pull that chip process by the ID at runtime, and configures it
  *
  * Process is left on the stack
  */
@@ -43,5 +63,9 @@ fun MethodAssembly.lookupChipProcess(process: ChipProcess) {
     invokevirtual(HashMap::class, "get", "(Ljava/lang/Object;)Ljava/lang/Object;")
     checkcast(ChipItem::class)
     invokevirtual(ChipItem::class, "getProcess", "()Lmc/jabber/core/chips/ChipProcess;")
-    checkcast(ChipProcess::class)
+
+    if (process.params != process.copy(null).params) {
+        makeChipParams(process.params)
+        invokevirtual(ChipProcess::class, "copy", "(Lmc/jabber/core/chips/ChipParams;)Lmc/jabber/core/chips/ChipProcess;")
+    }
 }

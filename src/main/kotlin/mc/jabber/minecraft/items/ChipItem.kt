@@ -23,7 +23,6 @@ class ChipItem(val process: ChipProcess) : Item(FabricItemSettings().group(Globa
         context: TooltipContext?
     ) {
         val nbt = stack.getOrCreateSubNbt("params").takeUnless { it.isEmpty } ?: process.params.writeToNbt()
-        println(nbt)
         process.lore.forEach {
             tooltip.add(LiteralText(convertLoreEntry(it, nbt)).formatted(Formatting.GRAY))
         }

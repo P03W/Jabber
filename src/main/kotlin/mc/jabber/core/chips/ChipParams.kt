@@ -1,22 +1,21 @@
 package mc.jabber.core.chips
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap
-import mc.jabber.util.assertType
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtInt
 import net.minecraft.nbt.NbtLong
 
-class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit = {}) {
+/**
+ * A collection of maps that can be used by chips for dynamic information
+ */
+class ChipParams(orig: ChipParams? = null, builder: (ChipParams.()->Unit)? = null) {
     val longParams = Object2LongArrayMap<String>()
-    val enumParams = mutableMapOf<String, Enum<*>>()
 
     init {
-        builder(this)
-
-        if (orig != null) {
-            orig.longParams.overwriteExisting(longParams)
-            orig.enumParams.overwriteExisting(enumParams)
+        if (builder != null) {
+            builder(this)
         }
+
+        orig?.longParams?.overwriteExisting(longParams)
     }
 
     fun registerLong(name: String, value: Long = 0) {
@@ -26,22 +25,16 @@ class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit = {}) {
         return longParams.getLong(name)
     }
 
-    fun <E : Enum<E>> registerEnum(name: String, enum: E) {
-        enumParams[name] = enum
-    }
-    inline fun <reified E : Enum<E>> getEnum(name: String): E {
-        return enumParams[name].assertType()!!
-    }
-
     fun writeToNbt(): NbtCompound {
         val nbt = NbtCompound()
         longParams.forEach { (name, value) ->
             nbt.putLong(name, value)
         }
-        enumParams.forEach { (name, value) ->
-            nbt.putInt(name, value.ordinal)
-        }
         return nbt
+    }
+
+    override fun toString(): String {
+        return "ChipParams(longParams=$longParams)"
     }
 
     companion object {
@@ -49,8 +42,8 @@ class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit = {}) {
             return ChipParams {
                 nbt.keys.forEach { key ->
                     when (val container = nbt.get(key)) {
-                        is NbtLong -> longParams.computeIfPresent(key) { _, _ -> container.longValue() }
-                        is NbtInt -> enumParams.computeIfPresent(key) { _, exiting -> exiting.javaClass.enumConstants[container.intValue()] }
+                        is NbtLong -> longParams[key] = container.longValue()
+                        else -> throw IllegalStateException("Dont know how to handle $container")
                     }
                 }
             }
@@ -61,5 +54,20 @@ class ChipParams(orig: ChipParams? = null, builder: ChipParams.()->Unit = {}) {
         this.forEach { (name, value) ->
             other.computeIfPresent(name) {_, _ -> value}
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ChipParams
+
+        if (longParams != other.longParams) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return longParams.hashCode()
     }
 }

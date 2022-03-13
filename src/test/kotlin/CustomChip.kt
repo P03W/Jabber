@@ -7,7 +7,6 @@ import mc.jabber.core.data.CardinalData
 import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
-import mc.jabber.util.assertType
 import net.minecraft.util.Identifier
 
 /**
@@ -34,6 +33,6 @@ class CustomChip(
         context: ExecutionContext?,
         memory: LongArray
     ): CardinalData {
-        return method(data, pos, chipData).assertType()
+        return method(data, pos, chipData)
     }
 }

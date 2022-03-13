@@ -3,9 +3,6 @@ package mc.jabber
 import com.google.common.reflect.ClassPath
 import mc.jabber.core.auto.ChipID
 import mc.jabber.core.chips.ChipParams
-import mc.jabber.core.chips.DirBitmask
-import mc.jabber.core.chips.special.CustomChip
-import mc.jabber.core.data.CardinalData
 import mc.jabber.init.Resources
 import mc.jabber.minecraft.block.InscribingTable
 import mc.jabber.minecraft.block.SimpleComputerBlock
@@ -27,16 +24,13 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandlerType
-import net.minecraft.text.LiteralText
 import net.minecraft.util.Identifier
-import net.minecraft.util.Util
 import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -96,16 +90,6 @@ object Global {
             }
         }
 
-        // Debug
-        val CHIP_DEBUG_OUTPUT = ChipItem(
-            CustomChip(id("debug_output"), false, DirBitmask.ALL, DirBitmask.NONE, ChipParams {}) { data, _, _ ->
-            MinecraftClient.getInstance().player?.sendSystemMessage(
-                LiteralText("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}"),
-                Util.NIL_UUID
-            )
-            return@CustomChip CardinalData.empty()
-        })
-
         fun register() {
             fun Item.register(itemID: String) {
                 Registry.register(Registry.ITEM, id(itemID), this)
@@ -131,8 +115,6 @@ object Global {
             CIRCUIT_ITEM_5x5.register("circuit_5x5")
             CIRCUIT_ITEM_8x6.register("circuit_8x6")
             CIRCUIT_ITEM_10x10.register("circuit_10x10")
-
-            CHIP_DEBUG_OUTPUT.register("chip_debug_output")
         }
     }
 

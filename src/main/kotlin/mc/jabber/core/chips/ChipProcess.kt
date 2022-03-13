@@ -5,7 +5,6 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import mc.jabber.util.assertType
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
 /**
@@ -37,6 +36,9 @@ abstract class ChipProcess(buildParams: ChipParams) {
      */
     abstract val sendDirections: DirBitmask
 
+    /**
+     * The [ChipParams], a set of dynamic values that can be used to change the behavior of a chip
+     */
     open val params: ChipParams = ChipParams { }
 
     /**
@@ -75,7 +77,7 @@ abstract class ChipProcess(buildParams: ChipParams) {
      * Dynamically construct a new instance
      */
     fun copy(buildParams: ChipParams?): ChipProcess {
-        return this.javaClass.constructors[0].newInstance(buildParams).assertType()
+        return this.javaClass.constructors[0].newInstance(buildParams ?: ChipParams()).assertType()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -88,6 +90,7 @@ abstract class ChipProcess(buildParams: ChipParams) {
         if (id != other.id) return false
         if (receiveDirections != other.receiveDirections) return false
         if (sendDirections != other.sendDirections) return false
+        if (params != other.params) return false
 
         return true
     }
@@ -97,6 +100,7 @@ abstract class ChipProcess(buildParams: ChipParams) {
         result = 31 * result + id.hashCode()
         result = 31 * result + receiveDirections.hashCode()
         result = 31 * result + sendDirections.hashCode()
+        result = 31 * result + params.hashCode()
         return result
     }
 }

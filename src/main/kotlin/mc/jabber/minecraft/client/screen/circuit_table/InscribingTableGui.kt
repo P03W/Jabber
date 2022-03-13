@@ -25,7 +25,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
 import net.minecraft.util.Identifier
 
 class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Global.GUI.INSCRIBING_TABLE_GUI, i, inv) {
@@ -114,25 +113,25 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
     private fun serializeTo(inv: Inventory, stack: ItemStack) {
         val circuitItem = stack.item.assertType<CircuitItem>()
         val board = CircuitBoard(circuitItem.sizeX, circuitItem.sizeY)
+        val list = NbtList()
 
         inv.forEach { i, itemStack ->
             if (i == 0 || itemStack.item !is ChipItem) return@forEach
-            board[Vec2I.transformOut(i - 1, 10)] = itemStack.item.assertType<ChipItem>().process
+            val vec2I = Vec2I.transformOut(i - 1, 10)
+            val chipProcess = itemStack.item.assertType<ChipItem>().process
+            board[vec2I] = chipProcess
+            list.add(NbtCompound().apply {
+                putInt("loc", vec2I.transformInto(10))
+                putString("id", chipProcess.id.path)
+                put("data", itemStack.getOrCreateSubNbt("params"))
+            })
         }
 
-        stack.orCreateNbt.put("c", NbtList().apply {
-            board.forEach { vec2I, chipProcess ->
-                add(NbtCompound().apply {
-                    putInt("loc", vec2I.transformInto(10))
-                    putString("id", chipProcess.id.path)
-                    put("data", chipProcess.params.writeToNbt())
-                })
-            }}
-        )
+        stack.orCreateNbt.put("c", list)
     }
 
     private fun deserializeTo(inv: Inventory, stack: ItemStack) {
-        val board = stack.orCreateNbt.getList("c", NbtType.STRING)
+        val board = stack.orCreateNbt.getList("c", NbtType.COMPOUND)
 
         board.forEach { entry ->
             entry.assertType<NbtCompound>()
@@ -140,9 +139,13 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
             val id = entry.getString("id")
             val params = ChipParams.fromNbt(entry.getCompound("data"))
 
-            inv.setStack(index, ItemStack(
-                Global.PROCESS_ITEM_MAP[Identifier("jabber:$id")])
-                .also { it.assertType<ChipItem>().process.copy(params) }
+            inv.setStack(
+                index,
+                ItemStack(
+                    Global.PROCESS_ITEM_MAP[Identifier("jabber:$id")]
+                ).also {
+                    it.setSubNbt("params", params.writeToNbt())
+                }
             )
         }
     }

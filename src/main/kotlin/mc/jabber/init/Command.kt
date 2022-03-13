@@ -31,15 +31,6 @@ object Command {
                             it.source.player.mainHandStack.getOrCreateSubNbt("params").putLong(
                                 StringArgumentType.getString(it, "key"),
                                 LongArgumentType.getLong(it, "value")
-                            ); 1})))
-            .then(literal<ServerCommandSource>("enum")
-                .then(argument("key", StringArgumentType.string())
-                    .suggests {context, builder -> getChipParamsOfType<Enum<*>>(context, builder)}
-                    .then(argument("value", LongArgumentType.longArg())
-                        .executes {
-                            it.source.player.mainHandStack.getOrCreateSubNbt("params").putLong(
-                                StringArgumentType.getString(it, "key"),
-                                LongArgumentType.getLong(it, "value")
                             ); 1}))))
     }
 
@@ -49,7 +40,6 @@ object Command {
             val params = stack.item.assertType<ChipItem>().process.params
             when (T::class) {
                 Long::class -> params.longParams
-                Enum::class -> params.enumParams
                 else -> throw IllegalStateException("Unknown type ${T::class}")
             }.forEach { (key, _) -> builder.suggest(key) }
             builder.buildFuture()

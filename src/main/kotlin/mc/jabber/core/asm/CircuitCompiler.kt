@@ -19,9 +19,7 @@ import mc.jabber.util.byteArray
 import org.objectweb.asm.Label
 import org.objectweb.asm.tree.LabelNode
 import java.io.File
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.nanoseconds
-import kotlin.time.ExperimentalTime
 
 /**
  * Compiles a circuit board into a runtime class for performance
@@ -30,7 +28,6 @@ object CircuitCompiler {
     private var className = ""
     private val locationAccess = mutableSetOf<Vec2I>()
 
-    @OptIn(ExperimentalTime::class)
     fun compileCircuit(board: CircuitBoard): CompiledCircuit {
         val startTime = System.nanoTime()
 

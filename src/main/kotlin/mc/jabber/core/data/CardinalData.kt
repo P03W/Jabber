@@ -133,10 +133,6 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
         }
     }
 
-    override fun toString(): String {
-        return this::class.simpleName + "(up=$up, down=$down, left=$left, right=$right)"
-    }
-
     companion object {
         fun readNbt(nbtCompound: NbtCompound): CardinalData {
             var working = CardinalData(null, null, null, null)

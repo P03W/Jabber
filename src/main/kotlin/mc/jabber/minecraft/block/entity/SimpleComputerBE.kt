@@ -1,9 +1,11 @@
 package mc.jabber.minecraft.block.entity
 
 import mc.jabber.Global
+import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.circuit.CircuitBoard
 import mc.jabber.core.circuit.CircuitManager
 import mc.jabber.core.data.ExecutionContext
+import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
 import net.fabricmc.fabric.api.util.NbtType
@@ -12,7 +14,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtString
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -45,14 +46,17 @@ class SimpleComputerBE(
         val context = ExecutionContext(world.assertType(), pos, null)
 
         val item = new.item.assertType<CircuitItem>()
-        val entries = new.orCreateNbt.getList("c", NbtType.STRING)
+        val entries = new.orCreateNbt.getList("c", NbtType.COMPOUND)
         circuit = if (entries.isNotEmpty()) {
             val board = CircuitBoard(item.sizeX, item.sizeY)
 
             entries.forEach { entry ->
-                val values = entry.assertType<NbtString>().asString().split("|")
-                val (x, y) = values[0].split("*").map { int -> int.toInt() }
-                board[x, y] = Global.PROCESS_ITEM_MAP[Identifier("jabber:${values[1]}")]?.process ?: return@forEach
+                entry.assertType<NbtCompound>()
+                val index = entry.getInt("loc")
+                val id = entry.getString("id")
+                val params = ChipParams.fromNbt(entry.getCompound("data"))
+
+                board[Vec2I.transformOut(index, 10)] = Global.PROCESS_ITEM_MAP[Identifier("jabber:$id")]?.process?.copy(params) ?: return@forEach
             }
 
             CircuitManager(
