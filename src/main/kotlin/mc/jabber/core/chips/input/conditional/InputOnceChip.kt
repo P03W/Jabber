@@ -38,7 +38,7 @@ class InputOnceChip(buildParams: ChipParams) : ChipProcess(buildParams) {
             hasSent.value = 1
             return CardinalData.ofAll(amount)
         } else {
-            return CardinalData.empty()
+            return CardinalData.empty
         }
     }
 

@@ -84,11 +84,11 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
                 }
             }
         } else {
-            openDimensions(CircuitItem(0, 0))
+            openDimensions(null)
         }
 
         if (inputItem !is CircuitItem && lastInputItem is CircuitItem) {
-            openDimensions(CircuitItem(0, 0))
+            openDimensions(null)
             editingInv.forEach { i, _ -> if (i > 0) editingInv.setStack(i, ItemStack.EMPTY) }
         } else if (inputItem is CircuitItem && lastInputItem is CircuitItem && editingInv.getStack(0).nbt != lastKnownInv.getStack(
                 0
@@ -155,7 +155,14 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
         dropInventory(player, SimpleInventory(1).also { it.setStack(0, editingInv.getStack(0)) })
     }
 
-    private fun openDimensions(circuit: CircuitItem) {
+    private fun openDimensions(circuit: CircuitItem?) {
+
+        val (sizeX, sizeY) = if (circuit == null) {
+            0 to 0
+        } else {
+            circuit.sizeX to circuit.sizeY
+        }
+
         val peers = chipInputs.peers
 
         peers.forEach {
@@ -164,8 +171,8 @@ class InscribingTableGui(i: Int, inv: PlayerInventory) : SyncedGuiDescription(Gl
             it.isTakingAllowed = false
         }
 
-        for (x in 0 until circuit.sizeX) {
-            for (y in 0 until circuit.sizeY) {
+        for (x in 0 until sizeX) {
+            for (y in 0 until sizeY) {
                 val index = Vec2I(x, y).transformInto(10)
                 val validatedSlot = peers[index]
                 validatedSlot.isVisible = true

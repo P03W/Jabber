@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtLong
  */
 class ChipParams(orig: ChipParams? = null, builder: (ChipParams.()->Unit)? = null) {
     val longParams = Object2LongArrayMap<String>()
+    val size: Int get() = longParams.size
 
     init {
         if (builder != null) {

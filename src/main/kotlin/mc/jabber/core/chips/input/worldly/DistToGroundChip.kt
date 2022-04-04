@@ -24,7 +24,7 @@ class DistToGroundChip(buildParams: ChipParams) : ChipProcess(buildParams) {
         context: ExecutionContext?,
         memory: LongArray
     ): CardinalData {
-        if (context == null) return CardinalData.empty()
+        if (context == null) return CardinalData.empty
 
         var remainingSteps = 5000L
         val checkingPos = context.blockPos.mutableCopy()

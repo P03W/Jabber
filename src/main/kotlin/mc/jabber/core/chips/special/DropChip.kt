@@ -40,7 +40,7 @@ class DropChip(buildParams: ChipParams) : ChipProcess(buildParams) {
 
         if (intStore.value > 0) {
             intStore.value--
-            return CardinalData.empty()
+            return CardinalData.empty
         }
 
         return CardinalData(data.down, data.up, data.right, data.left)

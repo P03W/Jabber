@@ -1,5 +1,6 @@
 package mc.jabber.core.asm
 
+import codes.som.anthony.koffee.ClassAssembly
 import codes.som.anthony.koffee.MethodAssembly
 import codes.som.anthony.koffee.insns.jvm.*
 import mc.jabber.Global
@@ -8,6 +9,8 @@ import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.math.Vec2I
 import mc.jabber.minecraft.items.ChipItem
 import net.minecraft.util.Identifier
+import org.objectweb.asm.tree.MethodNode
+import java.lang.invoke.MethodHandles
 
 /**
  * Makes a new vec2i and leaves it on the stack
@@ -49,23 +52,40 @@ fun MethodAssembly.makeChipParams(params: ChipParams) {
  *
  * Process is left on the stack
  */
-fun MethodAssembly.lookupChipProcess(process: ChipProcess) {
-    getstatic(Global::class, "PROCESS_ITEM_MAP", HashMap::class)
-    new(Identifier::class)
-    dup
-    ldc(process.id.toString())
-    invokespecial(
-        Identifier::class,
-        "<init>",
-        returnType = void,
-        parameterTypes = arrayOf(String::class)
-    )
-    invokevirtual(HashMap::class, "get", "(Ljava/lang/Object;)Ljava/lang/Object;")
-    checkcast(ChipItem::class)
-    invokevirtual(ChipItem::class, "getProcess", "()Lmc/jabber/core/chips/ChipProcess;")
+fun MethodAssembly.lookupChipProcess(process: ChipProcess, fieldName: String, self: ClassAssembly) {
+    val method = self.makeChipProcessGetter(process, fieldName)
+    ldc(self.constantDynamic(process.id.toUnderscoreSeparatedString(), ChipProcess::class, h_invokestatic(self.node, method)))
+}
 
-    if (process.params != process.copy(null).params) {
-        makeChipParams(process.params)
-        invokevirtual(ChipProcess::class, "copy", "(Lmc/jabber/core/chips/ChipParams;)Lmc/jabber/core/chips/ChipProcess;")
+fun ClassAssembly.makeChipProcessGetter(process: ChipProcess, fieldName: String): MethodNode {
+    return method(
+        private + final + static,
+        "get\$$fieldName",
+        ChipProcess::class,
+        parameterTypes = arrayOf(MethodHandles.Lookup::class, String::class, Class::class)
+    ) {
+        getstatic(Global::class, "PROCESS_ITEM_MAP", HashMap::class)
+        new(Identifier::class)
+        dup
+        ldc(process.id.toString())
+        invokespecial(
+            Identifier::class,
+            "<init>",
+            returnType = void,
+            parameterTypes = arrayOf(String::class)
+        )
+        invokevirtual(HashMap::class, "get", "(Ljava/lang/Object;)Ljava/lang/Object;")
+        checkcast(ChipItem::class)
+        invokevirtual(ChipItem::class, "getProcess", "()Lmc/jabber/core/chips/ChipProcess;")
+
+        if (process.params != process.copy(null).params) {
+            makeChipParams(process.params)
+            invokevirtual(
+                ChipProcess::class,
+                "copy",
+                "(Lmc/jabber/core/chips/ChipParams;)Lmc/jabber/core/chips/ChipProcess;"
+            )
+        }
+        areturn
     }
 }

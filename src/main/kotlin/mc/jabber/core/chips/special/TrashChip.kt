@@ -28,6 +28,6 @@ class TrashChip(buildParams: ChipParams) : ChipProcess(buildParams) {
         context: ExecutionContext?,
         memory: LongArray
     ): CardinalData {
-        return CardinalData.empty()
+        return CardinalData.empty
     }
 }

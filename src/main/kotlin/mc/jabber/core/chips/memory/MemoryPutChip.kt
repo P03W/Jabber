@@ -29,7 +29,7 @@ class MemoryPutChip(buildParams: ChipParams) : ChipProcess(buildParams) {
         context: ExecutionContext?,
         memory: LongArray
     ): CardinalData {
-        memory[index.toInt()] = data.acquire()?.second ?: return CardinalData.empty()
-        return CardinalData.empty()
+        memory[index.toInt()] = data.acquire()?.second ?: return CardinalData.empty
+        return CardinalData.empty
     }
 }

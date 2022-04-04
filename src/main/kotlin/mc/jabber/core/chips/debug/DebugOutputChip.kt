@@ -30,6 +30,6 @@ class DebugOutputChip(buildParams: ChipParams) : ChipProcess(buildParams) {
             LiteralText("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}"),
             Util.NIL_UUID
         )
-        return CardinalData.empty()
+        return CardinalData.empty
     }
 }

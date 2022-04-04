@@ -155,7 +155,8 @@ class CardinalData(val up: Long?, val down: Long?, val left: Long?, val right: L
         /**
          * Makes an empty form of the data
          */
-        fun empty() = ofAll(null)
+        @JvmField
+        val empty = ofAll(null)
 
         @JvmStatic
         fun with(data: CardinalData?, cardinal: Cardinal, long: Long?): CardinalData {

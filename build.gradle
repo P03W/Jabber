@@ -5,7 +5,7 @@
 //file:noinspection SpellCheckingInspection
 plugins {
     id "fabric-loom" version "$loom_version"
-    id("io.github.juuxel.loom-quiltflower-mini") version "1.2.1"
+    id "io.github.juuxel.loom-quiltflower" version "1.6.1"
     id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
     id 'java'
@@ -20,10 +20,6 @@ group = project.maven_group
 
 test {
     useJUnitPlatform()
-}
-
-minecraft {
-
 }
 
 repositories {
@@ -60,16 +56,16 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31'
 
     // ARRP
-    modImplementation "net.devtech:arrp:0.4.3"
-    include "net.devtech:arrp:0.4.3"
+    modImplementation "net.devtech:arrp:0.5.7"
+    include "net.devtech:arrp:0.5.7"
 
     // LibGui
     modImplementation "io.github.cottonmc:LibGui:5.2.0+1.18"
     include "io.github.cottonmc:LibGui:5.2.0+1.18"
 
     // Koffee
-    implementation "com.github.Jordin:Koffee:-SNAPSHOT"
-    include "com.github.Jordin:Koffee:-SNAPSHOT"
+    implementation "com.github.P03W:Koffee:-SNAPSHOT"
+    include "com.github.P03W:Koffee:-SNAPSHOT"
 
     // Test suite
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'

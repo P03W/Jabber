@@ -6,6 +6,7 @@ import codes.som.anthony.koffee.insns.jvm.*
 import codes.som.anthony.koffee.labels.KoffeeLabel
 import codes.som.anthony.koffee.modifiers.final
 import codes.som.anthony.koffee.modifiers.public
+import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.clinit
 import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.init
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
@@ -28,6 +29,8 @@ object CircuitCompiler {
     private var className = ""
     private val locationAccess = mutableSetOf<Vec2I>()
 
+    private val MethodAssembly.emptyComponent get() = getstatic(CardinalData::class, "empty", CardinalData::class)
+
     fun compileCircuit(board: CircuitBoard): CompiledCircuit {
         val startTime = System.nanoTime()
 
@@ -37,14 +40,12 @@ object CircuitCompiler {
 
         className = "mc/jabber/core/asm/runtime/$name"
 
-        val compiled = assembleClass(public + final, className, 60, interfaces = listOf(CompiledCircuit::class)) {
+        val compiled = assembleClass(public + final, className, 61, interfaces = listOf(CompiledCircuit::class)) {
             val processes = mutableSetOf<ChipProcess>()
             val places = mutableListOf<Vec2I>()
 
             // Always present data
-            field(private, "ec", CardinalData::class)
-            field(
-                private, "s", HashMap::class,
+            val storage = field(private + final, "s", HashMap::class,
                 signature = "Ljava/util/HashMap<Lmc/jabber/core/math/Vec2I;Lmc/jabber/core/data/serial/NbtTransformable;>;"
             )
 
@@ -64,13 +65,13 @@ object CircuitCompiler {
             // Make sure to iterate on the set to prevent duplicates
             processes.forEach {
                 // Define a field to keep the processes in
-                field(private, processName(it), ChipProcess::class)
+                field(private + final + static, processName(it), ChipProcess::class)
             }
 
             method(public + final, "getChipStorage", returnType = HashMap::class) {
                 // Get the field and return it
                 aload_0
-                getfield(self, "s", HashMap::class)
+                getfield(self, storage)
                 areturn
             }
 
@@ -108,47 +109,30 @@ object CircuitCompiler {
             }
 
             init(public) {
-                // Always present
-                //region Empty CardinalData
-                aload_0
-                new(CardinalData::class)
-                dup
-                repeat(4) { aconst_null }
-                invokespecial(
-                    CardinalData::class,
-                    "<init>",
-                    returnType = void,
-                    parameterTypes = arrayOf(
-                        java.lang.Long::class,
-                        java.lang.Long::class,
-                        java.lang.Long::class,
-                        java.lang.Long::class
-                    )
-                )
-                putfield(self, "ec", CardinalData::class)
-                //endregion
-
                 //region Hashmap/chip storage
                 aload_0
                 new(HashMap::class)
                 dup
                 invokespecial(HashMap::class, "<init>", returnType = void, parameterTypes = arrayOf())
-                putfield(self, "s", HashMap::class)
+                putfield(self, storage)
                 //endregion
 
                 // Populate data and storage with empties if input, null otherwise
                 places.forEach {
-                    if (board[it]?.isInput == true) emptyCardinalData() else aconst_null
+                    if (board[it]?.isInput == true) emptyComponent else aconst_null
                     putData(it)
                     aconst_null
                     putStorage(it)
                 }
 
+                _return
+            }
+
+            clinit {
                 // Populate process fields with instances using runtime lookup
                 processes.forEach {
-                    aload_0
-                    lookupChipProcess(it)
-                    putfield(className, processName(it), ChipProcess::class)
+                    lookupChipProcess(it, processName(it), this@assembleClass)
+                    putstatic(className, processName(it), ChipProcess::class)
                 }
                 _return
             }
@@ -157,7 +141,7 @@ object CircuitCompiler {
                 // Generate the initial state
                 board.forEach { vec2i, process ->
                     aload_0
-                    getfield(self, processName(process), ChipProcess::class)
+                    getstatic(self, processName(process), ChipProcess::class)
                     invokevirtual(
                         ChipProcess::class,
                         "makeInitialStateEntry",
@@ -168,7 +152,7 @@ object CircuitCompiler {
                     val conditional = LabelNode(Label())
                     ifnull(conditional)
                     aload_0
-                    getfield(self, "s", HashMap::class)
+                    getfield(self, storage)
                     swap
                     makeVec2I(vec2i)
                     swap
@@ -184,20 +168,18 @@ object CircuitCompiler {
                     val exit = LabelNode(Label())
 
                     if (process.isInput) {
-                        aload_0
-                        getfield(self, processName(process), ChipProcess::class)
-                        emptyCardinalData()
+                        getstatic(self, processName(process), ChipProcess::class)
+                        emptyComponent
                     } else {
                         getData(vec2I)
                         ifnull(exit)
-                        aload_0
-                        getfield(self, processName(process), ChipProcess::class)
+                        getstatic(self, processName(process), ChipProcess::class)
                         getData(vec2I)
                     }
 
                     makeVec2I(vec2I)
                     aload_0
-                    getfield(self, "s", HashMap::class)
+                    getfield(self, storage)
                     aload_1
                     aload_2
                     invokevirtual(
@@ -234,7 +216,7 @@ object CircuitCompiler {
                 // Save the map
                 aload_0
                 aload_1
-                putfield(self, "s", HashMap::class)
+                putfield(self, storage)
 
                 // Extract the data from the storage
                 places.forEach { vec2i ->
@@ -266,7 +248,7 @@ object CircuitCompiler {
     }
 
     private fun processName(process: ChipProcess): String {
-        return "Chip\$${process.id.path}"
+        return if (process.params.size > 0) "Chip\$${process.id.path}\$${process.params.hashCode()}" else "Chip\$${process.id.path}"
     }
 
     private fun dataName(vec2I: Vec2I): String {
@@ -300,11 +282,6 @@ object CircuitCompiler {
         getfield(className, storageName(vec2I), CardinalData::class)
     }
     //endregion
-
-    private fun MethodAssembly.emptyCardinalData() {
-        aload_0
-        getfield(className, "ec", CardinalData::class)
-    }
 
     /**
      * Generates the simulation code for a chip in a single direction by getting the chip in that direction, seeing if the send/receive lines up, and finally adding the bytecode to copy that data
