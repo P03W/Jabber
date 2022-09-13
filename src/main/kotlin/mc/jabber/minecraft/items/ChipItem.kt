@@ -7,7 +7,6 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
@@ -24,14 +23,14 @@ class ChipItem(val process: ChipProcess) : Item(FabricItemSettings().group(Globa
     ) {
         val nbt = stack.getOrCreateSubNbt("params").takeUnless { it.isEmpty } ?: process.params.writeToNbt()
         process.lore.forEach {
-            tooltip.add(LiteralText(convertLoreEntry(it, nbt)).formatted(Formatting.GRAY))
+            tooltip.add(Text.literal(convertLoreEntry(it, nbt)).formatted(Formatting.GRAY))
         }
 
         if (!nbt.isEmpty && process.lore.isNotEmpty())
-            tooltip.add(LiteralText(""))
+            tooltip.add(Text.of(""))
 
         nbt.keys.forEach {
-            tooltip.add(LiteralText("$it = ${nbt.get(it)}"))
+            tooltip.add(Text.of("$it = ${nbt.get(it)}"))
         }
     }
 

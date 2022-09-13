@@ -10,7 +10,7 @@ import mc.jabber.core.data.ExecutionContext
 import mc.jabber.core.data.serial.NbtTransformable
 import mc.jabber.core.math.Vec2I
 import net.minecraft.client.MinecraftClient
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.Util
 
 @ChipID("chip_debug")
@@ -27,8 +27,7 @@ class DebugOutputChip(buildParams: ChipParams) : ChipProcess(buildParams) {
         memory: LongArray
     ): CardinalData {
         MinecraftClient.getInstance().player?.sendSystemMessage(
-            LiteralText("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}"),
-            Util.NIL_UUID
+            Text.of("DEBUG: u=${data.up} d=${data.down} l=${data.left} r=${data.right}")
         )
         return CardinalData.empty
     }

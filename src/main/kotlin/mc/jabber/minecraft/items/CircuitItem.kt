@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
@@ -23,6 +22,6 @@ class CircuitItem(val sizeX: Int, val sizeY: Int) :
         context: TooltipContext
     ) {
         val size = "${stack.orCreateNbt.getList("c", NbtType.COMPOUND)?.size?.toString() ?: "0"} Chips"
-        tooltip.add(LiteralText(size).formatted(Formatting.GRAY))
+        tooltip.add(Text.literal(size).formatted(Formatting.GRAY))
     }
 }

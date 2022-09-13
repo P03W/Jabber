@@ -4,11 +4,9 @@
 //file:noinspection GrDeprecatedAPIUsage
 //file:noinspection SpellCheckingInspection
 plugins {
-    id "fabric-loom" version "$loom_version"
-    id "io.github.juuxel.loom-quiltflower" version "1.6.1"
-    id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
-    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
     id 'java'
+    id "org.quiltmc.loom" version "0.12.+"
+    id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
 }
 
 sourceCompatibility = JavaVersion.VERSION_16
@@ -23,10 +21,7 @@ test {
 }
 
 repositories {
-    maven {
-        name = "Jitpack"
-        url = uri("https://jitpack.io")
-    }
+    mavenCentral()
     maven {
         name = "ARRP"
         url = uri("https://storage.googleapis.com/devan-maven/")
@@ -39,33 +34,37 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
-    mavenCentral()
+    maven {
+        name = "Jitpack"
+        url = uri("https://jitpack.io")
+    }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    mappings loom.layered {
+        addLayer quiltMappings.mappings("org.quiltmc:quilt-mappings:${project.minecraft_version}+:v2")
+    }
+    modImplementation "org.quiltmc:quilt-loader:+"
 
-    // Fabric API
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // QFAPI
+    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:4.0.0-beta.11+0.60.0-1.19.2"
 
     // Kotlin
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31'
+    modImplementation "org.quiltmc.quilt-kotlin-libraries:quilt-kotlin-libraries:0.+"
 
     // ARRP
-    modImplementation "net.devtech:arrp:0.5.7"
-    include "net.devtech:arrp:0.5.7"
+    modImplementation "net.devtech:arrp:+"
+    include "net.devtech:arrp:+"
 
     // LibGui
-    modImplementation "io.github.cottonmc:LibGui:5.2.0+1.18"
-    include "io.github.cottonmc:LibGui:5.2.0+1.18"
+    modImplementation "io.github.cottonmc:LibGui:6.1.0+1.19"
+    include "io.github.cottonmc:LibGui:6.1.0+1.19"
 
     // Koffee
-    implementation "com.github.P03W:Koffee:-SNAPSHOT"
-    include "com.github.P03W:Koffee:-SNAPSHOT"
+    implementation "com.github.char:Koffee:-SNAPSHOT"
+    include "com.github.char:Koffee:-SNAPSHOT"
 
     // Test suite
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'

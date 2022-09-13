@@ -1,5 +1,6 @@
 package mc.jabber.minecraft.block.entity
 
+import mc.jabber.ComputerNetworks
 import mc.jabber.Global
 import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.circuit.CircuitBoard
@@ -106,6 +107,22 @@ class SimpleComputerBE(
             isRebuildingFromNbt = true
             circuitItem = ItemStack.fromNbt(itemNbt)
             isRebuildingFromNbt = false
+        }
+
+        val theWorld = world ?: return
+        if (!ComputerNetworks.isInNetwork(theWorld.registryKey, pos)) {
+            ComputerNetworks.joinNetwork(theWorld.registryKey, pos)
+        } else {
+            ComputerNetworks.getNetwork(theWorld.registryKey, pos)
+        }
+    }
+
+    override fun markRemoved() {
+        super.markRemoved()
+
+        val world = getWorld()
+        if (world != null) {
+            ComputerNetworks.leaveNetwork(world.registryKey, getPos())
         }
     }
 

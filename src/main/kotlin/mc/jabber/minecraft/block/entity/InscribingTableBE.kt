@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 
 
@@ -20,6 +19,6 @@ class InscribingTableBE(pos: BlockPos?, state: BlockState?) :
     }
 
     override fun getDisplayName(): Text {
-        return TranslatableText("block.jabber.inscribing_table")
+        return Text.translatable("block.jabber.inscribing_table")
     }
 }

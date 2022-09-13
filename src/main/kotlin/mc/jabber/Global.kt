@@ -15,11 +15,11 @@ import mc.jabber.minecraft.items.ChipItem
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
 import mc.jabber.util.hasAnnotation
-import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
+import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Material
@@ -34,7 +34,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
 
 // All constants
 @Suppress("MemberVisibilityCanBePrivate")
@@ -122,6 +121,7 @@ object Global {
         val INSCRIBING_TABLE = InscribingTable(FabricBlockSettings.of(Material.REPAIR_STATION).nonOpaque())
         val SIMPLE_COMPUTER = SimpleComputerBlock(1, FabricBlockSettings.of(Material.REPAIR_STATION))
         val QUAD_COMPUTER = SimpleComputerBlock(4, FabricBlockSettings.of(Material.REPAIR_STATION))
+        val CREATIVE_COMPUTER = SimpleComputerBlock(4000, FabricBlockSettings.of(Material.REPAIR_STATION))
 
         fun register() {
             fun Block.registerAndItem(blockID: String) {
@@ -136,12 +136,14 @@ object Global {
             INSCRIBING_TABLE.registerAndItem("inscribing_table")
             SIMPLE_COMPUTER.registerAndItem("simple_computer")
             QUAD_COMPUTER.registerAndItem("quad_computer")
+            CREATIVE_COMPUTER.registerAndItem("creative_computer")
         }
 
         object ENTITIES {
             lateinit var INSCRIBING_TABLE: BlockEntityType<InscribingTableBE>
             lateinit var SIMPLE_COMPUTER: BlockEntityType<SimpleComputerBE>
             lateinit var QUAD_COMPUTER: BlockEntityType<SimpleComputerBE>
+            lateinit var CREATIVE_COMPUTER: BlockEntityType<SimpleComputerBE>
 
             fun register() {
                 INSCRIBING_TABLE = Registry.register(
@@ -165,6 +167,14 @@ object Global {
                     id("quad_computer"),
                     FabricBlockEntityTypeBuilder
                         .create(SimpleComputerBEFactory(4) { QUAD_COMPUTER }::make, BLOCKS.QUAD_COMPUTER)
+                        .build()
+                )
+
+                CREATIVE_COMPUTER = Registry.register(
+                    Registry.BLOCK_ENTITY_TYPE,
+                    id("creative_computer"),
+                    FabricBlockEntityTypeBuilder
+                        .create(SimpleComputerBEFactory(4000) { CREATIVE_COMPUTER }::make, BLOCKS.CREATIVE_COMPUTER)
                         .build()
                 )
             }

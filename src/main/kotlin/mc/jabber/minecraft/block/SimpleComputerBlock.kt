@@ -1,5 +1,6 @@
 package mc.jabber.minecraft.block
 
+import mc.jabber.ComputerNetworks
 import mc.jabber.minecraft.block.entity.SimpleComputerBE
 import mc.jabber.minecraft.items.CircuitItem
 import mc.jabber.util.assertType
@@ -10,6 +11,7 @@ import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
@@ -22,6 +24,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 
 class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
@@ -91,7 +94,22 @@ class SimpleComputerBlock(val stepsPerTick: Int, settings: Settings) : BlockWith
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun <T : BlockEntity> getTicker(
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack
+    ) {
+        super.onPlaced(world, pos, state, placer, itemStack)
+        if (!ComputerNetworks.isInNetwork(world.registryKey, pos)) {
+            ComputerNetworks.joinNetwork(world.registryKey, pos)
+        } else {
+            ComputerNetworks.getNetwork(world.registryKey, pos)
+        }
+    }
+
+    override fun <T : BlockEntity?> getTicker(
         world: World,
         state: BlockState,
         type: BlockEntityType<T>

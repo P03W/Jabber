@@ -1,8 +1,8 @@
 package mc.jabber.core.asm
 
-import codes.som.anthony.koffee.ClassAssembly
-import codes.som.anthony.koffee.MethodAssembly
-import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.koffee.ClassAssembly
+import codes.som.koffee.MethodAssembly
+import codes.som.koffee.insns.jvm.*
 import mc.jabber.Global
 import mc.jabber.core.chips.ChipParams
 import mc.jabber.core.chips.ChipProcess

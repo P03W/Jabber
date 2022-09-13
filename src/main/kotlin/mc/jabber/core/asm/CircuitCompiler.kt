@@ -1,13 +1,13 @@
 package mc.jabber.core.asm
 
-import codes.som.anthony.koffee.MethodAssembly
-import codes.som.anthony.koffee.assembleClass
-import codes.som.anthony.koffee.insns.jvm.*
-import codes.som.anthony.koffee.labels.KoffeeLabel
-import codes.som.anthony.koffee.modifiers.final
-import codes.som.anthony.koffee.modifiers.public
-import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.clinit
-import codes.som.anthony.koffee.sugar.ClassAssemblyExtension.init
+import codes.som.koffee.MethodAssembly
+import codes.som.koffee.assembleClass
+import codes.som.koffee.insns.jvm.*
+import codes.som.koffee.labels.KoffeeLabel
+import codes.som.koffee.modifiers.final
+import codes.som.koffee.modifiers.public
+import codes.som.koffee.sugar.ClassAssemblyExtension.clinit
+import codes.som.koffee.sugar.ClassAssemblyExtension.init
 import mc.jabber.core.chips.ChipProcess
 import mc.jabber.core.chips.DirBitmask
 import mc.jabber.core.circuit.CircuitBoard
